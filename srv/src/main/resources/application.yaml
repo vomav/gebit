@@ -1,0 +1,21 @@
+---
+spring:
+  config.activate.on-profile: dev
+  pg.db.host: localhost
+cds:
+  data-source.auto-config.enabled: false
+  datasource:
+    url: jdbc:postgresql://{pg.db.host}:5432/gebit-dev
+    username: postgres
+    password: postgres
+
+---
+spring:
+  config.activate.on-profile: default
+  pg.db.host: {PG_DB_HOST}
+cds:
+  data-source.auto-config.enabled: false
+  datasource:
+    url: jdbc:postgresql://{pg.db.host}:5432/gebit-prod
+    username: <YOUR_USERNAME>
+    password: <YOUR_PASSWORD>

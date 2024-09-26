@@ -1,0 +1,12 @@
+{
+    "sql": {
+        "native_hana_associations" : false
+    },
+    "cds": {
+        "folders": {
+           "db": "db/",
+           "srv": "srv/",
+           "app": "apps/"
+        }
+      }
+}
