@@ -121,7 +121,7 @@
 						<configuration>
 							<commands>
 								<command>build --for java</command>
-								<command>deploy --to h2 --dry &gt; "${project.basedir}/src/main/resources/schema-h2.sql"</command>
+								<command>deploy --to postgres --dry &gt; "${project.basedir}/src/main/resources/schema-pg.sql"</command>
 							</commands>
 						</configuration>
 					</execution>
@@ -137,7 +137,27 @@
 					</execution>
 				</executions>
 			</plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.6.0</version>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>src/gen/java</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 		</plugins>
+
 	</build>
 
 	<profiles>
