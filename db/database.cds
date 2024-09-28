@@ -24,23 +24,31 @@ type Point : {
     longitude: Double;
 }
 
-entity PreachingInProggress : cuid, tenant {
+entity TerritoryInProggress : cuid, tenant {
     toTerritory: Association to one Territory;
     done: Boolean;
     inProgress: Composition of many PartInProgress on inProgress.toParent = $self;
     started:Date;
     finished:Date;
+    type:String(32) enum {
+        Personal = 'Personal';
+        Public = 'Public';
+    }
 }
 
 entity PartInProgress : cuid, tenant {
     part: Association to one Part;
     inWorkBy: String(128);
     done: Boolean;
-    toParent: Association to PreachingInProggress;
+    toParent: Association to TerritoryInProggress;
 }
 
-entity UserTenant {
+entity User : cuid {
     userId: String(64);
+    name: String(128);
+    surname: String(128);
     currentTenant: String(32);
-    alloweTenant: array of String;
+    allowedTenants: array of String;
+    password: String(128);
+
 }

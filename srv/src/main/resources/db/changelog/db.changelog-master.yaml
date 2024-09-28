@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: "dev"
+      author: I065534
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            path: db/changelog/dev/schema.sql

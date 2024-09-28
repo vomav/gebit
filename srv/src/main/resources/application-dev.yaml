@@ -1,0 +1,15 @@
+---
+pg.db.host: localhost
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/gebit_dev
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    embedded-database-connection: none
+  liquibase:
+    contexts: dev
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+cds:
+  data-source.auto-config.enabled: false
