@@ -3,13 +3,14 @@ namespace db;
 using { cuid } from '@sap/cds/common';
 
 aspect tenant {
-    tenant: String(32);
+    tenant: UUID;
 }
 
 entity Territory : cuid, tenant {
     name: String(64);
     link: String(2048);
-    parts : Composition of many Part on parts.toParent=$self;
+    embedUrl: String(2048);
+    toParts : Composition of many Part on toParts.toParent=$self;
     lastTimeWorked: Date;
 }
 
@@ -24,31 +25,45 @@ type Point : {
     longitude: Double;
 }
 
-entity TerritoryInProggress : cuid, tenant {
+entity TerritoryAssignment : cuid, tenant {
     toTerritory: Association to one Territory;
-    done: Boolean;
-    inProgress: Composition of many PartInProgress on inProgress.toParent = $self;
-    started:Date;
-    finished:Date;
+    isDone: Boolean;
+    toPartAssignments: Composition of many PartAssignmenst on toPartAssignments.toParent = $self;
+    startedDate:Timestamp;
+    finishedDate:Timestamp;
     type:String(32) enum {
         Personal = 'Personal';
         Public = 'Public';
-    }
+    };
+    assignedTo: Association to one User;
 }
 
-entity PartInProgress : cuid, tenant {
+entity PartAssignmenst : cuid, tenant {
     part: Association to one Part;
     inWorkBy: String(128);
-    done: Boolean;
-    toParent: Association to TerritoryInProggress;
+    isDone: Boolean;
+    toParent: Association to TerritoryAssignment;
 }
 
 entity User : cuid {
-    userId: String(64);
+    email: String(64);
     name: String(128);
     surname: String(128);
-    currentTenant: String(32);
-    allowedTenants: array of String;
+    currentTenant: UUID;
     password: String(128);
+    oid:String(64);
+    allowedTenants: Association to many UserTenantMapping on allowedTenants.user=$self;
+    myTerritories: Association to many TerritoryAssignment on myTerritories.assignedTo=$self;
+}
 
+entity UserTenantMapping {
+   key user: Association to one User;
+   key tenant: Association to one Tenant;
+   isOwner: Boolean;
+}
+
+entity Tenant : cuid {
+    createdAt: Timestamp @cds.on.insert: $now;
+    createdBy: Association to one User;
+    allowedUsers: Association to many UserTenantMapping on allowedUsers.tenant=$self;
 }

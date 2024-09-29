@@ -71,3 +71,10 @@ then add this build plugin
 ```
 
 create directory dev in srv/src/main/resources/db/changelog
+
+compile delta
+
+https://cap.cloud.sap/docs/guides/databases-postgres#generate-scripts
+```
+cds deploy --dry --delta-from cds-model.csn > delta.sql
+```

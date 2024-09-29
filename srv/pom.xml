@@ -154,7 +154,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<basePackage>cds.gen</basePackage>
+							<basePackage>org.gebit.gen</basePackage>
 						</configuration>
 					</execution>
 				</executions>
