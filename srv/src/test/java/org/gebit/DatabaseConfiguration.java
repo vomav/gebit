@@ -1,4 +1,4 @@
-package  customer.gebit;
+package org.gebit;
 
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
