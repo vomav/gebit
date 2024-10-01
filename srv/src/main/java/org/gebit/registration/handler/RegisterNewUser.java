@@ -47,12 +47,12 @@ public class RegisterNewUser implements EventHandler {
 		user.setName(context.getName());
 		user.setEmail(context.getEmail());
 		user.setSurname(context.getSurname());
-		user.setCurrentTenant(currentTenant);
+		user.setCurrentTenantId(currentTenant);
 		user.setPassword(context.getPassword());
 		
 		user = this.userRepository.registerUser(user);
 		Tenant tenant = this.tenantRepository.onboardTenantForUser(user, currentTenant);
-	
+		
 		RegistredUser response = RegistredUser.create();
 		response.setEmail(user.getEmail());
 		response.setId(user.getId());

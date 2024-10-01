@@ -49,7 +49,7 @@ entity User : cuid {
     email: String(64);
     name: String(128);
     surname: String(128);
-    currentTenant: UUID;
+    currentTenant: Association to one Tenant;
     password: String(128);
     oid:String(64);
     allowedTenants: Association to many UserTenantMapping on allowedTenants.user=$self;

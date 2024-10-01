@@ -78,3 +78,6 @@ https://cap.cloud.sap/docs/guides/databases-postgres#generate-scripts
 ```
 cds deploy --dry --delta-from cds-model.csn > delta.sql
 ```
+
+
+https://cap.cloud.sap/docs/java/working-with-cql/query-api#copying-modifying-cql-statements

@@ -6,3 +6,10 @@ databaseChangeLog:
         - sqlFile:
             dbms: postgresql
             path: db/changelog/dev/schema.sql
+  - changeSet:
+      id: "dev1"
+      author: I065534
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            path: db/changelog/dev/defaultUsers.sql
