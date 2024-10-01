@@ -79,5 +79,27 @@ https://cap.cloud.sap/docs/guides/databases-postgres#generate-scripts
 cds deploy --dry --delta-from cds-model.csn > delta.sql
 ```
 
+```CDS
+annotation SRID : Integer;
 
+context cds_spatial // cds.spatial
+{
+    type Geography : String @odata.Type : 'Edm.Geography';
+    type GeographyCollection : String @odata.Type : 'Edm.GeographyCollection';
+    type GeographyLineString : String @odata.Type : 'Edm.GeographyLineString';
+    type GeographyMultiLineString : String @odata.Type : 'Edm.GeographyMultiLineString';
+    type GeographyMultiPoint : String @odata.Type : 'Edm.GeographyMultiPoint';
+    type GeographyMultiPolygon : String @odata.Type : 'Edm.GeographyMultiPolygon';
+    type GeographyPoint : String @odata.Type : 'Edm.GeographyPoint';
+    type GeographyPolygon : String @odata.Type : 'Edm.GeographyPolygon';
+    type Geometry : String @odata.Type : 'Edm.Geometry';
+    type GeometryCollection : String @odata.Type : 'Edm.GeometryCollection';
+    type GeometryLineString : String @odata.Type : 'Edm.GeometryLineString';
+    type GeometryMultiLineString : String @odata.Type : 'Edm.GeometryMultiLineString';
+    type GeometryMultiPoint : String @odata.Type : 'Edm.GeometryMultiPoint';
+    type GeometryMultiPolygon : String @odata.Type : 'Edm.GeometryMultiPolygon';
+    type GeometryPoint : String @odata.Type : 'Edm.GeometryPoint';
+    type GeometryPolygon : String @odata.Type : 'Edm.GeometryPolygon';
+}
+```
 https://cap.cloud.sap/docs/java/working-with-cql/query-api#copying-modifying-cql-statements
