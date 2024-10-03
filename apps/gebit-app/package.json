@@ -1,0 +1,19 @@
+{
+  "name": "ui5.gebit.app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "serve": "npx ui5 serve -o test.html",
+    "build": "npx ui5 build --clean-dest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/openui5": "^1.112.0",
+    "@ui5/cli": "^4.0.8",
+    "typescript": "^5.6.2",
+    "ui5-tooling-transpile": "^3.5.0"
+  }
+}
