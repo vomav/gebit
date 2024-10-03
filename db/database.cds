@@ -56,14 +56,27 @@ entity User : cuid {
     myTerritories: Association to many TerritoryAssignment on myTerritories.assignedTo=$self;
 }
 
+entity TenantMappingRequest : cuid {
+    tenant: Association to one Tenant;
+    requestFrom: Association to one User;
+    comment: String(256);
+}
+
 entity UserTenantMapping {
    key user: Association to one User;
    key tenant: Association to one Tenant;
-   isOwner: Boolean;
+   mappingType: String(32) enum{ 
+        admin;
+        user
+    };
 }
+
 
 entity Tenant : cuid {
     createdAt: Timestamp @cds.on.insert: $now;
     createdBy: Association to one User;
+    name: String(128);
+    description: String(1024);
     allowedUsers: Association to many UserTenantMapping on allowedUsers.tenant=$self;
+    administrators: Association to many UserTenantMapping on administrators.tenant = $self and administrators.mappingType = 'admin'
 }

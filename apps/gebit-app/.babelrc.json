@@ -1,0 +1,13 @@
+{
+    "ignore": [
+      "**/*.d.ts"
+    ],
+    "presets": [
+      ["@babel/preset-env", {     // applied 3rd
+        "targets": "defaults"
+      }],
+      "transform-ui5",            // applied 2nd
+      "@babel/preset-typescript"  // applied 1st
+    ],
+    "sourceMaps": true
+  }

@@ -31,3 +31,6 @@ hs_err*
 .reloadtrigger
 package-lock.json
 .DS_Store
+**/dist/**
+apps/gebit-app/tsconfig.tsbuildinfo
+apps/**/webapp/Component.js

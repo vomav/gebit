@@ -3,10 +3,10 @@ values
 ('e3886d83-f2c4-4ed6-8fe8-49c9d70a5c19', 'vova@vova.com', 'Vova', 'Voytovych', '4d13ecb3-d7e7-483b-b982-d9ec6f701ca3','password','gebit.org');
 
 
-insert into db_Tenant(ID,createdBy_ID)
+insert into db_Tenant(ID,createdBy_ID, name, description)
 values
-('4d13ecb3-d7e7-483b-b982-d9ec6f701ca3','e3886d83-f2c4-4ed6-8fe8-49c9d70a5c19');
+('4d13ecb3-d7e7-483b-b982-d9ec6f701ca3','e3886d83-f2c4-4ed6-8fe8-49c9d70a5c19', 'name 1', 'desc 1');
 
-insert into db_UserTenantMapping (user_ID, tenant_ID, isOwner)
+insert into db_UserTenantMapping (user_ID, tenant_ID, mappingType)
 values
-('e3886d83-f2c4-4ed6-8fe8-49c9d70a5c19','4d13ecb3-d7e7-483b-b982-d9ec6f701ca3',true);
+('e3886d83-f2c4-4ed6-8fe8-49c9d70a5c19','4d13ecb3-d7e7-483b-b982-d9ec6f701ca3','admin');

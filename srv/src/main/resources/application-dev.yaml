@@ -13,3 +13,6 @@ spring:
 
 cds:
   data-source.auto-config.enabled: false
+  index-page:
+    path: services
+    enabled: true	
