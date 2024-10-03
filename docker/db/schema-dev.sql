@@ -1,1 +1,1 @@
-create schema gebit_dev;
+create DATABASE gebit_dev;
