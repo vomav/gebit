@@ -18,10 +18,9 @@ cds:
   index-page:
     path: cap
     enabled: false
+  security:
+    mock:
+      enabled: false
   data-source:
     auto-config:
       enabled: false
-  security:
-    mock:
-      default-users:
-        enabled: false
