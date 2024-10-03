@@ -27,9 +27,9 @@ public class TenantRepository {
 		tenant = ps.run(insertIntoTenantTable).single(Tenant.class);
 		
 		UserTenantMapping mapping = UserTenantMapping.create();
-		mapping.setIsOwner(true);
 		mapping.setTenant(tenant);
 		mapping.setUser(user);
+		mapping.setMappingType("admin");
 		
 		Insert insertTenantMapping = Insert.into(USER_TENANT_MAPPING).entry(mapping);
 		ps.run(insertTenantMapping);

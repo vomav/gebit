@@ -2,10 +2,13 @@ package org.gebit.security.autherntication;
 
 import java.util.Set;
 
+import org.springframework.stereotype.Component;
+
 import com.sap.cds.services.request.ModifiableUserInfo;
 import com.sap.cds.services.request.UserInfo;
 import com.sap.cds.services.runtime.UserInfoProvider;
 
+@Component
 public class CustomUserInfoProvider implements UserInfoProvider {
 
 	private UserInfoProvider defaultProvider;
