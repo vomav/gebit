@@ -13,10 +13,10 @@ spring:
   liquibase:
     contexts: prod
     change-log: classpath:db/changelog/db.changelog-master-prod.yaml
-  web.resources.static-locations: file:./apps/
+
 cds:
   index-page:
-    path: cap
+    path: services
     enabled: false
   security:
     mock:

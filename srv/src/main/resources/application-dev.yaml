@@ -12,7 +12,16 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
 cds:
-  data-source.auto-config.enabled: false
   index-page:
     path: services
-    enabled: true	
+    enabled: false
+  security:
+    mock:
+      enabled: false
+  data-source:
+    auto-config:
+      enabled: false
+
+
+jwt.secret.access: ${JWT_ACCESS_SECRET}
+jwt.secret.refresh: ${JWT_REFRESH_SECRET}

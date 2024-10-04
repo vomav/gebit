@@ -1,4 +1,4 @@
-package org.gebit.security.autherntication;
+package org.gebit.authentication;
 
 import java.util.Set;
 

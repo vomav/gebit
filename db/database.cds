@@ -54,6 +54,7 @@ entity User : cuid {
     oid:String(64);
     allowedTenants: Association to many UserTenantMapping on allowedTenants.user=$self;
     myTerritories: Association to many TerritoryAssignment on myTerritories.assignedTo=$self;
+    refreshToken: String(2048);
 }
 
 entity TenantMappingRequest : cuid {
@@ -78,5 +79,5 @@ entity Tenant : cuid {
     name: String(128);
     description: String(1024);
     allowedUsers: Association to many UserTenantMapping on allowedUsers.tenant=$self;
-    administrators: Association to many UserTenantMapping on administrators.tenant = $self and administrators.mappingType = 'admin'
+    administrators: Association to many UserTenantMapping on administrators.tenant = $self and administrators.mappingType = 'admin';
 }

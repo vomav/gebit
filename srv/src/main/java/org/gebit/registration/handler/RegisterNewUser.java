@@ -10,6 +10,7 @@ import org.gebit.gen.srv.registration.RegistredUser;
 import org.gebit.i18n.MessageKeys;
 import org.gebit.registration.repository.RegistrationUserRepository;
 import org.gebit.registration.repository.TenantRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.services.ErrorStatuses;
@@ -23,14 +24,15 @@ import com.sap.cds.services.handler.annotations.ServiceName;
 public class RegisterNewUser implements EventHandler {
 	private RegistrationUserRepository userRepository;
 	private TenantRepository tenantRepository;
-	
+	private final PasswordEncoder encoder;
 	
 
-	public RegisterNewUser(RegistrationUserRepository userRepository, TenantRepository tenantRepository) {
+	public RegisterNewUser(RegistrationUserRepository userRepository, TenantRepository tenantRepository, PasswordEncoder encoder) {
 		super();
 		this.userRepository = userRepository;
 		this.tenantRepository = tenantRepository;
-	}
+        this.encoder = encoder;
+    }
 
 
 	
@@ -48,7 +50,8 @@ public class RegisterNewUser implements EventHandler {
 		user.setEmail(context.getEmail());
 		user.setSurname(context.getSurname());
 		user.setCurrentTenantId(currentTenant);
-		user.setPassword(context.getPassword());
+		user.setPassword(encoder.encode(context.getPassword()));
+		user.setOid("gebit.org");
 		
 		user = this.userRepository.registerUser(user);
 		Tenant tenant = this.tenantRepository.onboardTenantForUser(user, currentTenant);
