@@ -6,11 +6,13 @@ import org.gebit.authentication.dto.JwtRequest;
 import org.gebit.authentication.dto.JwtResponse;
 import org.gebit.authentication.repository.UserRepository;
 import org.gebit.gen.db.User;
+import org.gebit.gen.db.UserTenantMapping;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
+
 
 /**
  * Service class for handling authentication-related operations.
@@ -44,9 +46,10 @@ public class AuthService {
     public JwtResponse login(JwtRequest authRequest) throws AuthException {
         final User user = userRepository.findUserByEmail(authRequest.getLogin())
                 .orElseThrow(() -> new AuthException("User is not found"));
+        List<UserTenantMapping> permissions = userRepository.getUserPermission(user);
         if (encoder.matches(authRequest.getPassword(), user.getPassword())) {
-            final String accessToken = jwtProvider.generateAccessToken(user);
-            final String refreshToken = jwtProvider.generateRefreshToken(user);
+            final String accessToken = jwtProvider.generateAccessToken(user,permissions);
+            final String refreshToken = jwtProvider.generateRefreshToken(user,permissions);
             user.setRefreshToken(refreshToken);
             userRepository.updateUser(user);
             return new JwtResponse(accessToken, refreshToken);
@@ -65,12 +68,13 @@ public class AuthService {
             // Fetch the user data
             final User user = userRepository.findUserByEmail(login)
                     .orElseThrow(() -> new AuthException("User is not found"));
+            List<UserTenantMapping> permissions = userRepository.getUserPermission(user);
             // Retrieve the stored refresh token for the user
             final String savedRefreshToken = user.getRefreshToken();
             // Compare the stored refresh token with the provided token
             if (savedRefreshToken != null && savedRefreshToken.equals(refreshToken)) {
                 // Generate a new access token
-                final String accessToken = jwtProvider.generateAccessToken(user);
+                final String accessToken = jwtProvider.generateAccessToken(user, permissions);
                 // Return a JwtResponse with the new access token
                 return new JwtResponse(accessToken, null);
             }
@@ -88,13 +92,14 @@ public class AuthService {
             // Fetch the user data
             final User user = userRepository.findUserByEmail(login)
                     .orElseThrow(() -> new AuthException("User is not found"));
+            List<UserTenantMapping> permissions = userRepository.getUserPermission(user);
             // Retrieve the stored refresh token for the user
             final String savedRefreshToken = user.getRefreshToken();
             // Compare the stored refresh token with the provided token
             if (savedRefreshToken != null && savedRefreshToken.equals(refreshToken)) {
                 // Generate new access and refresh tokens
-                final String accessToken = jwtProvider.generateAccessToken(user);
-                final String newRefreshToken = jwtProvider.generateRefreshToken(user);
+                final String accessToken = jwtProvider.generateAccessToken(user, permissions);
+                final String newRefreshToken = jwtProvider.generateRefreshToken(user, permissions);
                 // Update the stored refresh token for the user
                 user.setRefreshToken(newRefreshToken);
                 userRepository.updateUser(user);
@@ -105,7 +110,6 @@ public class AuthService {
         // Throw an AuthException if validation fails
         throw new AuthException("Invalid JWT token");
     }
-
 
 
     public JwtAuthentication getAuthInfo() {

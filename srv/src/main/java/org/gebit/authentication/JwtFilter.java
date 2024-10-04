@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @Component
 public class JwtFilter extends GenericFilterBean {
-    private static final String AUTHORIZATION = "Authorisation";
+    private static final String AUTHORIZATION = "Authorization";
     private final JwtProvider jwtProvider;
 
     public JwtFilter(JwtProvider jwtProvider) {

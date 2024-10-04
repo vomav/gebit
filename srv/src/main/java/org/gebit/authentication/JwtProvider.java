@@ -7,6 +7,7 @@ import io.jsonwebtoken.security.Keys;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.gebit.gen.db.User;
+import org.gebit.gen.db.UserTenantMapping;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
+
 
 
 @Component
@@ -36,25 +39,27 @@ public class JwtProvider {
     }
 
 
-    public String generateAccessToken(User user) {
+    public String generateAccessToken(User user, List<UserTenantMapping> permissions) {
         final LocalDateTime now = LocalDateTime.now();
         final Instant accessExpirationInstant = now.plusMinutes(30).atZone(ZoneId.systemDefault()).toInstant();
         final Date accessExpiration = Date.from(accessExpirationInstant);
         return Jwts.builder()
                 .setSubject(user.getEmail())
                 .setExpiration(accessExpiration)
+                .claim("roles", permissions.stream().map(permission-> permission.getTenant() + ":" + permission.getMappingType()).toList())
                 .signWith(jwtAccessSecret)
                 .claim("firstName", user.getName())
                 .compact();
     }
 
-    public String generateRefreshToken( User user) {
+    public String generateRefreshToken( User user, List<UserTenantMapping> permissions) {
         final LocalDateTime now = LocalDateTime.now();
         final Instant refreshExpirationInstant = now.plusDays(30).atZone(ZoneId.systemDefault()).toInstant();
         final Date refreshExpiration = Date.from(refreshExpirationInstant);
         return Jwts.builder()
                 .setSubject(user.getEmail())
                 .setExpiration(refreshExpiration)
+                .claim("roles", permissions.stream().map(permission-> permission.getTenant() + ":" + permission.getMappingType()).toList())
                 .signWith(jwtRefreshSecret)
                 .compact();
     }

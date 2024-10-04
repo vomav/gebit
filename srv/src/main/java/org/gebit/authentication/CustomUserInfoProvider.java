@@ -3,7 +3,6 @@ package org.gebit.authentication;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
-
 import com.sap.cds.services.request.ModifiableUserInfo;
 import com.sap.cds.services.request.UserInfo;
 import com.sap.cds.services.runtime.UserInfoProvider;

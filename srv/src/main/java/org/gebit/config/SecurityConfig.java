@@ -58,7 +58,7 @@ public class SecurityConfig {
                                         "/swagger-ui/**",
                                         "/users/register",
                                         "/services",
-                                        "/odata/v4/srv.registration/register"
+                                        "/odata/v4/srv.registration/**"
 
                                 ).permitAll()
                                 .anyRequest().authenticated()
