@@ -1,91 +1,182 @@
 {
-	"_version": "1.12.0",
-
+	"_version": "1.21.0",
 	"sap.app": {
 		"id": "ui5.gebit.app",
 		"type": "application",
-		"i18n": "i18n/i18n.properties",
-		"title": "UI5 TypeScript Hello World",
-		"description": "UI5 TypeScript Hello World",
+		"i18n": {
+			"bundleUrl": "i18n/i18n.properties",
+			"supportedLocales": [
+				""
+			],
+			"fallbackLocale": ""
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
 		"applicationVersion": {
 			"version": "1.0.0"
 		},
-		"ach": "set-ach",
 		"dataSources": {
-			"Data.svc": {
-			  "uri": "../Data.svc?sap-context-token=1", 
-			  "type": "OData",
-			  "settings": {
-				"odataVersion": "4.0"
-			  }
+			"mainService": {
+				"uri": "/myservice/V2/Northwind.svc",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml"
+				}
 			}
-		  }
+		}
 	},
-
-	"sap.fiori": {
-
-	},
-
 	"sap.ui": {
 		"technology": "UI5",
-		"icons": {
-
-		},
 		"deviceTypes": {
 			"desktop": true,
 			"tablet": true,
 			"phone": true
 		}
 	},
-
 	"sap.ui5": {
+		"contentDensities": {
+			"cozy": true,
+			"compact": true
+		},
 		"rootView": {
 			"viewName": "ui5.gebit.app.view.App",
 			"type": "XML",
-			"async": true,
 			"id": "app"
 		},
-
+		"componentUsages": {
+			"registrationComponent": {
+				"name": "ui5.gebit.app.reuse.registration",
+				"settings": {},
+				"componentData": {},
+				"lazy": true
+			},
+			"categoriesComponent": {
+				"name": "ui5.gebit.app.reuse.categories",
+				"settings": {},
+				"componentData": {},
+				"lazy": true
+			},
+			"productsComponent": {
+				"name": "ui5.gebit.app.reuse.products",
+				"settings": {},
+				"componentData": {},
+				"lazy": true
+			}
+		},
 		"dependencies": {
-			"minUI5Version": "1.104.0",
+			"minUI5Version": "1.75.0",
 			"libs": {
 				"sap.ui.core": {},
 				"sap.ui.layout": {},
 				"sap.ui.unified": {},
 				"sap.m": {},
-				"sap.f": {},
-				"sap.ui.integration": {},
-				"sap.uxap": {}
+				"sap.f": {}
 			}
 		},
-
-		"handleValidation": true,
-
-		"contentDensities": {
-			"compact": true,
-			"cozy": true
-		},
-
 		"models": {
 			"i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
 				"settings": {
-				  "bundleName": "ui5.gebit.app.i18n.i18n"
+					"bundleName": "ui5.gebit.app.i18n.i18n",
+					"supportedLocales": [
+						""
+					],
+					"fallbackLocale": ""
 				}
-			  }
-
+			}
 		},
-
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
+		},
 		"routing": {
 			"config": {
 				"routerClass": "sap.m.routing.Router",
-				"type": "View",
 				"viewType": "XML",
-				"path": "ui5.gebit.app.App.view",
+				"path": "ui5.gebit.app.view",
+				"controlId": "app",
+				"controlAggregation": "pages",
 				"transition": "slide",
-				"controlId": "fcl",
+				"bypassed": {
+					"target": "notFound"
+				},
 				"async": true
-			  }
+			},
+			"routes": [
+				
+				{
+					"name": "home",
+					"pattern": "",
+					"target": "home"
+				},
+				{
+					"name": "detail",
+					"pattern": "detail",
+					"target": "detail"
+				},
+				{
+					"name": "registration",
+					"pattern": "registration",
+					"target": "registration"
+				},
+				{
+					"name": "categories",
+					"pattern": "categories",
+					"target": {
+						"name": "categories",
+						"prefix": "c"
+					}
+				},
+				{
+					"name": "products",
+					"pattern": "products",
+					"target": {
+						"name": "products",
+						"prefix": "p"
+					}
+				}
+			],
+			"targets": {
+				"home": {
+					"type": "View",
+					"id": "home",
+					"name": "Home",
+					"title": "Home"
+				},
+				"detail": {
+					"type": "View",
+					"id": "detail",
+					"name": "Detail",
+					"title": "Detail"
+				},
+				"registration": {
+					"type": "Component",
+					"usage": "registrationComponent",
+					"id": "suppliersComponent"
+				},
+				"categories": {
+					"type": "Component",
+					"usage": "categoriesComponent",
+					"title": "Category",
+					"id": "categoriesComponent"
+				},
+				"products": {
+					"type": "Component",
+					"usage": "productsComponent",
+					"title": "Product",
+					"id": "productsComponent"
+				},
+				"notFound": {
+					"type": "View",
+					"id": "notFound",
+					"name": "NotFound",
+					"transition": "show"
+				}
+			}
 		}
 	}
 }

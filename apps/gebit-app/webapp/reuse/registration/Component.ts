@@ -3,7 +3,7 @@ import Device from "sap/ui/Device";
 
 
 /**
- * @namespace ui5.gebit.app
+ * @namespace ui5.gebit.app.reuse.registration
  */
 export default class Component extends UIComponent {
 
@@ -14,11 +14,7 @@ export default class Component extends UIComponent {
 	private contentDensityClass : string;
 
 	public init() : void {
-		// var oRouter = this.getRouter();
-		// oRouter.initialize();
 		super.init();
-		this.getRouter().initialize();
-		
 		
 	}
 

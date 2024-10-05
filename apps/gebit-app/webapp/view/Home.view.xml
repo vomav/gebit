@@ -1,0 +1,14 @@
+<mvc:View
+	controllerName="ui5.gebit.app.controller.Home"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f">
+
+ 
+	<Page>
+        <Button press="navToDetail" text="Navigate to Detail"></Button>
+		<Button press="navToRegister" text="Navigate to Register"></Button>
+        
+	</Page>
+</mvc:View>

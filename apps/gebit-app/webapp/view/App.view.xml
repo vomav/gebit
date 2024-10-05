@@ -2,12 +2,12 @@
 	controllerName="ui5.gebit.app.controller.App"
 	displayBlock="true"
 	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc"
-    xmlns:f="sap.f">
-<App height="100%" width="100%">
-      <f:ShellBar id="shellbar" title="Konnektor Tool" homeIcon="favicon.ico"
-        showNavButton="{= ${/layout} === 'EndColumnFullScreen'}"
-        navButtonPressed="handleBackButtonPressed" homeIconPressed="homeIconPressed"/>
+	xmlns:mvc="sap.ui.core.mvc">
 
-</App>
+
+		<App
+			id="app" />
+		
+
+
 </mvc:View>
