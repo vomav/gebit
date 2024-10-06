@@ -14,7 +14,7 @@ spring:
 cds:
   index-page:
     path: services
-    enabled: false
+    enabled: true
   security:
     mock:
       enabled: false
