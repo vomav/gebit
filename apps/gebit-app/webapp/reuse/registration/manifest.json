@@ -4,13 +4,23 @@
 	"sap.app": {
 		"id": "ui5.gebit.app.reuse.registration",
 		"type": "application",
-		"i18n": "i18n/i18n.properties",
+		"i18n": "reuse/registration/i18n/i18n.properties",
 		"title": "UI5 TypeScript Hello World",
 		"description": "UI5 TypeScript Hello World",
 		"applicationVersion": {
 			"version": "1.0.0"
 		},
-		"ach": "set-ach"
+		"ach": "",
+		
+		"dataSources": {
+			"mainService": {
+				"uri": "http://localhost:8080/odata/v4/srv.registration/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "4.0"
+				}
+			}
+		}
 	},
 
 	"sap.fiori": {
@@ -63,8 +73,19 @@
 				"settings": {
 				  "bundleName": "ui5.gebit.app.i18n.i18n"
 				}
-			  }
-
+			  },
+			  
+			  "": {
+				"dataSource": "mainService",
+				"preload": true,
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"autoExpandSelect": true,
+					"earlyRequests": true,
+					"operationMode": "Server",
+					"groupId": "$direct"
+				}
+			}
 		}
 	}
 }
