@@ -18,6 +18,14 @@ export default class App extends Controller {
 		}
 	}
 
+	
+	onAfterRendering(): void | undefined {
+		this.getView()?.byId("emailInput")?.setProperty("value", "");
+		this.getView()?.byId("nameInput")?.setProperty("value", "");
+		this.getView()?.byId("surnameInput")?.setProperty("value", "");
+		this.getView()?.byId("passwordInput")?.setProperty("value", "")
+	}
+
 	public  async registerUser() : Promise<void> {
 		let model = (this.getOwnerComponent() as UIComponent).getModel() as ODataModel;
 		let context = await model.bindContext("/register(...)");
