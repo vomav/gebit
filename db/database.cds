@@ -6,7 +6,8 @@ aspect tenant {
     tenant: UUID;
 }
 
-entity Territory : cuid, tenant {
+
+entity Territory  : cuid, tenant {
     name: String(64);
     link: String(2048);
     embedUrl: String(2048);
@@ -81,3 +82,4 @@ entity Tenant : cuid {
     allowedUsers: Association to many UserTenantMapping on allowedUsers.tenant=$self;
     administrators: Association to many UserTenantMapping on administrators.tenant = $self and administrators.mappingType = 'admin';
 }
+
