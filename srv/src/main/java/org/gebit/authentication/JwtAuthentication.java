@@ -11,7 +11,9 @@ import java.util.stream.Collectors;
 
 public class JwtAuthentication implements Authentication {
 
-    /**
+    private static final long serialVersionUID = 1L;
+
+	/**
      * Indicates whether the user is authenticated.
      */
     private boolean authenticated;
@@ -24,8 +26,11 @@ public class JwtAuthentication implements Authentication {
     /**
      * The first name of the authenticated user.
      */
-    private String firstName;
-
+    private String username;
+    private String tenantId;
+    private String surname;
+    private String userId;
+    
     /**
      * The roles granted to the authenticated user.
      */
@@ -76,6 +81,41 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public String getName() {
-        return firstName;
+        return username;
     }
+
+	public String getTenantId() {
+		return tenantId;
+	}
+
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+    
+    
+    
 }

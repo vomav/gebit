@@ -4,7 +4,7 @@ using { db.Territory as dbTerritory, db.Part as dbPart, db.TerritoryAssignment a
 
 service searching {
 
-    entity Territory as projection on dbTerritory;
+    entity Territory as projection on dbTerritory ;
     entity Parts as projection on dbPart;
     entity TerritoryAssignment as projection on dbTerritoryAssignment;
     entity PartsInProgress as projection on dbPartAssignmenst;
@@ -44,6 +44,18 @@ service registration {
     action register(email:String not null, name:String not null, surname: String not null, password:String not null) returns RegistredUser;
 
     action resetPassword(email:String) returns Boolean;
-    
+}
 
+service ui_service {
+    
+    @odata.singleton
+    entity LogedInUser {
+        key id:UUID;
+        email: String(64);
+        username: String(128);
+        surname: String(128);
+        tenant: String(32);
+        language: String(10);
+        role: String(10);
+    }
 }

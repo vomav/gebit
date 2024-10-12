@@ -2,6 +2,7 @@ package org.gebit.authentication;
 
 import java.util.Set;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import com.sap.cds.services.request.ModifiableUserInfo;
 import com.sap.cds.services.request.UserInfo;
@@ -10,14 +11,40 @@ import com.sap.cds.services.runtime.UserInfoProvider;
 @Component
 public class CustomUserInfoProvider implements UserInfoProvider {
 
+	public static final String USER_ID = "UserID";
+	public static final String LOGON_SURNAME = "LogonSurname";
+	public static final String LOGON_USERNAME = "LogonUsername";
+	
 	private UserInfoProvider defaultProvider;
 	
 	@Override
 	public UserInfo get() {
+		JwtAuthentication jwtInfoToken;
+		try {
+			jwtInfoToken  = (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
+			if(jwtInfoToken == null) {
+				return defaultProvider.get();
+			}
+		}catch (Exception e) {
+			return defaultProvider.get();
+		}
+		
+		
 		ModifiableUserInfo userInfo = UserInfo.create();
-		userInfo.setTenant("4d13ecb3-d7e7-483b-b982-d9ec6f701ca3");
+		userInfo.setTenant(jwtInfoToken.getTenantId());
+		userInfo.setName(jwtInfoToken.getPrincipal().toString());
 		userInfo.setIsAuthenticated(true);
-		userInfo.setRoles(Set.of("admin"));
+		userInfo.setAdditionalAttribute(LOGON_USERNAME, jwtInfoToken.getUsername());
+		userInfo.setAdditionalAttribute(LOGON_SURNAME, jwtInfoToken.getSurname());
+		userInfo.setAdditionalAttribute(USER_ID, jwtInfoToken.getUserId());
+		jwtInfoToken.getAuthorities().forEach(authority -> {
+			String[] keyVal = authority.toString().split(":"); 
+			userInfo.setAdditionalAttribute(keyVal[0], keyVal[1]);
+			if(jwtInfoToken.getTenantId().equals(keyVal[0])) {
+				userInfo.setRoles(Set.of(keyVal[1]));
+			}
+		});
+		
 		return userInfo;
 	}
 	

@@ -1,8 +1,10 @@
 package org.gebit.config;
 
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+
+import java.util.Arrays;
+
 import org.gebit.authentication.JwtFilter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -18,20 +20,18 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     @Bean
-    public PasswordEncoder encoder() {
+    PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
     private final JwtFilter jwtFilter;
 
-    @Autowired
     public SecurityConfig(JwtFilter jwtFilter) {
         this.jwtFilter = jwtFilter;
     }
@@ -48,7 +48,8 @@ public class SecurityConfig {
      * @throws Exception if an error occurs during configuration.
      */
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    	
         return http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(
@@ -56,38 +57,32 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         "/api/auth/login",
                                         "/api/auth/token",
-                                        "/swagger-ui.html",
-                                        "/api/v1/auth/**",
-                                        "/v3/api-docs/**",
-                                        "/swagger-ui/**",
-                                        "/users/register",
+                                        "/webjars/**",
+                                        "/*.js",
+                                        "/*.html/**",
+                                        "/*.css",
                                         "/services",
-                                        "/index.html",
-                                        "/odata/v4/srv.registration/**"
+                                        "/odata/v4/srv.registration/**",
+                                        "/odata/v4/**metadata**"
                                 ).  permitAll()
                                 .anyRequest().authenticated()
-                ).addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();
+                ).addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+
+                .build();
     }
     
     @Bean
-    public CorsFilter corsFilter() {
+    CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:8081"); // Allow all origins
-        config.addAllowedHeader("*");
-//        config.addAllowedOriginPattern("http://localhost**");
-        config.addAllowedMethod("*"); // Allow all methods
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowedOriginPatterns(Arrays.asList("*"));
+        config.setExposedHeaders(Arrays.asList("OData-Version"));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
 
-    
-    @Bean
-    public FilterRegistrationBean<CustomHeaderFilter> customHeaderFilter() {
-        FilterRegistrationBean<CustomHeaderFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new CustomHeaderFilter());
-        registrationBean.addUrlPatterns("/*"); // Apply to all URL patterns
-        return registrationBean;
-    }
+   
 }

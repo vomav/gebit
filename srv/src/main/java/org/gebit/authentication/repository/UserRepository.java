@@ -22,6 +22,10 @@ public class UserRepository {
         this.persistenceService = persistenceService;
     }
 
+    public User byId(String id) {
+    	Select<?> selectByUserEmail = Select.from(User_.class).columns(CQL.star()).byId(id);
+    	return persistenceService.run(selectByUserEmail).single(User.class);
+    }
     public Optional<User> findUserByEmail(String email) {
        Select<?> selectByUserEmail = Select.from(User_.class).columns(CQL.star()).where(predicate->predicate.email().eq(email));
        return persistenceService.run(selectByUserEmail).first(User.class);
