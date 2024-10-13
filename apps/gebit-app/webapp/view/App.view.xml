@@ -1,13 +1,24 @@
-<mvc:View
-	controllerName="ui5.gebit.app.controller.App"
-	displayBlock="true"
+<mvc:View controllerName="ui5.gebit.app.controller.App"
 	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc">
-
-
-		<App
-			id="app" />
-		
-
-
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:tnt="sap.tnt">
+	<tnt:ToolPage id="toolPage" sideExpanded="false">
+		<tnt:header>
+			<tnt:ToolHeader>
+				<Image src="icon.png" decorative="false" press="onLogoPressed" tooltip="Logo" width="40px" height="40px">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="High"/>
+					</layoutData>
+				</Image>
+				<ToolbarSpacer />
+				<Title text="{i18n>mainTitle}" />
+				<ToolbarSpacer />
+					<!-- <Avatar initials="UI" active="true"/> -->
+					<Button icon="sap-icon://menu2"></Button>
+			</tnt:ToolHeader>
+		</tnt:header>
+		<tnt:mainContents>
+			<App id="app" />
+		</tnt:mainContents>
+	</tnt:ToolPage>
 </mvc:View>

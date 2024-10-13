@@ -1,4 +1,4 @@
-<mvc:View
+<mvc:View xmlns:core="sap.ui.core"
 	controllerName="ui5.gebit.app.controller.Home"
 	displayBlock="true"
 	xmlns="sap.m"
@@ -6,9 +6,63 @@
     xmlns:f="sap.f">
 
  
-	<Page>
-        <Button press="navToDetail" text="Navigate to Detail"></Button>
-		<Button press="navToRegister" text="Navigate to Register"></Button>
-        
+	<Page showHeader="false">
+		<f:GridContainer id="demoGrid" class="sapUiSmallMargin">
+			<f:layout>
+				<f:GridContainerSettings rowSize="84px" columnSize="84px" gap="8px" />
+			</f:layout>
+			<f:layoutXS>
+				<f:GridContainerSettings rowSize="70px" columnSize="70px" gap="8px" />
+			</f:layoutXS>
+
+			<GenericTile
+				press="onPress"
+				header="Manage Territories"
+				subheader="All">
+				<layoutData>
+					<f:GridContainerItemLayoutData minRows="2" columns="2" />
+				</layoutData>
+				<TileContent footer="">
+					<ImageContent src="sap-icon://map-3" />
+				</TileContent>
+			</GenericTile>
+			<GenericTile header="My Territories" subheader="Assigned to me">
+				<layoutData>
+					<f:GridContainerItemLayoutData minRows="2" columns="2" />
+				</layoutData>
+				<TileContent>
+					<ImageContent src="sap-icon://activities" />
+				</TileContent>
+			</GenericTile>
+			<GenericTile header="My User Profile" subheader="">
+				<layoutData>
+					<f:GridContainerItemLayoutData minRows="2" columns="2" />
+				</layoutData>
+				<TileContent>
+					<ImageContent src="sap-icon://account" />
+				</TileContent>
+			</GenericTile>
+			<GenericTile header="Group Territories" subheader="Work with group">
+				<layoutData>
+					<f:GridContainerItemLayoutData minRows="2" columns="2" />
+				</layoutData>
+				<TileContent>
+					<ImageContent src="sap-icon://company-view" />
+				</TileContent>
+			</GenericTile>
+			<GenericTile header="Manage Groups" subheader="">
+				<layoutData>
+					<f:GridContainerItemLayoutData minRows="2" columns="2" />
+				</layoutData>
+				<TileContent>
+					<ImageContent src="sap-icon://action-settings" />
+				</TileContent>
+			</GenericTile>
+
+
+			<core:HTML content="&lt;core:HTML content='&lt;iframe src='https://www.google.com/maps/d/embed?mid=1f6YmI88D4pqqaKKM0KrKbpUbati7BoMehbc=2E312F' width='640' height='480'&gt;&lt;/iframe&gt;"> 
+			
+			</core:HTML>
+		</f:GridContainer>
 	</Page>
 </mvc:View>

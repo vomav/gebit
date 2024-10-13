@@ -3,10 +3,8 @@ import Device from "sap/ui/Device";
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 import Event from "sap/ui/base/Event";
 
-
-
 /**
- * @namespace ui5.gebit.app
+ * @namespace ui5.gebit.app.reuse.territories
  */
 export default class Component extends UIComponent {
 
@@ -17,24 +15,20 @@ export default class Component extends UIComponent {
 	private contentDensityClass : string;
 
 	public init() : void {
-		// var oRouter = this.getRouter();
-		// oRouter.initialize();
 		super.init();
 		this.getRouter().initialize();
-
-		
-		
 	}
+
 
 	onBeforeRendering(): void {
-
 		let model = this.getModel() as ODataModel;
-		model.changeHttpHeaders({"Authentication" : "Bearer " +  localStorage.getItem("accessToken")});
+		model.attachRequestFailed(function(oEvent:Event) {
+			console.log(JSON.stringify(oEvent.getParameters()));
 
-		// model.attachRequestFailed(function(oEvent:Event) {
-		// 	console.log(JSON.stringify(oEvent.getParameters()));
-		// }.bind(this));
+			debugger;
+		}.bind(this));
 	}
+
 	/**
 	 * This method can be called to determine whether the sapUiSizeCompact or sapUiSizeCozy
 	 * design mode class should be set, which influences the size appearance of some controls.

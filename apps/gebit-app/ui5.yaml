@@ -13,6 +13,7 @@ framework:
     - name: sap.ui.integration
     - name: sap.ui.layout
     - name: sap.uxap
+    - name: sap.tnt
     - name: themelib_sap_horizon
 
 builder:

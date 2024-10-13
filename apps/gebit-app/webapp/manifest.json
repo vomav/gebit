@@ -17,11 +17,10 @@
 		},
 		"dataSources": {
 			"mainService": {
-				"uri": "/myservice/V2/Northwind.svc",
+				"uri": "http://localhost:8080/odata/v4/srv.ui_service/",
 				"type": "OData",
 				"settings": {
-					"odataVersion": "2.0",
-					"localUri": "localService/metadata.xml"
+					"odataVersion": "4.0"
 				}
 			}
 		}
@@ -51,8 +50,8 @@
 				"componentData": {},
 				"lazy": true
 			},
-			"categoriesComponent": {
-				"name": "ui5.gebit.app.reuse.categories",
+			"territoriesComponent": {
+				"name": "ui5.gebit.app.reuse.territories",
 				"settings": {},
 				"componentData": {},
 				"lazy": true
@@ -71,7 +70,8 @@
 				"sap.ui.layout": {},
 				"sap.ui.unified": {},
 				"sap.m": {},
-				"sap.f": {}
+				"sap.f": {},
+				"sap.tnt": {}
 			}
 		},
 		"models": {
@@ -84,14 +84,18 @@
 					],
 					"fallbackLocale": ""
 				}
-			}
-		},
-		"resources": {
-			"css": [
-				{
-					"uri": "css/style.css"
+			},
+			"": {
+				"dataSource": "mainService",
+				"preload": true,
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"autoExpandSelect": true,
+					"earlyRequests": true,
+					"operationMode": "Server",
+					"groupId": "$direct"
 				}
-			]
+			}
 		},
 		"routing": {
 			"config": {
@@ -114,9 +118,9 @@
 					"target": "home"
 				},
 				{
-					"name": "detail",
-					"pattern": "detail",
-					"target": "detail"
+					"name": "login",
+					"pattern": "login",
+					"target": "login"
 				},
 				{
 					"name": "registration",
@@ -124,11 +128,10 @@
 					"target": "registration"
 				},
 				{
-					"name": "categories",
-					"pattern": "categories",
+					"name": "territories",
+					"pattern": "territories",
 					"target": {
-						"name": "categories",
-						"prefix": "c"
+						"name": "territories"
 					}
 				},
 				{
@@ -144,25 +147,22 @@
 				"home": {
 					"type": "View",
 					"id": "home",
-					"name": "Home",
-					"title": "Home"
+					"name": "Home"
 				},
-				"detail": {
+				"login": {
 					"type": "View",
-					"id": "detail",
-					"name": "Detail",
-					"title": "Detail"
+					"id": "login",
+					"name": "Login"
 				},
 				"registration": {
 					"type": "Component",
 					"usage": "registrationComponent",
-					"id": "suppliersComponent"
+					"id": "registrationComponent"
 				},
-				"categories": {
+				"territories": {
 					"type": "Component",
-					"usage": "categoriesComponent",
-					"title": "Category",
-					"id": "categoriesComponent"
+					"usage": "territoriesComponent",
+					"id": "territoriesComponent"
 				},
 				"products": {
 					"type": "Component",
