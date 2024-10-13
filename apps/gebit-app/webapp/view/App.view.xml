@@ -15,6 +15,7 @@
 				<ToolbarSpacer />
 					<!-- <Avatar initials="UI" active="true"/> -->
 					<Button icon="sap-icon://menu2"></Button>
+					<Avatar initials="{username}" > </Avatar>
 			</tnt:ToolHeader>
 		</tnt:header>
 		<tnt:mainContents>

@@ -3,6 +3,7 @@ import Controller from "sap/ui/core/mvc/Controller";
 import AppComponent from "../Component";
 import UIComponent from "sap/ui/core/UIComponent";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
+import Component from "../Component";
 
 /**
  * @namespace ui5.gebit.app.controller
@@ -26,13 +27,16 @@ export default class Home extends Controller {
 	}
 
 	public homeMatched() {
-		this.getView()?.bindElement("/LogedInUser");
-	}
-	public navToDetail(oEvent:any) {
-		(this.getOwnerComponent() as UIComponent).getRouter().navTo("detail");
+
+		this.getView()?.byId("homePage")?.bindElement("/LogedInUser",);
+		
 	}
 
 	public navToRegister(oEvent:any) {
 		(this.getOwnerComponent() as UIComponent).getRouter().navTo("registration");
+	}
+
+	public isAdmin(role:string) {
+		return role === 'admin';
 	}
 }

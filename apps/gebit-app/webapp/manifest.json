@@ -87,11 +87,11 @@
 			},
 			"": {
 				"dataSource": "mainService",
-				"preload": true,
+				"preload": false,
 				"type": "sap.ui.model.odata.v4.ODataModel",
 				"settings": {
 					"autoExpandSelect": true,
-					"earlyRequests": true,
+					"earlyRequests": false,
 					"operationMode": "Server",
 					"groupId": "$direct"
 				}

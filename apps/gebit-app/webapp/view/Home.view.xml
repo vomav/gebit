@@ -6,7 +6,7 @@
     xmlns:f="sap.f">
 
  
-	<Page showHeader="false">
+	<Page showHeader="false" id="homePage">
 		<f:GridContainer id="demoGrid" class="sapUiSmallMargin">
 			<f:layout>
 				<f:GridContainerSettings rowSize="84px" columnSize="84px" gap="8px" />
@@ -18,7 +18,9 @@
 			<GenericTile
 				press="onPress"
 				header="Manage Territories"
-				subheader="All">
+				subheader="All" 
+				visible="{isAdmin}"
+				>
 				<layoutData>
 					<f:GridContainerItemLayoutData minRows="2" columns="2" />
 				</layoutData>
@@ -50,7 +52,7 @@
 					<ImageContent src="sap-icon://company-view" />
 				</TileContent>
 			</GenericTile>
-			<GenericTile header="Manage Groups" subheader="">
+			<GenericTile header="Manage You Site" subheader="" visible="{isAdmin}">
 				<layoutData>
 					<f:GridContainerItemLayoutData minRows="2" columns="2" />
 				</layoutData>
@@ -58,11 +60,7 @@
 					<ImageContent src="sap-icon://action-settings" />
 				</TileContent>
 			</GenericTile>
-
-
-			<core:HTML content="&lt;core:HTML content='&lt;iframe src='https://www.google.com/maps/d/embed?mid=1f6YmI88D4pqqaKKM0KrKbpUbati7BoMehbc=2E312F' width='640' height='480'&gt;&lt;/iframe&gt;"> 
 			
-			</core:HTML>
 		</f:GridContainer>
 	</Page>
 </mvc:View>

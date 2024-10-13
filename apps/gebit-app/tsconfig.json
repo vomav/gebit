@@ -10,7 +10,7 @@
         "rootDir": "./webapp",
         "baseUrl": "./",
         "paths": {
-            "ui5/typescript/helloworld/*": ["webapp/*"]
+            "ui5/gebit/app/*": ["webapp/*"]
         },
         "composite": true
     },

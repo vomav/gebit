@@ -65,10 +65,11 @@ public class SecurityConfig {
                                         "/*.css",
                                         "/services",
                                         "/odata/v4/srv.registration/**",
-                                        "/odata/v4/srv.ui_service/$metadata**"
+                                        "/odata/v4/srv.ui_service/$metadata**",
+                                        "/ui/**"
                                 ).permitAll()
                                 .requestMatchers(CorsUtils:: isPreFlightRequest).permitAll()
-                                .anyRequest().authenticated()
+                                .anyRequest().authenticated()	
                 ).addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 
                 .build();

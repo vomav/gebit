@@ -1,8 +1,7 @@
 import UIComponent from "sap/ui/core/UIComponent";
 import Device from "sap/ui/Device";
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
-import Event from "sap/ui/base/Event";
-
+import { Model$RequestFailedEvent } from "sap/ui/model/Model";
 
 
 /**
@@ -17,24 +16,24 @@ export default class Component extends UIComponent {
 	private contentDensityClass : string;
 
 	public init() : void {
-		// var oRouter = this.getRouter();
-		// oRouter.initialize();
+		let model = this.getModel() as ODataModel;
+		model.changeHttpHeaders({"Authorization" : "Bearer " +  localStorage.getItem("accessToken")});
+
 		super.init();
 		this.getRouter().initialize();
-
+		let that = this;
+		model.attachDataReceived(function(event:any ) {
+			if(JSON.stringify(event.getParameters()).indexOf("403")) {
+				let router = that.getRouter();
+				router.navTo("login");
+			}
 		
-		
+		})
 	}
 
-	onBeforeRendering(): void {
 
-		let model = this.getModel() as ODataModel;
-		model.changeHttpHeaders({"Authentication" : "Bearer " +  localStorage.getItem("accessToken")});
 
-		// model.attachRequestFailed(function(oEvent:Event) {
-		// 	console.log(JSON.stringify(oEvent.getParameters()));
-		// }.bind(this));
-	}
+
 	/**
 	 * This method can be called to determine whether the sapUiSizeCompact or sapUiSizeCozy
 	 * design mode class should be set, which influences the size appearance of some controls.

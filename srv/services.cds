@@ -57,5 +57,6 @@ service ui_service {
         tenant: String(32);
         language: String(10);
         role: String(10);
+        isAdmin:Boolean;
     }
 }

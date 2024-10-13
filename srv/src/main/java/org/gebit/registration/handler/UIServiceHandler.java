@@ -46,7 +46,7 @@ public class UIServiceHandler implements EventHandler {
 		user.setSurname(userInfo.getAdditionalAttribute(LOGON_SURNAME).toString());
 		user.setTenant(userInfo.getTenant());
 		user.setRole(userInfo.getAdditionalAttribute("ROLE_" + savedUser.getCurrentTenantId()).toString());
-
+		user.setIsAdmin(userInfo.getAdditionalAttribute("ROLE_" + savedUser.getCurrentTenantId()).equals(savedUser.getCurrentTenantId()));
 		context.setResult(List.of(user));
 		context.setCompleted();
 		
