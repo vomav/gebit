@@ -33,9 +33,6 @@ public class UIServiceHandler implements EventHandler {
 	}
 
 
-
-	
-
 	@On(event=CqnService.EVENT_READ, entity = LogedInUser_.CDS_NAME)
 	public void onRead(CdsReadEventContext context) {
 		

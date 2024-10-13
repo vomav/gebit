@@ -5,6 +5,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 import java.util.Arrays;
 
 import org.gebit.authentication.JwtFilter;
+import org.gebit.config.security.GebitCorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
@@ -63,15 +65,15 @@ public class SecurityConfig {
                                         "/*.css",
                                         "/services",
                                         "/odata/v4/srv.registration/**",
-                                        "/odata/v4/**metadata**"
-                                ).  permitAll()
+                                        "/odata/v4/srv.ui_service/$metadata**"
+                                ).permitAll()
+                                .requestMatchers(CorsUtils:: isPreFlightRequest).permitAll()
                                 .anyRequest().authenticated()
                 ).addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-
+                
                 .build();
     }
     
-    @Bean
     CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
@@ -79,9 +81,10 @@ public class SecurityConfig {
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowedOriginPatterns(Arrays.asList("*"));
-        config.setExposedHeaders(Arrays.asList("OData-Version"));
+        config.setExposedHeaders(Arrays.asList("OData-Version", "OData-maxversion"));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
+//        return new GebitCorsFilter(source);
     }
 
    
