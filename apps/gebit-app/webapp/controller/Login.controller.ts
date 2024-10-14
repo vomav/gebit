@@ -43,4 +43,8 @@ export default class Login extends Controller {
             }
         });
     }
+
+    public toToRegistration(oEvent:any) {
+        (this.getOwnerComponent() as UIComponent).getRouter().navTo("registration");
+    }
 }

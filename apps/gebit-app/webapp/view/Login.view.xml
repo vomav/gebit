@@ -45,6 +45,7 @@
 				<OverflowToolbar>
 
 					<ToolbarSpacer/>
+					<Button type="Accept" text="Registration" press="toToRegistration"/>
 					<Button type="Accept" text="Login" press="login"/>
 				</OverflowToolbar>
 			</f:footer>

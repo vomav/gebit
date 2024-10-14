@@ -4,6 +4,7 @@ import AppComponent from "../Component";
 import UIComponent from "sap/ui/core/UIComponent";
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 import View from "sap/ui/core/mvc/View";
+import { URLHelper } from "sap/m/library";
 
 /**
  * @namespace ui5.gebit.app.reuse.registration.controller
@@ -41,4 +42,9 @@ export default class App extends Controller {
 		}
 	);
 	}
+
+	public toToLogin(oEvent:any) {
+		URLHelper.redirect("#login");
+    }
+
 }
