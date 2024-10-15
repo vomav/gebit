@@ -1,34 +1,34 @@
 namespace srv;
 
-using { db.Territory as dbTerritory, db.Part as dbPart, db.TerritoryAssignment as dbTerritoryAssignment, db.PartAssignmenst as dbPartAssignmenst, db.User as dbUser, db.Tenant as dbTenant, db.UserTenantMapping as dbUserTenantMapping } from '../db/database';
+using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignmensts as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping } from '../db/database';
 
 service searching {
 
-    entity Territory as projection on dbTerritory ;
+    entity Territories as projection on dbTerritory ;
     entity Parts as projection on dbPart;
-    entity TerritoryAssignment as projection on dbTerritoryAssignment;
-    entity PartsInProgress as projection on dbPartAssignmenst;
+    entity TerritoryAssignments as projection on dbTerritoryAssignment;
+    entity PartsInProgresss as projection on dbPartAssignmenst;
     entity User as projection on dbUser {
         *,
-        myTerritories : Association to TerritoryAssignment on myTerritories.assignedTo=$self,
+        myTerritories : Association to TerritoryAssignments on myTerritories.assignedTo=$self,
     } excluding {
         password
     };
-    entity Tenant as projection on dbTenant;
-    entity UserTenantMapping as projection on dbUserTenantMapping;
+    entity Tenants as projection on dbTenant;
+    entity UserTenantMappings as projection on dbUserTenantMapping;
 
 
 }
 
 service admin {
-    entity Tenant as projection on dbTenant;
-        entity User as projection on dbUser {
+    entity Tenants as projection on dbTenant;
+        entity Users as projection on dbUser {
         *,
     } excluding {
         password,
         myTerritories
     };
-    entity UserTenantMapping as projection on dbUserTenantMapping;
+    entity UserTenantMappings as projection on dbUserTenantMapping;
 
 }
 
