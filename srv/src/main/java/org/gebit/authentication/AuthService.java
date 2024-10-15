@@ -5,8 +5,8 @@ import jakarta.security.auth.message.AuthException;
 import org.gebit.authentication.dto.JwtRequest;
 import org.gebit.authentication.dto.JwtResponse;
 import org.gebit.authentication.repository.UserRepository;
-import org.gebit.gen.db.User;
-import org.gebit.gen.db.UserTenantMapping;
+import org.gebit.gen.db.Users;
+import org.gebit.gen.db.UserTenantMappings;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,9 +44,9 @@ public class AuthService {
     }
 
     public JwtResponse login(JwtRequest authRequest) throws AuthException {
-        final User user = userRepository.findUserByEmail(authRequest.getLogin())
+        final Users user = userRepository.findUserByEmail(authRequest.getLogin())
                 .orElseThrow(() -> new AuthException("User is not found"));
-        List<UserTenantMapping> permissions = userRepository.getUserPermission(user);
+        List<UserTenantMappings> permissions = userRepository.getUserPermission(user);
         if (encoder.matches(authRequest.getPassword(), user.getPassword())) {
             final String accessToken = jwtProvider.generateAccessToken(user,permissions);
             final String refreshToken = jwtProvider.generateRefreshToken(user,permissions);
@@ -66,9 +66,9 @@ public class AuthService {
             // Get the user login from the token claims
             final String login = claims.getSubject();
             // Fetch the user data
-            final User user = userRepository.findUserByEmail(login)
+            final Users user = userRepository.findUserByEmail(login)
                     .orElseThrow(() -> new AuthException("User is not found"));
-            List<UserTenantMapping> permissions = userRepository.getUserPermission(user);
+            List<UserTenantMappings> permissions = userRepository.getUserPermission(user);
             // Retrieve the stored refresh token for the user
             final String savedRefreshToken = user.getRefreshToken();
             // Compare the stored refresh token with the provided token
@@ -90,9 +90,9 @@ public class AuthService {
             // Get the user login from the token claims
             final String login = claims.getSubject();
             // Fetch the user data
-            final User user = userRepository.findUserByEmail(login)
+            final Users user = userRepository.findUserByEmail(login)
                     .orElseThrow(() -> new AuthException("User is not found"));
-            List<UserTenantMapping> permissions = userRepository.getUserPermission(user);
+            List<UserTenantMappings> permissions = userRepository.getUserPermission(user);
             // Retrieve the stored refresh token for the user
             final String savedRefreshToken = user.getRefreshToken();
             // Compare the stored refresh token with the provided token

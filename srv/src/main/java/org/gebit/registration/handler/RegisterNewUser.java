@@ -2,8 +2,8 @@ package org.gebit.registration.handler;
 
 import java.util.UUID;
 
-import org.gebit.gen.db.Tenant;
-import org.gebit.gen.db.User;
+import org.gebit.gen.db.Tenants;
+import org.gebit.gen.db.Users;
 import org.gebit.gen.srv.registration.RegisterContext;
 import org.gebit.gen.srv.registration.Registration_;
 import org.gebit.gen.srv.registration.RegistredUser;
@@ -45,7 +45,7 @@ public class RegisterNewUser implements EventHandler {
 		
 		String currentTenant = UUID.randomUUID().toString();
 		
-		User user = User.create();
+		Users user = Users.create();
 		user.setName(context.getName());
 		user.setEmail(context.getEmail());
 		user.setSurname(context.getSurname());
@@ -54,7 +54,7 @@ public class RegisterNewUser implements EventHandler {
 		user.setOid("gebit.org");
 		
 		user = this.userRepository.registerUser(user);
-		Tenant tenant = this.tenantRepository.onboardTenantForUser(user, currentTenant);
+		Tenants tenant = this.tenantRepository.onboardTenantForUser(user, currentTenant);
 		
 		RegistredUser response = RegistredUser.create();
 		response.setEmail(user.getEmail());

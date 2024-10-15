@@ -4,10 +4,10 @@ import com.sap.cds.ql.CQL;
 import com.sap.cds.ql.Select;
 import com.sap.cds.ql.Update;
 import com.sap.cds.services.persistence.PersistenceService;
-import org.gebit.gen.db.User;
-import org.gebit.gen.db.UserTenantMapping;
-import org.gebit.gen.db.UserTenantMapping_;
-import org.gebit.gen.db.User_;
+import org.gebit.gen.db.Users;
+import org.gebit.gen.db.UserTenantMappings;
+import org.gebit.gen.db.UserTenantMappings_;
+import org.gebit.gen.db.Users_;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,22 +22,22 @@ public class UserRepository {
         this.persistenceService = persistenceService;
     }
 
-    public User byId(String id) {
-    	Select<?> selectByUserEmail = Select.from(User_.class).columns(CQL.star()).byId(id);
-    	return persistenceService.run(selectByUserEmail).single(User.class);
+    public Users byId(String id) {
+    	Select<?> selectByUsersEmail = Select.from(Users_.class).columns(CQL.star()).byId(id);
+    	return persistenceService.run(selectByUsersEmail).single(Users.class);
     }
-    public Optional<User> findUserByEmail(String email) {
-       Select<?> selectByUserEmail = Select.from(User_.class).columns(CQL.star()).where(predicate->predicate.email().eq(email));
-       return persistenceService.run(selectByUserEmail).first(User.class);
-    }
-
-    public List<UserTenantMapping> getUserPermission(User user) {
-        Select<?> selectUserTenantMapping = Select.from(UserTenantMapping_.class).columns(CQL.star()).where(predicate-> predicate.user_ID().eq(user.getId()));
-        return persistenceService.run(selectUserTenantMapping).listOf(UserTenantMapping.class);
+    public Optional<Users> findUserByEmail(String email) {
+       Select<?> selectByUsersEmail = Select.from(Users_.class).columns(CQL.star()).where(predicate->predicate.email().eq(email));
+       return persistenceService.run(selectByUsersEmail).first(Users.class);
     }
 
-   public void updateUser (User user){
-       Update<?> updatedUser = Update.entity(User_.class).data(user);
-       persistenceService.run(updatedUser);
+    public List<UserTenantMappings> getUserPermission(Users Users) {
+        Select<?> selectUsersTenantMappings = Select.from(UserTenantMappings_.class).columns(CQL.star()).where(predicate-> predicate.user_ID().eq(Users.getId()));
+        return persistenceService.run(selectUsersTenantMappings).listOf(UserTenantMappings.class);
+    }
+
+   public void updateUser (Users Users){
+       Update<?> updatedUsers = Update.entity(Users_.class).data(Users);
+       persistenceService.run(updatedUsers);
    }
 }

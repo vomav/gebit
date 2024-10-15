@@ -7,7 +7,7 @@ import static org.gebit.authentication.CustomUserInfoProvider.USER_ID;
 import java.util.List;
 
 import org.gebit.authentication.repository.UserRepository;
-import org.gebit.gen.db.User;
+import org.gebit.gen.db.Users;
 import org.gebit.gen.srv.ui_service.LogedInUser;
 import org.gebit.gen.srv.ui_service.LogedInUser_;
 import org.gebit.gen.srv.ui_service.UiService_;
@@ -38,7 +38,7 @@ public class UIServiceHandler implements EventHandler {
 		
 		LogedInUser user = LogedInUser.create();
 		
-		User savedUser = userRepository.byId(userInfo.getAdditionalAttribute(USER_ID).toString());
+		Users savedUser = userRepository.byId(userInfo.getAdditionalAttribute(USER_ID).toString());
 		
 		user.setId(userInfo.getAdditionalAttribute(USER_ID).toString());
 		user.setEmail(userInfo.getName());

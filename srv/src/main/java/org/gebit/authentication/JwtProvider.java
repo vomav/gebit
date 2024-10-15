@@ -11,8 +11,8 @@ import javax.crypto.SecretKey;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.gebit.gen.db.User;
-import org.gebit.gen.db.UserTenantMapping;
+import org.gebit.gen.db.Users;
+import org.gebit.gen.db.UserTenantMappings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -50,7 +50,7 @@ public class JwtProvider {
     }
 
 
-    public String generateAccessToken(User user, List<UserTenantMapping> permissions) {
+    public String generateAccessToken(Users user, List<UserTenantMappings> permissions) {
         final LocalDateTime now = LocalDateTime.now();
         final Instant accessExpirationInstant = now.plusDays(30).atZone(ZoneId.systemDefault()).toInstant();
         final Date accessExpiration = Date.from(accessExpirationInstant);
@@ -66,7 +66,7 @@ public class JwtProvider {
                 .compact();
     }
 
-    public String generateRefreshToken( User user, List<UserTenantMapping> permissions) {
+    public String generateRefreshToken(Users user, List<UserTenantMappings> permissions) {
         final LocalDateTime now = LocalDateTime.now();
         final Instant refreshExpirationInstant = now.plusDays(30).atZone(ZoneId.systemDefault()).toInstant();
         final Date refreshExpiration = Date.from(refreshExpirationInstant);
