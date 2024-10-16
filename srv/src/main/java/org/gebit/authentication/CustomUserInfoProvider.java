@@ -4,6 +4,10 @@ import java.util.Set;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import com.sap.cds.services.ErrorStatus;
+import com.sap.cds.services.ErrorStatuses;
+import com.sap.cds.services.ServiceException;
 import com.sap.cds.services.request.ModifiableUserInfo;
 import com.sap.cds.services.request.UserInfo;
 import com.sap.cds.services.runtime.UserInfoProvider;
@@ -26,7 +30,9 @@ public class CustomUserInfoProvider implements UserInfoProvider {
 				return defaultProvider.get();
 			}
 		}catch (Exception e) {
+//			throw new ServiceException(ErrorStatuses.UNAUTHORIZED, "" );
 			return defaultProvider.get();
+			
 		}
 		
 		

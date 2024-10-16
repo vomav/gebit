@@ -49,7 +49,7 @@ service registration {
 service ui_service {
     
     @odata.singleton
-    entity LogedInUser {
+    entity LoggedInUser {
         key id:UUID;
         email: String(64);
         username: String(128);

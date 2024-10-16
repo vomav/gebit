@@ -1,10 +1,11 @@
 import MessageBox from "sap/m/MessageBox";
 import Controller from "sap/ui/core/mvc/Controller";
-import AppComponent from "../Component";
+import AppComponent from "../../../Component";
 import UIComponent from "sap/ui/core/UIComponent";
+import { URLHelper } from "sap/m/library";
 
 /**
- * @namespace ui5.gebit.app.controller
+ * @namespace ui5.gebit.app.reuse.registration.controller
  */
 export default class Login extends Controller {
 
@@ -25,16 +26,16 @@ export default class Login extends Controller {
             crossDomain: true,
             dataType: "json",
             contentType: "application/json",
-            url: "http://localhost:8080/api/auth/login",
+            url: "/api/auth/login",
             data: JSON.stringify(data),
-            // headers: {
-            //     "Content-Type": "application/json",
-            //     "Accept": "*/*"
-            // },
             
             success: function(data:any) {
                 localStorage.setItem('accessToken', data.accessToken);
-                (that.getOwnerComponent() as UIComponent).getRouter().navTo("home");
+                setTimeout(()=> {
+                    // (that.getOwnerComponent() as UIComponent).getRouter().navTo("home");
+                    URLHelper.redirect("#");
+                }, 500);
+                
             },
             error: function(err) {
                 console.log(err.status);

@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="ui5.gebit.app.controller.Login"
+	controllerName="ui5.gebit.app.reuse.registration.controller.Login"
 	displayBlock="true"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
@@ -38,16 +38,8 @@
 				<Input type="Password" id="login_passwordInput" value="{surname}"/>
 			</form:content>
 		</form:SimpleForm>
-		
+		<Button type="Success" text="Login" press="login" width="100%"/>
 		</VBox>
 	</f:content>
-				<f:footer>
-				<OverflowToolbar>
-
-					<ToolbarSpacer/>
-					<Button type="Accept" text="Registration" press="toToRegistration"/>
-					<Button type="Accept" text="Login" press="login"/>
-				</OverflowToolbar>
-			</f:footer>
 		</f:DynamicPage>
 </mvc:View>

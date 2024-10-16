@@ -1,0 +1,70 @@
+<mvc:View
+	controllerName="ui5.gebit.app.reuse.registration.controller.NotFound"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+    xmlns:form="sap.ui.layout.form"
+			xmlns:f="sap.f">
+
+
+
+	<f:DynamicPage id="dynamicPageId" preserveHeaderStateOnScroll="true" headerExpanded="{/headerExpanded}" showFooter="true" fitContent="true">		
+
+			<f:content> 
+	<VBox class="sapUiSmallMargin">
+		<form:SimpleForm id="SimpleFormToolbar"
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="4"
+			labelSpanL="3"
+			labelSpanM="4"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="4"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="2"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false"
+			ariaLabelledBy="Title1" >
+			<form:toolbar>
+				<Toolbar id="TB1">
+					<Title id="Title1" text="{i18n>registerHeaderText}"/>
+				</Toolbar>
+			</form:toolbar>
+			<form:content>
+				<Toolbar ariaLabelledBy="Title2">
+					<Title text="{i18n>userInfo}"/>
+				</Toolbar>
+				<Label text="{i18n>name}" />
+				<Input id="nameInput" value="{name}" />
+				<Label text="{i18n>surname}" />
+				<Input id="surnameInput" value="{surname}"/>
+			</form:content>
+
+			<form:content>
+				<Toolbar ariaLabelledBy="Title2">
+					<Title text="{i18n>loginInfo}"/>
+				</Toolbar>
+				<Label text="{i18n>email}" />
+				<Input id="emailInput" value="{email}" />
+				<Label text="{i18n>password}" />
+				<Input id="passwordInput" type="Password" value="{password}"/>
+			</form:content>
+		</form:SimpleForm>
+		
+	</VBox>
+</f:content>
+				<f:footer>
+				<OverflowToolbar>
+
+					<ToolbarSpacer/>
+					<Button type="Accept" text="Login" press="toToLogin"/>
+					<Button type="Accept" text="Register" press="registerUser"/>
+				</OverflowToolbar>
+			</f:footer>
+		</f:DynamicPage>
+
+</mvc:View>

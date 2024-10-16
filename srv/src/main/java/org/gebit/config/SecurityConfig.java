@@ -5,7 +5,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 import java.util.Arrays;
 
 import org.gebit.authentication.JwtFilter;
-import org.gebit.config.security.GebitCorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -66,7 +65,7 @@ public class SecurityConfig {
                                         "/services",
                                         "/odata/v4/srv.registration/**",
                                         "/odata/v4/srv.ui_service/$metadata**",
-                                        "/ui/**",
+                                        "/*",
                                         "/favicon.ico"
                                 ).permitAll()
                                 .requestMatchers(CorsUtils:: isPreFlightRequest).permitAll()
@@ -76,17 +75,44 @@ public class SecurityConfig {
                 .build();
     }
     
+//    @Bean
+//    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//    	
+//        return http.csrf(AbstractHttpConfigurer::disable)
+//                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
+//                .authorizeHttpRequests(
+//                        authz -> authz
+//		                        .requestMatchers(request -> !request.getRequestURI().contains("$metadata*")).permitAll()
+//		                        .requestMatchers(
+//		                        		"/*",
+//		                        		"/api/auth/login",
+//		                                "/api/auth/token").permitAll()
+//		                        .requestMatchers(CorsUtils:: isPreFlightRequest).permitAll()
+//                                .requestMatchers(
+//                                    	"/odata/v4/**"
+//                                    ).authenticated()
+//		                        .anyRequest().permitAll()
+//
+//
+//                                
+//                                
+//                                	
+//                ).addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+//                
+//                .build();
+//    }
+    
+    
     CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowedHeaders(Arrays.asList("OData-Version", "OData-maxversion"));
         config.setAllowedOriginPatterns(Arrays.asList("*"));
         config.setExposedHeaders(Arrays.asList("OData-Version", "OData-maxversion"));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
-//        return new GebitCorsFilter(source);
     }
 
    

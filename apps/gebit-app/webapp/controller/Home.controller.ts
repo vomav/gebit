@@ -4,6 +4,7 @@ import AppComponent from "../Component";
 import UIComponent from "sap/ui/core/UIComponent";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 import Component from "../Component";
+import Control from "sap/ui/core/Control";
 
 /**
  * @namespace ui5.gebit.app.controller
@@ -23,12 +24,12 @@ export default class Home extends Controller {
 		if(routeName == "home") {
 			this.homeMatched();
 		}
-		
 	}
 
 	public homeMatched() {
-
-		this.getView()?.byId("homePage")?.bindElement("/LogedInUser",);
+		this.getView()?.byId("homePage")?.bindElement("/LoggedInUser",);
+		(sap.ui.getCore().byId("container-ui5.gebit.app---app--toolHeaderImage") as Control).setVisible(true);
+		(sap.ui.getCore().byId("container-ui5.gebit.app---app--toolHeaderSandwichIcon-img") as Control).setVisible(true);
 		
 	}
 

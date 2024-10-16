@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.gebit.authentication.repository.UserRepository;
 import org.gebit.gen.db.Users;
-import org.gebit.gen.srv.ui_service.LogedInUser;
-import org.gebit.gen.srv.ui_service.LogedInUser_;
+import org.gebit.gen.srv.ui_service.LoggedInUser;
+import org.gebit.gen.srv.ui_service.LoggedInUser_;
 import org.gebit.gen.srv.ui_service.UiService_;
 import org.springframework.stereotype.Component;
 
@@ -33,10 +33,10 @@ public class UIServiceHandler implements EventHandler {
 	}
 
 
-	@On(event=CqnService.EVENT_READ, entity = LogedInUser_.CDS_NAME)
+	@On(event=CqnService.EVENT_READ, entity = LoggedInUser_.CDS_NAME)
 	public void onRead(CdsReadEventContext context) {
 		
-		LogedInUser user = LogedInUser.create();
+		LoggedInUser user = LoggedInUser.create();
 		
 		Users savedUser = userRepository.byId(userInfo.getAdditionalAttribute(USER_ID).toString());
 		
