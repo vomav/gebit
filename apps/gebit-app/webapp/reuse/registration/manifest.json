@@ -14,7 +14,7 @@
 		
 		"dataSources": {
 			"mainService": {
-				"uri": "http://localhost:8080/odata/v4/srv.registration/",
+				"uri": "/odata/v4/srv.registration/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "4.0"
@@ -83,6 +83,70 @@
 					"autoExpandSelect": true,
 					"operationMode": "Server",
 					"groupId": "$direct"
+				}
+			}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"path": "ui5.gebit.app.reuse.registration.view",
+				"controlId": "app",
+				"controlAggregation": "pages",
+				"transition": "slide",
+				"bypassed": {
+					"target": "notFound"
+				},
+				"async": true
+			},
+			"routes": [
+				{
+					"name": "App",
+					"pattern": "",
+					"target": "App"
+				},
+				{
+					"name": "welcome",
+					"pattern": "welcome",
+					"target": "welcome"
+				},
+				{
+					"name": "login",
+					"pattern": "welcome/login",
+					"target": "login"
+				},
+				{
+					"name": "register",
+					"pattern": "welcome/register",
+					"target": "register"
+				}
+			],
+			"targets": {
+				"app": {
+					"type": "View",
+					"id": "app",
+					"name": "App"
+				},
+				"login": {
+					"type": "View",
+					"id": "login",
+					"name": "Login"
+				},
+				"register": {
+					"type": "View",
+					"id": "register",
+					"name": "Register"
+				},
+				"welcome": {
+					"type": "View",
+					"id": "welcome",
+					"name": "Welcome"
+				},
+				"notFound": {
+					"type": "View",
+					"id": "notFound",
+					"name": "NotFound",
+					"transition": "show"
 				}
 			}
 		}

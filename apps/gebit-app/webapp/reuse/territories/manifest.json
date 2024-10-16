@@ -14,7 +14,7 @@
 		
 		"dataSources": {
 			"mainService": {
-				"uri": "http://localhost:8080/odata/v4/srv.searching/",
+				"uri": "/odata/v4/srv.searching/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "4.0"

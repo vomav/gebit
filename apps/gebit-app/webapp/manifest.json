@@ -17,7 +17,7 @@
 		},
 		"dataSources": {
 			"mainService": {
-				"uri": "http://localhost:8080/odata/v4/srv.ui_service/",
+				"uri": "/odata/v4/srv.ui_service/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "4.0"
@@ -135,11 +135,10 @@
 					}
 				},
 				{
-					"name": "products",
-					"pattern": "products",
+					"name": "welcome",
+					"pattern": "welcome",
 					"target": {
-						"name": "products",
-						"prefix": "p"
+						"name": "welcome"
 					}
 				}
 			],
@@ -164,11 +163,10 @@
 					"usage": "territoriesComponent",
 					"id": "territoriesComponent"
 				},
-				"products": {
+				"welcome": {
 					"type": "Component",
-					"usage": "productsComponent",
-					"title": "Product",
-					"id": "productsComponent"
+					"usage": "registrationComponent",
+					"id": "registrationComponent"
 				},
 				"notFound": {
 					"type": "View",
