@@ -11,7 +11,7 @@ public class UIResources implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
           .addResourceHandler("/**")
-          .addResourceLocations("file:/Users/I065534/Documents/GitHub/gebit/apps/gebit-app/dist/");
+          .addResourceLocations("classpath:static");
     }
 	
 	   @Override
