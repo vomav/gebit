@@ -6,7 +6,7 @@ import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 import View from "sap/ui/core/mvc/View";
 import { URLHelper } from "sap/m/library";
 /**
- * @namespace ui5.gebit.app.reuse.registration.controller
+ * @namespace ui5.gebit.app.reuse.public.controller
  */
 export default class NotFound extends Controller {
 

@@ -44,20 +44,14 @@
 			"id": "app"
 		},
 		"componentUsages": {
-			"registrationComponent": {
-				"name": "ui5.gebit.app.reuse.registration",
+			"publicComponent": {
+				"name": "ui5.gebit.app.reuse.public",
 				"settings": {},
 				"componentData": {},
 				"lazy": true
 			},
 			"territoriesComponent": {
 				"name": "ui5.gebit.app.reuse.territories",
-				"settings": {},
-				"componentData": {},
-				"lazy": true
-			},
-			"productsComponent": {
-				"name": "ui5.gebit.app.reuse.products",
 				"settings": {},
 				"componentData": {},
 				"lazy": true
@@ -153,11 +147,6 @@
 					"id": "login",
 					"name": "Login"
 				},
-				"registration": {
-					"type": "Component",
-					"usage": "registrationComponent",
-					"id": "registrationComponent"
-				},
 				"territories": {
 					"type": "Component",
 					"usage": "territoriesComponent",
@@ -165,8 +154,8 @@
 				},
 				"welcome": {
 					"type": "Component",
-					"usage": "registrationComponent",
-					"id": "registrationComponent"
+					"usage": "publicComponent",
+					"id": "publicComponent"
 				},
 				"notFound": {
 					"type": "View",

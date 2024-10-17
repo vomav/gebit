@@ -2,9 +2,9 @@
 	"_version": "1.12.0",
 
 	"sap.app": {
-		"id": "ui5.gebit.app.reuse.registration",
+		"id": "ui5.gebit.app.reuse.public",
 		"type": "application",
-		"i18n": "reuse/registration/i18n/i18n.properties",
+		"i18n": "reuse/public/i18n/i18n.properties",
 		"title": "UI5 TypeScript Hello World",
 		"description": "UI5 TypeScript Hello World",
 		"applicationVersion": {
@@ -41,7 +41,7 @@
 
 	"sap.ui5": {
 		"rootView": {
-			"viewName": "ui5.gebit.app.reuse.registration.view.App",
+			"viewName": "ui5.gebit.app.reuse.public.view.App",
 			"type": "XML",
 			"async": true,
 			"id": "app"
@@ -90,7 +90,7 @@
 			"config": {
 				"routerClass": "sap.m.routing.Router",
 				"viewType": "XML",
-				"path": "ui5.gebit.app.reuse.registration.view",
+				"path": "ui5.gebit.app.reuse.public.view",
 				"controlId": "app",
 				"controlAggregation": "pages",
 				"transition": "slide",

@@ -1,25 +1,14 @@
 <mvc:View
-	controllerName="ui5.gebit.app.reuse.registration.controller.Welcome"
+	controllerName="ui5.gebit.app.reuse.public.controller.NotFound"
 	displayBlock="true"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
     xmlns:form="sap.ui.layout.form"
-			xmlns:f="sap.f"
-	>
+			xmlns:f="sap.f">
 
-		<VBox class="sapUiSmallMargin">
-				<IllustratedMessage enableVerticalResponsiveness="false" illustrationType="sapIllus-SearchEarth" title="Welcome" description=" ">
-					<additionalContent>
-						<Button text="Login" width="100%" press="toLogin" />
-						<Button text="Register" width="100%" press="toRegister" />
-					</additionalContent>
-				</IllustratedMessage>
 
-		
-		</VBox>
 
-			<!-- <f:DynamicPage id="dynamicPageId" preserveHeaderStateOnScroll="true" headerExpanded="{/headerExpanded}" showFooter="true" fitContent="true">
-			
+	<f:DynamicPage id="dynamicPageId" preserveHeaderStateOnScroll="true" headerExpanded="{/headerExpanded}" showFooter="true" fitContent="true">		
 
 			<f:content> 
 	<VBox class="sapUiSmallMargin">
@@ -76,5 +65,6 @@
 					<Button type="Accept" text="Register" press="registerUser"/>
 				</OverflowToolbar>
 			</f:footer>
-		</f:DynamicPage> -->
+		</f:DynamicPage>
+
 </mvc:View>

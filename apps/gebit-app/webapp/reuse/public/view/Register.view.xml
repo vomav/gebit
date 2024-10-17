@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="ui5.gebit.app.reuse.registration.controller.Register"
+	controllerName="ui5.gebit.app.reuse.public.controller.Register"
 	displayBlock="true"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"

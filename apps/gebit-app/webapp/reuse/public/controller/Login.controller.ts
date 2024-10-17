@@ -2,14 +2,14 @@ import MessageBox from "sap/m/MessageBox";
 import Controller from "sap/ui/core/mvc/Controller";
 import AppComponent from "../../../Component";
 import UIComponent from "sap/ui/core/UIComponent";
+import { URLHelper } from "sap/m/library";
 
 /**
- * @namespace ui5.gebit.app.reuse.registration.controller
+ * @namespace ui5.gebit.app.reuse.public.controller
  */
-export default class App extends Controller {
+export default class Login extends Controller {
 
 	public onInit() : void {
-
 	}
 
     public login(oEvent:any) {
@@ -32,7 +32,8 @@ export default class App extends Controller {
             success: function(data:any) {
                 localStorage.setItem('accessToken', data.accessToken);
                 setTimeout(()=> {
-                    (that.getOwnerComponent() as UIComponent).getRouter().navTo("home");
+                    // (that.getOwnerComponent() as UIComponent).getRouter().navTo("home");
+                    URLHelper.redirect("#");
                 }, 500);
                 
             },

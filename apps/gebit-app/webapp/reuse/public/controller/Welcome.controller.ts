@@ -9,7 +9,7 @@ import Control from "sap/ui/core/Control";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 
 /**
- * @namespace ui5.gebit.app.reuse.registration.controller
+ * @namespace ui5.gebit.app.reuse.public.controller
  */           
 export default class Welcome extends Controller {
 
