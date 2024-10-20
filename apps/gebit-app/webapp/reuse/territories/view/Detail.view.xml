@@ -13,9 +13,10 @@
 				</expandedHeading>
 
 				<actions>
-					<m:Button text="Edit" type="Emphasized" press="onEditButton" visible="{= !${uiModel>/ui/editMode}}"/>
-					<m:Button text="Display" type="Emphasized" press="onDisplayMode" visible="{uiModel>/ui/editMode}"/>
-					<m:Button type="Transparent" text="Delete"/>
+					<m:Button text="{i18n>uploadKml}" type="Emphasized" press="onEditButton" visible="{= ${uiModel>/ui/editMode}}"/>
+					<m:Button text="{i18n>edit}" type="Emphasized" press="onEditButton" visible="{= !${uiModel>/ui/editMode}}"/>
+					<m:Button text="{i18n>display}" type="Emphasized" press="onDisplayMode" visible="{uiModel>/ui/editMode}"/>
+					<m:Button type="Transparent" text="Delete" visible="{= !${isReady}}" />
 					<m:OverflowToolbarButton icon="sap-icon://action" type="Transparent" text="Share" tooltip="action"/>
 				</actions>
 			</ObjectPageDynamicHeaderTitle>
@@ -88,15 +89,15 @@
 			<ObjectPageSection titleUppercase="false" title="{i18n>parts}">
 				<subSections>
 					<ObjectPageSubSection titleUppercase="false">
-						
+						<core:Fragment fragmentName="ui5.gebit.app.reuse.territories.fragment.TarritoryPartsTable" type="XML" />
 					</ObjectPageSubSection>
 				</subSections>
 			</ObjectPageSection>
-<!-- 
-			<ObjectPageSection titleUppercase="false" title="{i18n>map}">
+
+			 <!-- <ObjectPageSection titleUppercase="false" title="{i18n>map}">
 				<subSections>
 					<ObjectPageSubSection titleUppercase="false">
-						<core:HTML content="&lt;iframe src=&quot;https://www.google.com/maps/d/embed?mid=1lZtqJd0cii19y2ioV9EH7z60tlQTSGo&amp;ehbc=2E312F&quot; width=&quot;100%&quot; height=&quot;480&quot;&gt;&lt;/iframe&gt;" />
+						<core:HTML content="{path:'link', formatter:'.formatLinkToEmbedHtml'}" />
 					</ObjectPageSubSection>
 				</subSections>
 			</ObjectPageSection> -->

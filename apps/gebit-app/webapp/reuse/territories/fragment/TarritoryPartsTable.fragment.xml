@@ -3,7 +3,20 @@
    xmlns:core="sap.ui.core"
    xmlns:form="sap.ui.layout.form">
    
-   <Table id="territoryPartTable"> 
-   
+   <Table id="territoryPartTable" items="{toParts}"> 
+      <columns>
+         <Column>
+				<Text text="{i18n>name}"/>
+			</Column>
+      </columns>
+      <items>
+         <ColumnListItem
+						type="Inactive"
+						press="onPressListItem">
+						<cells>
+							<Text text="{name}"/>
+						</cells>
+			</ColumnListItem>
+      </items>
    </Table>
 </core:FragmentDefinition>

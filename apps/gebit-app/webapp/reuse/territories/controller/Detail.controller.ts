@@ -34,4 +34,15 @@ export default class Details extends Controller {
 		(this.getView()?.getModel("uiModel") as JSONModel).setProperty("/ui/editMode", false);
 	}
 
+	/// &lt;iframe src=&quot;https://www.google.com/maps/d/embed?mid=1lZtqJd0cii19y2ioV9EH7z60tlQTSGo&amp;ehbc=2E312F&quot; width=&quot;100%&quot; height=&quot;480&quot;&gt;&lt;/iframe&gt;
+
+	public formatLinkToEmbedHtml(link:string) {
+		let escapedLink = link.replace("&", "&amp;")
+		// return "&lt;iframe src=&quot;" + escapedLink + "&quot width=&quot;100%&quot; height=&quot;480&quot;&gt;&lt;/iframe&gt;"
+		return "<iframe src=\"" +link+ "\" width=\"100%\" height=\"480\"></iframe>"
+	}
+
+	public formatCoordinates(coordnates:string) {
+		return coordnates;
+	} 
 }
