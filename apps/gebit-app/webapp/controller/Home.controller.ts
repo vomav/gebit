@@ -29,15 +29,15 @@ export default class Home extends Controller {
 	public homeMatched() {
 		this.getView()?.byId("homePage")?.bindElement("/LoggedInUser",);
 		(sap.ui.getCore().byId("container-ui5.gebit.app---app--toolHeaderImage") as Control).setVisible(true);
-		(sap.ui.getCore().byId("container-ui5.gebit.app---app--toolHeaderSandwichIcon-img") as Control).setVisible(true);
+		(sap.ui.getCore().byId("container-ui5.gebit.app---app--toolHeaderSandwichIcon-img") as Control)?.setVisible(true);
 		
-	}
-
-	public navToRegister(oEvent:any) {
-		(this.getOwnerComponent() as UIComponent).getRouter().navTo("registration");
 	}
 
 	public isAdmin(role:string) {
 		return role === 'admin';
+	}
+
+	public navigateToTerritoriesApp(oEven:any) {
+		(this.getOwnerComponent() as UIComponent).getRouter().navTo("territories");
 	}
 }

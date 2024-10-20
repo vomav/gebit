@@ -1,0 +1,9 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core"
+   xmlns:form="sap.ui.layout.form">
+   
+   <Table id="territoryPartTable"> 
+   
+   </Table>
+</core:FragmentDefinition>

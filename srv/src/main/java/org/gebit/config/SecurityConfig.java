@@ -62,11 +62,14 @@ public class SecurityConfig {
                                         "/*.js",
                                         "/*.html/**",
                                         "/*.css",
+                                        "/*.json",
                                         "/services",
                                         "/odata/v4/srv.registration/**",
                                         "/odata/v4/srv.ui_service/$metadata**",
+                                        "/odata/v4/srv.searching/$metadata**",
                                         "/*",
-                                        "/favicon.ico"
+                                        "/favicon.ico",
+                                        "/reuse/territories/model/uiModel.json"
                                 ).permitAll()
                                 .requestMatchers(CorsUtils:: isPreFlightRequest).permitAll()
                                 .anyRequest().authenticated()	

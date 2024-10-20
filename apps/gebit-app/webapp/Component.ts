@@ -23,7 +23,7 @@ export default class Component extends UIComponent {
 		this.getRouter().initialize();
 		let that = this;
 		model.attachDataReceived(function(event:any ) {
-			if(JSON.stringify(event.getParameters()).indexOf("403") >= 0 || JSON.stringify(event.getParameters()).indexOf("401") >= 0) {
+			if(JSON.stringify(event.getParameters()).indexOf("403") >= 0 || JSON.stringify(event.getParameters()).indexOf("401") >= 0 || JSON.stringify(event.getParameters()).indexOf("500") >= 0) {
 				let router = that.getRouter();
 				router.navTo("welcome");
 			}

@@ -4,13 +4,15 @@ using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignmen
 
 service searching {
 
-    entity Territories as projection on dbTerritory ;
+    entity Territories as projection on dbTerritory actions{
+        action initUsingKmlFile(xmlPayload:String) returns Boolean
+    };
     entity Parts as projection on dbPart;
     entity TerritoryAssignments as projection on dbTerritoryAssignment;
     entity PartsInProgresss as projection on dbPartAssignmenst;
     entity User as projection on dbUser {
         *,
-        myTerritories : Association to TerritoryAssignments on myTerritories.assignedTo=$self,
+        toTerritories : Association to TerritoryAssignments on toTerritories.assignedTo=$self,
     } excluding {
         password
     };

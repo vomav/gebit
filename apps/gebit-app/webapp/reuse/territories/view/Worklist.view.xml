@@ -1,0 +1,82 @@
+
+<mvc:View
+	controllerName="ui5.gebit.app.reuse.territories.controller.Worklist"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.f.semantic">
+
+	<semantic:SemanticPage
+		id="page"
+		headerPinnable="false"
+		toggleHeaderOnTitleClick="false">
+
+		<semantic:titleHeading>
+			<Title text="{i18n>worklistTitle}" />
+		</semantic:titleHeading>
+
+		<semantic:content>
+			<Table
+				id="territoriesTable"
+				width="auto"
+				items="{
+					path: '/Territories'
+				}"
+				noDataText="{i18n>noData}"
+				growing="true"
+				growingScrollToLoad="true"
+				updateFinished=".onUpdateFinished"
+
+				>
+
+				<headerToolbar>
+					<Toolbar>
+						<ToolbarSpacer />
+						<SearchField
+							id="searchField"
+							search=".onSearch"
+							width="auto">
+						</SearchField>
+
+						<Button
+							id="addUserButton"
+							icon="sap-icon://add"
+							tooltip="{i18n>createButtonText}"
+							press="openCreateDialog">
+							<layoutData>
+								<OverflowToolbarLayoutData priority="NeverOverflow"/>
+							</layoutData>
+						</Button>
+					</Toolbar>
+				</headerToolbar>
+
+				<columns>
+					<Column>
+						<Text text="Name" id="nameColumnTitle"/>
+					</Column>
+					<Column hAlign="End">
+						<Text text="Last Time Worked"/>
+					</Column>
+				</columns>
+
+				<items>
+					<ColumnListItem
+						type="Navigation"
+						press="onPressListItem">
+						<cells>
+							<Link
+								text="{name}" href="{link}"/>
+							
+							<Text text="{lastTimeWorked}" />
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</semantic:content>
+
+		<semantic:sendEmailAction>
+			
+		</semantic:sendEmailAction>
+
+	</semantic:SemanticPage>
+
+</mvc:View>

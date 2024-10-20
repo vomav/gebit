@@ -8,15 +8,15 @@
  
 	<Page showHeader="false" id="homePage">
 		<f:GridContainer id="demoGrid" class="sapUiSmallMargin">
-			<f:layout>
+			<!-- <f:layout>
 				<f:GridContainerSettings rowSize="84px" columnSize="84px" gap="8px" />
 			</f:layout>
 			<f:layoutXS>
 				<f:GridContainerSettings rowSize="70px" columnSize="70px" gap="8px" />
-			</f:layoutXS>
+			</f:layoutXS> -->
 
 			<GenericTile
-				press="onPress"
+				press="navigateToTerritoriesApp"
 				header="Manage Territories"
 				subheader="All" 
 				visible="{isAdmin}"
@@ -28,7 +28,7 @@
 					<ImageContent src="sap-icon://map-3" />
 				</TileContent>
 			</GenericTile>
-			<GenericTile header="My Territories" subheader="Assigned to me">
+			<GenericTile header="My Territories" >
 				<layoutData>
 					<f:GridContainerItemLayoutData minRows="2" columns="2" />
 				</layoutData>

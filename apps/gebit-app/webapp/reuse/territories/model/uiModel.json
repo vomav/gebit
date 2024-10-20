@@ -1,0 +1,10 @@
+{
+    "create" : {
+        "name": "",
+        "link": ""
+    },
+
+    "ui" : {
+        "editMode": false 
+    }
+}

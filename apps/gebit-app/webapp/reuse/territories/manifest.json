@@ -4,7 +4,7 @@
 	"sap.app": {
 		"id": "ui5.gebit.app.reuse.territories",
 		"type": "application",
-		"i18n": "reuse/territories/i18n/i18n.properties",
+		"i18n": "i18n/i18n.properties",
 		"title": "{{title}}",
 		"description": "{{description}}",
 		"applicationVersion": {
@@ -41,7 +41,7 @@
 
 	"sap.ui5": {
 		"rootView": {
-			"viewName": "ui5.gebit.app.reuse.manage.territories.view.App",
+			"viewName": "ui5.gebit.app.reuse.territories.view.App",
 			"type": "XML",
 			"async": true,
 			"id": "app"
@@ -71,8 +71,13 @@
 			"i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
 				"settings": {
-				  "bundleName": "ui5.gebit.app.i18n.i18n"
+				  "bundleName": "ui5.gebit.app.reuse.territories.i18n.i18n"
 				}
+			  },
+			  "uiModel": {
+				"type": "sap.ui.model.json.JSONModel",
+				    "preload": true,
+    				"uri": "model/uiModel.json"
 			  },
 			  
 			  "": {
@@ -83,6 +88,45 @@
 					"autoExpandSelect": true,
 					"operationMode": "Server",
 					"groupId": "$direct"
+				}
+			}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"path": "ui5.gebit.app.reuse.territories.view",
+				"controlId": "app",
+				"controlAggregation": "pages",
+				"transition": "slide",
+				"bypassed": {
+					"target": "notFound"
+				},
+				"async": true
+			},
+			"routes": [
+	
+				{
+					"name": "worklist",
+					"pattern": "territories",
+					"target": "territories"
+				},
+				{
+					"name": "detail",
+					"pattern": "territory/{id}",
+					"target": "territory"
+				}
+			],
+			"targets": {
+				"territories": {
+					"type": "View",
+					"id": "worklist",
+					"name": "Worklist"
+				},
+				"territory": {
+					"type": "View",
+					"id": "detail",
+					"name": "Detail"
 				}
 			}
 		}

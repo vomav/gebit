@@ -2,6 +2,7 @@ import UIComponent from "sap/ui/core/UIComponent";
 import Device from "sap/ui/Device";
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 import Event from "sap/ui/base/Event";
+import JSONModel from "sap/ui/model/json/JSONModel";
 
 /**
  * @namespace ui5.gebit.app.reuse.territories
@@ -15,18 +16,14 @@ export default class Component extends UIComponent {
 	private contentDensityClass : string;
 
 	public init() : void {
+		let model = this.getModel() as ODataModel;
+		model.changeHttpHeaders({"Authorization" : "Bearer " +  localStorage.getItem("accessToken")});
 		super.init();
 		this.getRouter().initialize();
-	}
 
-
-	onBeforeRendering(): void {
-		let model = this.getModel() as ODataModel;
-		model.attachRequestFailed(function(oEvent:Event) {
-			console.log(JSON.stringify(oEvent.getParameters()));
-
-			debugger;
-		}.bind(this));
+		// (this.getModel("uiModel") as JSONModel).setData({
+		// 	create:{}
+		// });
 	}
 
 	/**
