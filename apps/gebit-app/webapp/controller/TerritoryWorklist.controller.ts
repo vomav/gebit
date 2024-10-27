@@ -11,7 +11,7 @@ import Event from "sap/ui/base/Event";
 import ColumnListItem from "sap/m/ColumnListItem";
 
 /**
- * @namespace ui5.gebit.app.reuse.territories.controller
+ * @namespace ui5.gebit.app.controller
  */           
 export default class Worklist extends Controller {
 
@@ -26,7 +26,7 @@ export default class Worklist extends Controller {
 	public openCreateDialog(oEvent:any) {
 		let that = this;
 		if(this.createDialog == null) {
-			this.loadFragment({name:"ui5.gebit.app.reuse.territories.fragment.UploadKmlContent", addToDependents: true}).then(function(dialog:any){
+			this.loadFragment({name:"ui5.gebit.app.fragment.UploadKmlContent", addToDependents: true}).then(function(dialog:any){
 				that.createDialog = dialog as Dialog;
 				that.createDialog.bindElement({
 					path: "/create/kml/territory",
@@ -76,7 +76,7 @@ export default class Worklist extends Controller {
 	public onPressListItem (oEvent:Event) {
 		let oBindingContext = (oEvent.getSource() as ColumnListItem).getBindingContext();
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
-		router.navTo("detail",{
+		router.navTo("territoryDetail",{
 			"id" : oBindingContext?.getProperty("ID")
 		})
 		console.log();

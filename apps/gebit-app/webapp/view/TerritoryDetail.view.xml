@@ -3,7 +3,7 @@
 	xmlns:layout="sap.ui.layout"
 	xmlns:m="sap.m"
 	xmlns:form="sap.ui.layout.form"
-	controllerName="ui5.gebit.app.reuse.territories.controller.Detail"
+	controllerName="ui5.gebit.app.controller.TerritoryDetail"
 	height="100%">
 	<ObjectPageLayout enableLazyLoading="false" upperCaseAnchorBar="false">
 		<headerTitle>

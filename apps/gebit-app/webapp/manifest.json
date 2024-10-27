@@ -16,8 +16,15 @@
 			"version": "1.0.0"
 		},
 		"dataSources": {
-			"mainService": {
+			"ui_service": {
 				"uri": "/odata/v4/srv.ui_service/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "4.0"
+				}
+			},
+			"mainService": {
+				"uri": "/odata/v4/srv.searching/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "4.0"
@@ -49,12 +56,6 @@
 				"settings": {},
 				"componentData": {},
 				"lazy": true
-			},
-			"territoriesComponent": {
-				"name": "ui5.gebit.app.reuse.territories",
-				"settings": {},
-				"componentData": {},
-				"lazy": true
 			}
 		},
 		"dependencies": {
@@ -79,7 +80,23 @@
 					"fallbackLocale": ""
 				}
 			},
+			"uiModel": {
+				"type": "sap.ui.model.json.JSONModel",
+				    "preload": true,
+    				"uri": "model/territoriesUiModel.json"
+			  },
 			"": {
+				"dataSource": "mainService",
+				"preload": false,
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"autoExpandSelect": true,
+					"earlyRequests": false,
+					"operationMode": "Server",
+					"groupId": "$direct"
+				}
+			},
+			"uiODataModel": {
 				"dataSource": "mainService",
 				"preload": false,
 				"type": "sap.ui.model.odata.v4.ODataModel",
@@ -129,6 +146,11 @@
 					}
 				},
 				{
+					"name": "territoryDetail",
+					"pattern": "territory/{id}",
+					"target": "territoryDetail"
+				},
+				{
 					"name": "welcome",
 					"pattern": "welcome",
 					"target": {
@@ -148,9 +170,14 @@
 					"name": "Login"
 				},
 				"territories": {
-					"type": "Component",
-					"usage": "territoriesComponent",
-					"id": "territoriesComponent"
+					"type": "View",
+					"id": "territoryWorklist",
+					"name": "TerritoryWorklist"
+				},
+				"territoryDetail": {
+					"type": "View",
+					"id": "territoryDetail",
+					"name": "TerritoryDetail"
 				},
 				"welcome": {
 					"type": "Component",

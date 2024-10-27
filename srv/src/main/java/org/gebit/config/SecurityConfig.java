@@ -69,7 +69,7 @@ public class SecurityConfig {
                                         "/odata/v4/srv.searching/$metadata**",
                                         "/*",
                                         "/favicon.ico",
-                                        "/reuse/territories/model/uiModel.json"
+                                        "/model/territoriesUiModel.json"
                                 ).permitAll()
                                 .requestMatchers(CorsUtils:: isPreFlightRequest).permitAll()
                                 .anyRequest().authenticated()	

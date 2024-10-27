@@ -5,7 +5,7 @@ import Event from "sap/ui/base/Event";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 /**
- * @namespace ui5.gebit.app.reuse.territories.controller
+ * @namespace ui5.gebit.app.controller
  */           
 export default class Details extends Controller {
 
@@ -16,7 +16,7 @@ export default class Details extends Controller {
 
 	public attachRouteMatched(oEvent:Router$RouteMatchedEvent) {
 		let routeName = oEvent.getParameter("name");
-		if(routeName == "detail") {
+		if(routeName == "territoryDetail") {
 			this.matched(oEvent.getParameter("arguments").id);
 		}
 	}
@@ -47,7 +47,7 @@ export default class Details extends Controller {
 		if(bindingPath) 
 			model.delete(bindingPath);
 
-		(this.getOwnerComponent() as UIComponent).getRouter().navTo("worklist");
+		(this.getOwnerComponent() as UIComponent).getRouter().navTo("territories");
 	}
 
 }
