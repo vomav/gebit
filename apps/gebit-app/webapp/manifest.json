@@ -139,6 +139,13 @@
 					"target": "registration"
 				},
 				{
+					"name": "welcome",
+					"pattern": "welcome",
+					"target": {
+						"name": "welcome"
+					}
+				},
+				{
 					"name": "territories",
 					"pattern": "territories",
 					"target": {
@@ -151,10 +158,10 @@
 					"target": "territoryDetail"
 				},
 				{
-					"name": "welcome",
-					"pattern": "welcome",
+					"name": "myTerritories",
+					"pattern": "myTerritories",
 					"target": {
-						"name": "welcome"
+						"name": "myTerritories"
 					}
 				}
 			],
@@ -169,6 +176,11 @@
 					"id": "login",
 					"name": "Login"
 				},
+				"welcome": {
+					"type": "Component",
+					"usage": "publicComponent",
+					"id": "publicComponent"
+				},
 				"territories": {
 					"type": "View",
 					"id": "territoryWorklist",
@@ -179,10 +191,10 @@
 					"id": "territoryDetail",
 					"name": "TerritoryDetail"
 				},
-				"welcome": {
-					"type": "Component",
-					"usage": "publicComponent",
-					"id": "publicComponent"
+				"myTerritories": {
+					"type": "View",
+					"id": "myTerritoryWorklist",
+					"name": "MyTerritoryWorklist"
 				},
 				"notFound": {
 					"type": "View",

@@ -28,7 +28,8 @@
 					<ImageContent src="sap-icon://map-3" />
 				</TileContent>
 			</GenericTile>
-			<GenericTile header="My Territories" >
+			<GenericTile header="My Territories"
+				press="navigateToMyTerritoriesApp" >
 				<layoutData>
 					<f:GridContainerItemLayoutData minRows="2" columns="2" />
 				</layoutData>

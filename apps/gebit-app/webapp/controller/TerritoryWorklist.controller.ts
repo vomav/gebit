@@ -13,7 +13,7 @@ import ColumnListItem from "sap/m/ColumnListItem";
 /**
  * @namespace ui5.gebit.app.controller
  */           
-export default class Worklist extends Controller {
+export default class TerritoryWorklist extends Controller {
 
 	createDialog:Dialog;
 	public onInit() : void {

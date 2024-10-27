@@ -7,7 +7,7 @@ import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 /**
  * @namespace ui5.gebit.app.controller
  */           
-export default class Details extends Controller {
+export default class TerritoryDetail extends Controller {
 
 	public onInit() : void {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
