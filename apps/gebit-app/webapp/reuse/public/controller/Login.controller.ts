@@ -31,10 +31,12 @@ export default class Login extends Controller {
             
             success: function(data:any) {
                 localStorage.setItem('accessToken', data.accessToken);
+                that.getView()?.setBusy(true);
                 setTimeout(()=> {
                     // (that.getOwnerComponent() as UIComponent).getRouter().navTo("home");
                     URLHelper.redirect("#");
-                }, 500);
+                    that.getView()?.setBusy(false);
+                }, 1500);
                 
             },
             error: function(err) {
