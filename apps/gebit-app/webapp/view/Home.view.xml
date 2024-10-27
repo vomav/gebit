@@ -8,12 +8,12 @@
  
 	<Page showHeader="false" id="homePage">
 		<f:GridContainer id="demoGrid" class="sapUiSmallMargin">
-			<!-- <f:layout>
+			 <f:layout>
 				<f:GridContainerSettings rowSize="84px" columnSize="84px" gap="8px" />
 			</f:layout>
 			<f:layoutXS>
 				<f:GridContainerSettings rowSize="70px" columnSize="70px" gap="8px" />
-			</f:layoutXS> -->
+			</f:layoutXS>
 
 			<GenericTile
 				press="navigateToTerritoriesApp"

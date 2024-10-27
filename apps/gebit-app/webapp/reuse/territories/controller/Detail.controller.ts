@@ -1,6 +1,5 @@
 import Controller from "sap/ui/core/mvc/Controller";
 import UIComponent from "sap/ui/core/UIComponent";
-import Control from "sap/ui/core/Control";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 import Event from "sap/ui/base/Event";
 import JSONModel from "sap/ui/model/json/JSONModel";

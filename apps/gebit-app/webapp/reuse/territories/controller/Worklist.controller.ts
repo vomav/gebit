@@ -2,19 +2,13 @@ import MessageToast from "sap/m/MessageToast";
 import Controller from "sap/ui/core/mvc/Controller";
 import AppComponent from "../Component";
 import UIComponent from "sap/ui/core/UIComponent";
-import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 import View from "sap/ui/core/mvc/View";
-import Control from "sap/ui/core/Control";
 import Dialog from "sap/m/Dialog";
-import { ObjectBindingInfo } from "sap/ui/base/ManagedObject";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import Table from "sap/m/Table";
 import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import Event from "sap/ui/base/Event";
 import ColumnListItem from "sap/m/ColumnListItem";
-import FileUploader from "sap/ui/unified/FileUploader";
-import Label from "sap/m/Label";
-import XMLModel from "sap/ui/model/xml/XMLModel";
 
 /**
  * @namespace ui5.gebit.app.reuse.territories.controller
@@ -29,25 +23,11 @@ export default class Worklist extends Controller {
 		}
 	}
 
-	public onUpdateFinished(oEvent:any) {
-		console.log("onUpdateFinished");
-	} 
-
 	public openCreateDialog(oEvent:any) {
 		let that = this;
 		if(this.createDialog == null) {
 			this.loadFragment({name:"ui5.gebit.app.reuse.territories.fragment.UploadKmlContent", addToDependents: true}).then(function(dialog:any){
-				that.createDialog = dialog as Dialog;	
-				let uiModel = (that.createDialog.getModel("uiModel") as JSONModel);
-				uiModel.setProperty("/create/kml", {
-					isXmlParsed : false,
-					name : "",
-					link: "",
-					content: {
-						
-					}
-				});
-
+				that.createDialog = dialog as Dialog;
 				that.createDialog.bindElement({
 					path: "/create/kml/territory",
 					model:"uiModel"
@@ -57,8 +37,10 @@ export default class Worklist extends Controller {
 				
 			}.bind(this));
 		} else {
+			// (this.getView()?.getModel("uiModel") as JSONModel).setProperty("/create/kml/isXmlParsed", false);
+			// (this.getView()?.getModel("uiModel") as JSONModel).setProperty("/create/kml/territory", {});
 			that.createDialog.open();
-			(that.createDialog.getModel("uiModel") as JSONModel).setProperty("/create/kml", {});
+
 		}
 	}
 
@@ -85,7 +67,8 @@ export default class Worklist extends Controller {
 	}
 
 	private closeCreateDialog() {
-		(this.getView()?.getModel("uiModel") as JSONModel).setProperty("/create", {});
+		(this.getView()?.getModel("uiModel") as JSONModel).setProperty("/create/kml/isXmlParsed", false);
+		(this.getView()?.getModel("uiModel") as JSONModel).setProperty("/create/kml/territory", {});
 		this.createDialog.close();
 	}
 
