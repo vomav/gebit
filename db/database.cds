@@ -20,11 +20,12 @@ entity Territories  : cuid, tenant {
 
 entity Parts : cuid, tenant {
     name: String(64);
-    coordinates: GeographyPolygon;
+    isBoundaries: Boolean default false;
+    coordinates: String(1024);
     toParent: Association to one Territories;
 }
 
-type GeographyPolygon : String(1024) @odata.Type : 'Edm.GeographyPolygon';
+// type GeographyPolygon : String(1024) @odata.Type : 'Edm.GeographyPolygon';
 
 
 entity TerritoryAssignments : cuid, tenant {

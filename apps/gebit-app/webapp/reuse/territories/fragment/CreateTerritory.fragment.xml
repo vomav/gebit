@@ -25,9 +25,9 @@
 			singleContainerFullSize="false" >
 			<form:content>
 				<Label text="{i18n>name}" />
-				<Input value="{uiModel>name}" />
+				<Input value="{uiModel>manual/name}" />
 				<Label text="{i18n>link}" />
-				<Input value="{uiModel>link}" />
+				<Input value="{uiModel>manual/link}" />
 			</form:content>
 		</form:SimpleForm>
 		</VBox>

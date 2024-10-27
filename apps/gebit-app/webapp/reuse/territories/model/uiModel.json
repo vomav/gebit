@@ -1,8 +1,23 @@
 {
     "create" : {
-        "name": "",
-        "link": ""
+
+        "manual": {
+            "name": "",
+            "link": ""
+        },
+        "kml": {
+            "isXmlParsed" : false,
+            "territory": {
+                "name" : "",
+                "link": "",
+                "isReady" : false,
+                "toParts": []
+            }
+            
+        }
     },
+
+
 
     "ui" : {
         "editMode": false 

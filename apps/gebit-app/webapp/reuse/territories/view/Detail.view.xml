@@ -13,11 +13,9 @@
 				</expandedHeading>
 
 				<actions>
-					<m:Button text="{i18n>uploadKml}" type="Emphasized" press="onEditButton" visible="{= ${uiModel>/ui/editMode}}"/>
 					<m:Button text="{i18n>edit}" type="Emphasized" press="onEditButton" visible="{= !${uiModel>/ui/editMode}}"/>
 					<m:Button text="{i18n>display}" type="Emphasized" press="onDisplayMode" visible="{uiModel>/ui/editMode}"/>
-					<m:Button type="Transparent" text="Delete" visible="{= !${isReady}}" />
-					<m:OverflowToolbarButton icon="sap-icon://action" type="Transparent" text="Share" tooltip="action"/>
+					<m:Button type="Transparent" text="Delete" press="onDeleteTerritory" visible="{= !${isReady}}" />
 				</actions>
 			</ObjectPageDynamicHeaderTitle>
 		</headerTitle>

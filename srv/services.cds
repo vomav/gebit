@@ -4,9 +4,7 @@ using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignmen
 
 service searching {
 
-    entity Territories as projection on dbTerritory actions{
-        action initUsingKmlFile(xmlPayload:String) returns Boolean
-    };
+    entity Territories as projection on dbTerritory;
     entity Parts as projection on dbPart;
     entity TerritoryAssignments as projection on dbTerritoryAssignment;
     entity PartsInProgresss as projection on dbPartAssignmenst;

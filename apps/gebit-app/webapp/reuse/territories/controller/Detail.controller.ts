@@ -4,6 +4,7 @@ import Control from "sap/ui/core/Control";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 import Event from "sap/ui/base/Event";
 import JSONModel from "sap/ui/model/json/JSONModel";
+import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 /**
  * @namespace ui5.gebit.app.reuse.territories.controller
  */           
@@ -34,15 +35,20 @@ export default class Details extends Controller {
 		(this.getView()?.getModel("uiModel") as JSONModel).setProperty("/ui/editMode", false);
 	}
 
-	/// &lt;iframe src=&quot;https://www.google.com/maps/d/embed?mid=1lZtqJd0cii19y2ioV9EH7z60tlQTSGo&amp;ehbc=2E312F&quot; width=&quot;100%&quot; height=&quot;480&quot;&gt;&lt;/iframe&gt;
-
 	public formatLinkToEmbedHtml(link:string) {
 		let escapedLink = link.replace("&", "&amp;")
 		// return "&lt;iframe src=&quot;" + escapedLink + "&quot width=&quot;100%&quot; height=&quot;480&quot;&gt;&lt;/iframe&gt;"
 		return "<iframe src=\"" +link+ "\" width=\"100%\" height=\"480\"></iframe>"
 	}
 
-	public formatCoordinates(coordnates:string) {
-		return coordnates;
-	} 
+	public onDeleteTerritory(oEvent:Event) {
+		let model = (this.getView()?.getModel() as ODataModel);
+
+		let bindingPath = this.getView().getBindingContext().getPath();
+		if(bindingPath) 
+			model.delete(bindingPath);
+
+		(this.getOwnerComponent() as UIComponent).getRouter().navTo("worklist");
+	}
+
 }

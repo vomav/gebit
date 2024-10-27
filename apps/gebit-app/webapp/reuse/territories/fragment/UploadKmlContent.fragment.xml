@@ -1,0 +1,81 @@
+<core:FragmentDefinition
+   xmlns:core="sap.ui.core"
+   xmlns="sap.m"
+   xmlns:u="sap.ui.unified"
+   xmlns:form="sap.ui.layout.form">
+   <Dialog id="kmlFileImportDialog"
+      
+      title ="{i18n>uploadKmlContent}">
+	  <content>
+	  	<VBox class="sapUiSmallMargin">
+			<u:FileUploader
+				id="fileUploader"
+				name="myFileUpload"
+				uploadUrl=""
+				change="handleValueChange"
+				typeMissmatch="handleTypeMissmatch"
+				style="Emphasized"
+				fileType="kml"
+				buttonOnly="false" 
+				placeholder="KML File"
+				/>
+			
+		<form:SimpleForm
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="4"
+			labelSpanL="3"
+			labelSpanM="4"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="4"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="2"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" 
+			visible="{uiModel>/create/kml/isXmlParsed}">
+			<form:content>
+				<Label text="{i18n>name}" />
+				<Input value="{uiModel>name}"></Input>
+				<Label text="{i18n>link}" />
+				<Input value="{uiModel>link}" />
+			</form:content>
+		</form:SimpleForm>
+	<Table id="importFromKmlTable" items="{uiModel>toParts}" visible="{uiModel>/create/kml/isXmlParsed}" > 
+      <columns>
+         <Column>
+				<Text text="{i18n>name}"/>
+		</Column>
+         <Column>
+				<Text text="{i18n>isBoundaries}"/>
+		</Column>
+      </columns>
+      <items>
+         <ColumnListItem
+						type="Inactive"
+						press="onPressListItem">
+						<cells>
+							<Text text="{uiModel>name}"/>
+							<CheckBox selected="{uiModel>isBoundaries}"></CheckBox>
+						</cells>
+			</ColumnListItem>
+      </items>
+   </Table>
+
+		</VBox>
+	  </content>
+      <beginButton>
+         <Button
+            text="{i18n>create}"
+            press="createTerritory"/>
+      </beginButton>
+	  <endButton>
+              <Button
+            text="{i18n>close}"
+            press="closeCreateDialog"/>
+      </endButton>
+   </Dialog>
+</core:FragmentDefinition>

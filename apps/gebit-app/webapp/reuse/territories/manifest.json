@@ -56,7 +56,8 @@
 				"sap.m": {},
 				"sap.f": {},
 				"sap.ui.integration": {},
-				"sap.uxap": {}
+				"sap.uxap": {},
+				"sap.ui.codeeditor": {}
 			}
 		},
 
