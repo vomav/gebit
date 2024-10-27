@@ -4,9 +4,16 @@ using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignmen
 
 service searching {
 
-    entity Territories as projection on dbTerritory;
+    entity Territories as projection on dbTerritory actions {
+       action assignToUser(userId:String) returns Boolean;
+    };
     entity Parts as projection on dbPart;
-    entity TerritoryAssignments as projection on dbTerritoryAssignment;
+    entity TerritoryAssignments as projection on dbTerritoryAssignment {
+      *,
+      toTerritory.name as name,
+      toTerritory.link as link,
+      toTerritory.isReady as isReady
+    };
     entity PartsInProgresss as projection on dbPartAssignmenst;
     entity User as projection on dbUser {
         *,
