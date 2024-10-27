@@ -87,7 +87,7 @@
 			<ObjectPageSection titleUppercase="false" title="{i18n>parts}">
 				<subSections>
 					<ObjectPageSubSection titleUppercase="false">
-						<core:Fragment fragmentName="ui5.gebit.app.reuse.territories.fragment.TarritoryPartsTable" type="XML" />
+						<core:Fragment fragmentName="ui5.gebit.app.fragment.TerritoryPartsTable" type="XML" />
 					</ObjectPageSubSection>
 				</subSections>
 			</ObjectPageSection>
