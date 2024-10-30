@@ -30,7 +30,7 @@ export default class App extends Controller {
             data: JSON.stringify(data),
             
             success: function(data:any) {
-                localStorage.setItem('accessToken', data.accessToken);
+                localStorage.setItem('gebitAccessToken', data.accessToken);
                 setTimeout(()=> {
                     (that.getOwnerComponent() as UIComponent).getRouter().navTo("home");
                 }, 500);

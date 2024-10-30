@@ -15,6 +15,7 @@
 				<actions>
 					<m:Button text="{i18n>edit}" type="Emphasized" press="onEditButton" visible="{= !${uiModel>/ui/editMode}}"/>
 					<m:Button text="{i18n>display}" type="Emphasized" press="onDisplayMode" visible="{uiModel>/ui/editMode}"/>
+					<m:Button text="{i18n>assignToUser}" type="Emphasized" press="onOpenDialogAssignTerritoryToUserPress" visible="{= !${uiModel>/ui/editMode}}"/>
 					<m:Button type="Transparent" text="Delete" press="onDeleteTerritory" visible="{= !${isReady}}" />
 				</actions>
 			</ObjectPageDynamicHeaderTitle>

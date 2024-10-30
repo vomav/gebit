@@ -14,15 +14,29 @@ service searching {
       toTerritory.link as link,
       toTerritory.isReady as isReady
     };
-    entity PartsInProgresss as projection on dbPartAssignmenst;
-    entity User as projection on dbUser {
+    entity PartsInProgress as projection on dbPartAssignmenst;
+    entity Users as projection on dbUser {
         *,
         toTerritories : Association to TerritoryAssignments on toTerritories.assignedTo=$self,
     } excluding {
         password
     };
     entity Tenants as projection on dbTenant;
-    entity UserTenantMappings as projection on dbUserTenantMapping;
+    // entity UserTenantMappings as projection on dbUserTenantMapping;
+
+    entity AvailableUsers as projection on dbUserTenantMapping {
+        *,
+        user,
+        // tenant,
+        tenant.name as tenantName,
+        user.email as email,
+        user.name as name,
+        user.surname as surname,
+        mappingType as role
+    }excluding {
+        toAllowedTenants,
+        user
+    };
 
 
 }

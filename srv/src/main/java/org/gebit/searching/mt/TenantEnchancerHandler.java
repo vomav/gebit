@@ -1,13 +1,13 @@
-package org.gebit.db;
+package org.gebit.searching.mt;
 
 
 
 import org.gebit.gen.srv.searching.Searching;
-import org.gebit.gen.srv.searching.User_;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.CdsData;
 import com.sap.cds.ql.CQL;
+import com.sap.cds.reflect.CdsEntity;
 import com.sap.cds.services.cds.CdsCreateEventContext;
 import com.sap.cds.services.cds.CdsDeleteEventContext;
 import com.sap.cds.services.cds.CdsReadEventContext;
@@ -31,39 +31,32 @@ public class TenantEnchancerHandler implements EventHandler {
 
 	@Before(event = PersistenceService.EVENT_READ, serviceType = Searching.class )
 	public void onBeforeRead(CdsReadEventContext c) {
-		TenantModifiedWhereType m = createTenantSpecifictWhere();
+		TenantModifiedWhereType m = createTenantSpecifictWhere(c.getTarget());
 		 c.setCqn( CQL.copy(c.getCqn(), m));
-		
 	}
 
-	private TenantModifiedWhereType createTenantSpecifictWhere() {
-		return new TenantModifiedWhereType(userInfo.getTenant());
+	private TenantModifiedWhereType createTenantSpecifictWhere(CdsEntity cdsEntity) {
+		return new TenantModifiedWhereType(userInfo.getTenant(), cdsEntity);
 	}
 	
-	@Before(event = PersistenceService.EVENT_READ, entity = User_.CDS_NAME )
-	public void onBeforeReadUsers(CdsReadEventContext c) {
-		
-		System.err.println();
-		
-	}
 	
 	@Before(event = PersistenceService.EVENT_DELETE, serviceType = Searching.class)
 	public void onBeforeDelete(CdsDeleteEventContext c) {
-		TenantModifiedWhereType m = createTenantSpecifictWhere();
+		TenantModifiedWhereType m = createTenantSpecifictWhere(c.getTarget());
 		 c.setCqn( CQL.copy(c.getCqn(), m));
 		
 	}
 	
 	@Before(event = PersistenceService.EVENT_UPDATE, serviceType = Searching.class)
 	public void onBeforeUpdate(CdsUpdateEventContext c) {
-		TenantModifiedWhereType m = createTenantSpecifictWhere();
+		TenantModifiedWhereType m = createTenantSpecifictWhere(c.getTarget());
 		 c.setCqn( CQL.copy(c.getCqn(), m));
 		
 	}
 	
 	@Before(event = PersistenceService.EVENT_UPSERT, serviceType = Searching.class)
 	public void onBeforeUpsert(CdsUpsertEventContext c) {
-		TenantModifiedWhereType m = createTenantSpecifictWhere();
+		TenantModifiedWhereType m = createTenantSpecifictWhere(c.getTarget());
 		 c.setCqn( CQL.copy(c.getCqn(), m));
 		
 	}

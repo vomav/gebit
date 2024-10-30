@@ -3,7 +3,7 @@ namespace db;
 using { cuid } from '@sap/cds/common';
 
 aspect tenant {
-    tenant: UUID;
+    tenantDescrimitator: UUID;
 }
 
 

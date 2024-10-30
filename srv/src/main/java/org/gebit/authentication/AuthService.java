@@ -7,6 +7,7 @@ import org.gebit.authentication.dto.JwtResponse;
 import org.gebit.authentication.repository.UserRepository;
 import org.gebit.gen.db.Users;
 import org.gebit.gen.db.UserTenantMappings;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final PasswordEncoder encoder;
 
-    public AuthService(UserRepository userRepository, JwtProvider jwtProvider, PasswordEncoder encoder) {
+    public AuthService(@Qualifier("authentication_user_repository") UserRepository userRepository, JwtProvider jwtProvider, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.jwtProvider = jwtProvider;
         this.encoder = encoder;

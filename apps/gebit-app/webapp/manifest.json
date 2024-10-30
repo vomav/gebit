@@ -83,7 +83,7 @@
 			"uiModel": {
 				"type": "sap.ui.model.json.JSONModel",
 				    "preload": true,
-    				"uri": "model/territoriesUiModel.json"
+    				"uri": "model/uiModel.json"
 			  },
 			"": {
 				"dataSource": "mainService",

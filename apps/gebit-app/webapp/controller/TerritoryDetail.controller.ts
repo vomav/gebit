@@ -4,11 +4,15 @@ import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 import Event from "sap/ui/base/Event";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
+import Dialog from "sap/m/Dialog";
+import Filter from "sap/ui/model/Filter";
+import FilterOperator from "sap/ui/model/FilterOperator";
 /**
  * @namespace ui5.gebit.app.controller
  */           
 export default class TerritoryDetail extends Controller {
 
+	assigTerritoryToUserDialog:Dialog;
 	public onInit() : void {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);
@@ -50,4 +54,49 @@ export default class TerritoryDetail extends Controller {
 		(this.getOwnerComponent() as UIComponent).getRouter().navTo("territories");
 	}
 
+	 public async onAssignTerritoryToUserPress(oEvent:Event) {
+		let context = await model.bindContext("assignToUser(...)");
+
+	}
+
+	public onOpenDialogAssignTerritoryToUserPress (oEvent:Event) {
+
+		let oView = this.getView();
+		let that = this;
+		if (!this.assigTerritoryToUserDialog) {
+			this.loadFragment({name:"ui5.gebit.app.fragment.AssignTerritoryToUser", addToDependents: true}).then(function(dialog:any){
+				that.assigTerritoryToUserDialog = dialog as Dialog;
+				oView?.addDependent(that.assigTerritoryToUserDialog);
+				that.assigTerritoryToUserDialog.bindElement({
+					path: "/territory/assignTerritoryToUser",
+					model:"uiModel"
+				});
+				that.assigTerritoryToUserDialog.open();
+				return that.assigTerritoryToUserDialog;
+			});
+		} else {
+			that.assigTerritoryToUserDialog.open();
+		}
+		// this.assigTerritoryToUserDialog.then(function(oDialog) {
+		// 	// Create a filter for the binding
+		// 	// oDialog.getBinding("items").filter([new Filter("Name", FilterOperator.Contains, sInputValue)]);
+		// 	// Open ValueHelpDialog filtered by the input's value
+		// 	// oDialog.open(sInputValue);
+		// });
+	}
+	public onValueHelpClose (oEvent:Event) {
+		(this.getView()?.getModel("uiModel") as JSONModel).setProperty("/territory/assignTerritoryToUser", { 
+			input : "",
+            selectedUser : {}
+		});
+	}
+
+	public onValueHelpSearch(oEvent:any) {
+
+	} 
+
+	public onSelectUser(oEvent:any) {
+		let userId = oEvent.getParameter("selectedItem").getBindingContext().getObject().user_ID;
+
+	}
 }

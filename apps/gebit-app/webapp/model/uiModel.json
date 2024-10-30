@@ -17,6 +17,12 @@
         }
     },
 
+    "territory": {
+        "assignTerritoryToUser": {
+            "input" : "",
+            "selectedUser" : {}
+        }
+    },
 
 
     "ui" : {

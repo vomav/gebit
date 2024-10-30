@@ -11,6 +11,7 @@ import org.gebit.gen.db.Users;
 import org.gebit.gen.srv.ui_service.LoggedInUser;
 import org.gebit.gen.srv.ui_service.LoggedInUser_;
 import org.gebit.gen.srv.ui_service.UiService_;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.services.cds.CdsReadEventContext;
@@ -20,14 +21,14 @@ import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cds.services.request.UserInfo;
 
-@Component
+@Component()
 @ServiceName(UiService_.CDS_NAME)
 public class UIServiceHandler implements EventHandler {
 
 	private UserInfo userInfo;
     private final UserRepository userRepository;
 	
-	public UIServiceHandler(UserInfo userInfo, UserRepository userRepository) {
+	public UIServiceHandler(UserInfo userInfo, @Qualifier("authentication_user_repository") UserRepository userRepository) {
 		this.userInfo = userInfo;
 		this.userRepository = userRepository;
 	}

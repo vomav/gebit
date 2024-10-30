@@ -1,19 +1,20 @@
 package org.gebit.authentication.repository;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.gebit.gen.db.UserTenantMappings;
+import org.gebit.gen.db.UserTenantMappings_;
+import org.gebit.gen.db.Users;
+import org.gebit.gen.db.Users_;
+import org.springframework.stereotype.Component;
+
 import com.sap.cds.ql.CQL;
 import com.sap.cds.ql.Select;
 import com.sap.cds.ql.Update;
 import com.sap.cds.services.persistence.PersistenceService;
-import org.gebit.gen.db.Users;
-import org.gebit.gen.db.UserTenantMappings;
-import org.gebit.gen.db.UserTenantMappings_;
-import org.gebit.gen.db.Users_;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Optional;
-
-@Component
+@Component("authentication_user_repository")
 public class UserRepository {
 
     private PersistenceService persistenceService;
