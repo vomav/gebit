@@ -25,14 +25,16 @@ public class TenantEnchancerHandler implements EventHandler {
 	
 	private UserInfo userInfo;
 	
+	public static final String TENANT_DESCRIMITATOR_COLUMN = "tenantDiscriminator";
+	
 	public TenantEnchancerHandler(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
 
-	@Before(event = PersistenceService.EVENT_READ, serviceType = Searching.class )
+	@Before(event = PersistenceService.EVENT_READ, serviceType = {Searching.class, PersistenceService.class})
 	public void onBeforeRead(CdsReadEventContext c) {
 		TenantModifiedWhereType m = createTenantSpecifictWhere(c.getTarget());
-		 c.setCqn( CQL.copy(c.getCqn(), m));
+		 c.setCqn(CQL.copy(c.getCqn(), m));
 	}
 
 	private TenantModifiedWhereType createTenantSpecifictWhere(CdsEntity cdsEntity) {
@@ -40,30 +42,30 @@ public class TenantEnchancerHandler implements EventHandler {
 	}
 	
 	
-	@Before(event = PersistenceService.EVENT_DELETE, serviceType = Searching.class)
+	@Before(event = PersistenceService.EVENT_DELETE, serviceType = {Searching.class, PersistenceService.class})
 	public void onBeforeDelete(CdsDeleteEventContext c) {
 		TenantModifiedWhereType m = createTenantSpecifictWhere(c.getTarget());
-		 c.setCqn( CQL.copy(c.getCqn(), m));
+		 c.setCqn(CQL.copy(c.getCqn(), m));
 		
 	}
 	
-	@Before(event = PersistenceService.EVENT_UPDATE, serviceType = Searching.class)
+	@Before(event = PersistenceService.EVENT_UPDATE, serviceType = {Searching.class, PersistenceService.class})
 	public void onBeforeUpdate(CdsUpdateEventContext c) {
 		TenantModifiedWhereType m = createTenantSpecifictWhere(c.getTarget());
-		 c.setCqn( CQL.copy(c.getCqn(), m));
+		 c.setCqn(CQL.copy(c.getCqn(), m));
 		
 	}
 	
-	@Before(event = PersistenceService.EVENT_UPSERT, serviceType = Searching.class)
+	@Before(event = PersistenceService.EVENT_UPSERT,serviceType = {Searching.class, PersistenceService.class})
 	public void onBeforeUpsert(CdsUpsertEventContext c) {
 		TenantModifiedWhereType m = createTenantSpecifictWhere(c.getTarget());
 		 c.setCqn( CQL.copy(c.getCqn(), m));
 		
 	}
 	
-	@Before(event = PersistenceService.EVENT_CREATE, serviceType = Searching.class)
+	@Before(event = PersistenceService.EVENT_CREATE, serviceType = {Searching.class, PersistenceService.class})
 	public void onBeforeInsert(CdsCreateEventContext c, CdsData data) {
-		data.put("tenant", this.userInfo.getTenant());
+		data.put(TENANT_DESCRIMITATOR_COLUMN, this.userInfo.getTenant());
 		
 	}
 }

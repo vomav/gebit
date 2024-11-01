@@ -1,14 +1,19 @@
 package org.gebit.searching.mt;
 
+import static org.gebit.searching.mt.TenantEnchancerHandler.TENANT_DESCRIMITATOR_COLUMN;
+
 import java.util.Optional;
+
+import javax.sql.rowset.serial.SerialException;
+
+
 
 import com.sap.cds.ql.CQL;
 import com.sap.cds.ql.Predicate;
 import com.sap.cds.ql.cqn.Modifier;
 import com.sap.cds.reflect.CdsElement;
 import com.sap.cds.reflect.CdsEntity;
-import com.sap.cds.reflect.CdsModel;
-
+import com.sap.cds.services.ServiceException;
 public class TenantModifiedWhereType implements Modifier {
 
 	private String tenant;
@@ -22,8 +27,16 @@ public class TenantModifiedWhereType implements Modifier {
 	
 	@Override
 	public Predicate where(Predicate where) {
-		Optional<CdsElement> tenantElement = cdsEntity.elements().filter(e -> e.getName().contains("tenant") && cdsEntity.findAssociation(e.getName()).isEmpty()).findAny();
-		return CQL.and(where, CQL.get(tenantElement.get().getName()).eq(tenant));
+		Optional<CdsElement> tenantElement = cdsEntity.elements().filter(e -> e.getName().equals(TENANT_DESCRIMITATOR_COLUMN)).findAny();
+		if(tenantElement.isEmpty()) {
+			tenantElement = cdsEntity.elements().filter(e -> e.getName().equals("tenant_ID")).findAny();
+		}
+		
+		if(tenantElement.isEmpty()) {
+			return where;
+		}
+		
+		return where == null ? CQL.get(tenantElement.get().getName()).eq(tenant) : CQL.and(where, CQL.get(tenantElement.get().getName()).eq(tenant));
 	}
 
 }

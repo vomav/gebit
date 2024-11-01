@@ -3,7 +3,7 @@
 	xmlns:layout="sap.ui.layout"
 	xmlns:m="sap.m"
 	xmlns:form="sap.ui.layout.form"
-	controllerName="ui5.gebit.app.controller.TerritoryDetail"
+	controllerName="ui5.gebit.app.controller.MyTerritoryDetail"
 	height="100%">
 	<ObjectPageLayout enableLazyLoading="false" upperCaseAnchorBar="false">
 		<headerTitle>
@@ -12,13 +12,6 @@
 					<m:Title text="{name}" wrapping="true"/>
 				</expandedHeading>
 
-				<actions>
-					<m:Button text="{i18n>edit}" type="Emphasized" press="onEditButton" visible="{= !${uiModel>/ui/editMode}}"/>
-					<m:Button text="{i18n>done}" type="Emphasized" press="onDisplayMode" visible="{uiModel>/ui/editMode}"/>
-					<m:Button text="{i18n>withdraw}" type="Emphasized" press="onWithdraw" visible="{uiModel>/ui/editMode}"/>
-					<m:Button text="{i18n>assignToUser}" type="Emphasized" press="onOpenDialogAssignTerritoryToUserPress" visible="{= !${uiModel>/ui/editMode}}"/>
-					<m:Button type="Transparent" text="Delete" press="onDeleteTerritory" visible="{= !${isReady}}" />
-				</actions>
 			</ObjectPageDynamicHeaderTitle>
 		</headerTitle>
 
@@ -89,7 +82,7 @@
 			<ObjectPageSection titleUppercase="false" title="{i18n>parts}">
 				<subSections>
 					<ObjectPageSubSection titleUppercase="false">
-						<core:Fragment fragmentName="ui5.gebit.app.fragment.TerritoryPartsTable" type="XML" />
+						<core:Fragment fragmentName="ui5.gebit.app.fragment.MyTerritoryPartsTable" type="XML" />
 					</ObjectPageSubSection>
 				</subSections>
 			</ObjectPageSection>

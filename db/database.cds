@@ -3,7 +3,7 @@ namespace db;
 using { cuid } from '@sap/cds/common';
 
 aspect tenant {
-    tenantDescrimitator: UUID;
+    tenantDiscriminator: UUID;
 }
 
 
@@ -31,7 +31,7 @@ entity Parts : cuid, tenant {
 entity TerritoryAssignments : cuid, tenant {
     toTerritory: Association to one Territories;
     isDone: Boolean;
-    toPartAssignments: Composition of many PartAssignmensts on toPartAssignments.toParent = $self;
+    toPartAssignments: Composition of many PartAssignments on toPartAssignments.toParent = $self;
     startedDate:Timestamp;
     finishedDate:Timestamp;
     type:String(32) enum {
@@ -41,7 +41,7 @@ entity TerritoryAssignments : cuid, tenant {
     assignedTo: Association to one Users;
 }
 
-entity PartAssignmensts : cuid, tenant {
+entity PartAssignments : cuid, tenant {
     part: Association to one Parts;
     inWorkBy: String(128);
     isDone: Boolean;

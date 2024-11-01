@@ -79,7 +79,6 @@ export default class TerritoryWorklist extends Controller {
 		router.navTo("territoryDetail",{
 			"id" : oBindingContext?.getProperty("ID")
 		})
-		console.log();
 	}
 
 

@@ -7,6 +7,8 @@ import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 import Dialog from "sap/m/Dialog";
 import Filter from "sap/ui/model/Filter";
 import FilterOperator from "sap/ui/model/FilterOperator";
+import MessageBox from "sap/m/MessageBox";
+import Context from "sap/ui/model/odata/v4/Context";
 /**
  * @namespace ui5.gebit.app.controller
  */           
@@ -54,11 +56,6 @@ export default class TerritoryDetail extends Controller {
 		(this.getOwnerComponent() as UIComponent).getRouter().navTo("territories");
 	}
 
-	 public async onAssignTerritoryToUserPress(oEvent:Event) {
-		let context = await model.bindContext("assignToUser(...)");
-
-	}
-
 	public onOpenDialogAssignTerritoryToUserPress (oEvent:Event) {
 
 		let oView = this.getView();
@@ -77,12 +74,6 @@ export default class TerritoryDetail extends Controller {
 		} else {
 			that.assigTerritoryToUserDialog.open();
 		}
-		// this.assigTerritoryToUserDialog.then(function(oDialog) {
-		// 	// Create a filter for the binding
-		// 	// oDialog.getBinding("items").filter([new Filter("Name", FilterOperator.Contains, sInputValue)]);
-		// 	// Open ValueHelpDialog filtered by the input's value
-		// 	// oDialog.open(sInputValue);
-		// });
 	}
 	public onValueHelpClose (oEvent:Event) {
 		(this.getView()?.getModel("uiModel") as JSONModel).setProperty("/territory/assignTerritoryToUser", { 
@@ -95,8 +86,33 @@ export default class TerritoryDetail extends Controller {
 
 	} 
 
-	public onSelectUser(oEvent:any) {
+	public async onSelectUser(oEvent:any) {
 		let userId = oEvent.getParameter("selectedItem").getBindingContext().getObject().user_ID;
 
+		let model = (this.getView()?.getModel() as ODataModel);
+		let detailPageContext = this.getView()?.getBindingContext() as Context;
+		let context = await model.bindContext("srv.searching.assignToUser(...)", detailPageContext);
+		context.setParameter("userId", userId);
+
+		context.execute().then(function () {
+			MessageBox.success("Ok");
+		}.bind(this), function (oError) {
+			MessageBox.error(oError.message);
+		}
+	);
+
+	}
+
+	public async onWithdraw(oEvent:Event) {
+		let model = (this.getView()?.getModel() as ODataModel);
+		let detailPageContext = this.getView()?.getBindingContext() as Context;
+		let context = await model.bindContext("srv.searching.withdrawFromUser(...)", detailPageContext);
+
+		context.execute().then(function () {
+			MessageBox.success("Ok");
+		}.bind(this), function (oError) {
+			MessageBox.error(oError.message);
+		}
+	);
 	}
 }

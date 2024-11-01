@@ -6,7 +6,6 @@
 	xmlns:semantic="sap.f.semantic">
 
 	<semantic:SemanticPage
-		id="page"
 		headerPinnable="false"
 		toggleHeaderOnTitleClick="false">
 
@@ -30,7 +29,6 @@
 					<Toolbar>
 						<ToolbarSpacer />
 						<SearchField
-							id="searchField"
 							search=".onSearch"
 							width="auto">
 						</SearchField>
@@ -39,7 +37,7 @@
 
 				<columns>
 					<Column>
-						<Text text="{i18n>name}" id="nameColumnTitle"/>
+						<Text text="{i18n>name}"/>
 					</Column>
 					<Column hAlign="End">
 						<Text text="{i18n>startedDate}"/>

@@ -163,6 +163,11 @@
 					"target": {
 						"name": "myTerritories"
 					}
+				},
+				{
+					"name": "myTerritoryDetail",
+					"pattern": "myTerritory/{id}",
+					"target": "myTerritoryDetail"
 				}
 			],
 			"targets": {
@@ -195,6 +200,11 @@
 					"type": "View",
 					"id": "myTerritoryWorklist",
 					"name": "MyTerritoryWorklist"
+				},
+				"myTerritoryDetail": {
+					"type": "View",
+					"id": "myTerritoryDetail",
+					"name": "MyTerritoryDetail"
 				},
 				"notFound": {
 					"type": "View",

@@ -1,20 +1,27 @@
 namespace srv;
 
-using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignmensts as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping } from '../db/database';
+using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignments as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping } from '../db/database';
 
 service searching {
 
     entity Territories as projection on dbTerritory actions {
        action assignToUser(userId:String) returns Boolean;
+       action withdrawFromUser() returns Boolean;
     };
     entity Parts as projection on dbPart;
     entity TerritoryAssignments as projection on dbTerritoryAssignment {
       *,
       toTerritory.name as name,
       toTerritory.link as link,
-      toTerritory.isReady as isReady
+      toTerritory.isReady as isReady,
+      toPartAssignments: redirected to PartAssignments
     };
-    entity PartsInProgress as projection on dbPartAssignmenst;
+    entity PartAssignments as projection on dbPartAssignmenst {
+        *,
+        part.name as name,
+        part.coordinates as coordinates,
+        part.isBoundaries as isBoundaries
+    };
     entity Users as projection on dbUser {
         *,
         toTerritories : Association to TerritoryAssignments on toTerritories.assignedTo=$self,
@@ -26,17 +33,12 @@ service searching {
 
     entity AvailableUsers as projection on dbUserTenantMapping {
         *,
-        user,
-        // tenant,
         tenant.name as tenantName,
         user.email as email,
         user.name as name,
         user.surname as surname,
         mappingType as role
-    }excluding {
-        toAllowedTenants,
-        user
-    };
+    }
 
 
 }
