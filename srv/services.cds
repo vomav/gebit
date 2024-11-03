@@ -13,7 +13,6 @@ service searching {
       *,
       toTerritory.name as name,
       toTerritory.link as link,
-      toTerritory.isReady as isReady,
       toPartAssignments: redirected to PartAssignments
     };
     entity PartAssignments as projection on dbPartAssignmenst {

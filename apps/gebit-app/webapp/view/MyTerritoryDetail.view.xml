@@ -18,7 +18,7 @@
 		<sections>
 			<ObjectPageSection titleUppercase="false" title="General Information">
 				<subSections>
-					<ObjectPageSubSection titleUppercase="false" visible="{uiModel>/ui/editMode}" >
+					<ObjectPageSubSection titleUppercase="false" >
 						<form:SimpleForm 
 							editable="true"
 							layout="ResponsiveGridLayout"
@@ -37,42 +37,19 @@
 							singleContainerFullSize="false"
 							ariaLabelledBy="Title1" >
 							<form:content>
-								<m:Label text="{i18n>name}"/>
-								<m:Input value="{name}" />
 								<m:Label text="{i18n>link}" />
-								<m:Input  value="{link}"/>
-								<m:Label text="{i18n>isReady}" />
-								<m:Switch  state="{isReady}"/>
-								<m:Label text="{i18n>lastTimeWorked}" />
-								<m:DatePicker dateValue="{lastTimeWorked}"/>
-							</form:content>
-						</form:SimpleForm>
-					</ObjectPageSubSection>
-					<ObjectPageSubSection titleUppercase="false" visible="{= !${uiModel>/ui/editMode}}">
-						<form:SimpleForm 
-							editable="false"
-							layout="ResponsiveGridLayout"
-							labelSpanXL="4"
-							labelSpanL="3"
-							labelSpanM="4"
-							labelSpanS="12"
-							adjustLabelSpan="false"
-							emptySpanXL="0"
-							emptySpanL="4"
-							emptySpanM="0"
-							emptySpanS="0"
-							columnsXL="2"
-							columnsL="1"
-							columnsM="1"
-							singleContainerFullSize="false"
-							ariaLabelledBy="Title1" >
-							<form:content>
-								<m:Label text="{i18n>name}"/>
-								<m:Link href="{link}" text="{name}"/>
-								<m:Label text="{i18n>isReady}" />
-								<m:Switch state="{isReady}" enabled="false"/>
-								<m:Label text="{i18n>lastTimeWorked}" />
-								<m:Text text="{lastTimeWorked}"/>
+								<m:Link  text="{name}" href="{link}"/>
+								<m:Label text="{i18n>isDone}" />
+								<m:CheckBox selected="{isDone}"/>
+								<m:Label text="{i18n>startedDate}" />
+								<m:DatePicker dateValue="{startedDate}"/>
+								<m:Label text="{i18n>finishedDate}" />
+								<m:DatePicker dateValue="{finishedDate}"/>
+								<m:Label text="{i18n>type}" />
+								<m:ComboBox selectedKey="{type}">
+									<core:Item key="Personal" text="{i18n>personalTerritory}" />
+									<core:Item key="Public" text="{i18n>publicTerritory}" />
+								</m:ComboBox>
 							</form:content>
 						</form:SimpleForm>
 					</ObjectPageSubSection>
