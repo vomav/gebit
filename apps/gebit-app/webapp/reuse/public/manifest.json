@@ -22,11 +22,6 @@
 			}
 		}
 	},
-
-	"sap.fiori": {
-
-	},
-
 	"sap.ui": {
 		"technology": "UI5",
 		"icons": {
@@ -94,9 +89,6 @@
 				"controlId": "app",
 				"controlAggregation": "pages",
 				"transition": "slide",
-				"bypassed": {
-					"target": "notFound"
-				},
 				"async": true
 			},
 			"routes": [
@@ -141,12 +133,6 @@
 					"type": "View",
 					"id": "welcome",
 					"name": "Welcome"
-				},
-				"notFound": {
-					"type": "View",
-					"id": "notFound",
-					"name": "NotFound",
-					"transition": "show"
 				}
 			}
 		}

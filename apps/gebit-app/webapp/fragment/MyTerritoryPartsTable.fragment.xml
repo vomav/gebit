@@ -3,13 +3,21 @@
    xmlns:core="sap.ui.core"
    xmlns:form="sap.ui.layout.form">
    
-   <Table items="{toPartAssignments}"> 
+   <Table items="{
+      path:'toPartAssignments',
+      sorter : {
+         path : 'name' 
+      }
+   }"> 
       <columns>
          <Column>
 				<Text text="{i18n>name}"/>
 			</Column>
          <Column>
 				<Text text="{i18n>isDone}"/>
+			</Column>
+         <Column>
+				<Text text="{i18n>actions}"/>
 			</Column>
       </columns>
       <items>

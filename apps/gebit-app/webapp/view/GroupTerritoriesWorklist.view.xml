@@ -1,31 +1,27 @@
 
 <mvc:View
-	controllerName="ui5.gebit.app.controller.TerritoryWorklist"
+	controllerName="ui5.gebit.app.controller.GroupTerritoriesWorklist"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:semantic="sap.f.semantic">
 
 	<semantic:SemanticPage
-		id="page"
 		headerPinnable="false"
 		toggleHeaderOnTitleClick="false">
 
 		<semantic:titleHeading>
-			<Title text="{i18n>worklistTitle}" />
+			<Title text="{i18n>myTerritories}" />
 		</semantic:titleHeading>
 
 		<semantic:content>
 			<Table
-				id="territoriesTable"
 				width="auto"
 				items="{
-					path: '/Territories'
+					path: '/PublicTerritoryAssignments'
 				}"
 				noDataText="{i18n>noData}"
 				growing="true"
 				growingScrollToLoad="true"
-				updateFinished=".onUpdateFinished"
-
 				>
 
 				<headerToolbar>
@@ -35,30 +31,21 @@
 							search=".onSearch"
 							width="auto">
 						</SearchField>
-
-						<Button
-							id="addUserButton"
-							icon="sap-icon://add"
-							tooltip="{i18n>createButtonText}"
-							press="openCreateDialog">
-							<layoutData>
-								<OverflowToolbarLayoutData priority="NeverOverflow"/>
-							</layoutData>
-						</Button>
-				
 					</Toolbar>
 				</headerToolbar>
 
 				<columns>
 					<Column>
-						<Text text="Name"/>
+						<Text text="{i18n>name}"/>
 					</Column>
-					<Column>
-						<Text text="{assignedTo}" />
-					</Column>
-					
 					<Column hAlign="End">
-						<Text text="Last Time Worked"/>
+						<Text text="{i18n>startedDate}"/>
+					</Column>
+					<Column hAlign="End">
+						<Text text="{i18n>finishedDate}"/>
+					</Column>
+					<Column hAlign="End">
+						<Text text="{i18n>type}"/>
 					</Column>
 				</columns>
 
@@ -69,8 +56,11 @@
 						<cells>
 							<Link
 								text="{name}" href="{link}"/>
-							<Text text="{assignedToName} {assignedToSurname} " />
-							<Text text="{lastTimeWorked}" />
+							<Text text="{startedDate}" />
+							<Text text="{finishedDate}" />
+							<Text text="{type}" />
+							<CheckBox selected="{isDone}" />	
+
 						</cells>
 					</ColumnListItem>
 				</items>

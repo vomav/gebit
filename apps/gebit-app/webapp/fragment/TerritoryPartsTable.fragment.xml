@@ -3,7 +3,12 @@
    xmlns:core="sap.ui.core"
    xmlns:form="sap.ui.layout.form">
    
-   <Table id="territoryPartTable" items="{toParts}"> 
+   <Table id="territoryPartTable" items="{
+         path:'toParts',
+         sorter : {
+            path : 'name' 
+         }
+      }"> 
       <columns>
          <Column>
 				<Text text="{i18n>name}"/>

@@ -8,6 +8,7 @@ import Dialog from "sap/m/Dialog";
 import Filter from "sap/ui/model/Filter";
 import FilterOperator from "sap/ui/model/FilterOperator";
 import MessageBox from "sap/m/MessageBox";
+import MessageToast from "sap/m/MessageToast";
 import Context from "sap/ui/model/odata/v4/Context";
 /**
  * @namespace ui5.gebit.app.controller
@@ -95,7 +96,8 @@ export default class TerritoryDetail extends Controller {
 		context.setParameter("userId", userId);
 
 		context.execute().then(function () {
-			MessageBox.success("Ok");
+			MessageToast.show("{i18n>ok}");
+			this.getView()?.getModel().refresh();
 		}.bind(this), function (oError) {
 			MessageBox.error(oError.message);
 		}
@@ -109,7 +111,8 @@ export default class TerritoryDetail extends Controller {
 		let context = await model.bindContext("srv.searching.withdrawFromUser(...)", detailPageContext);
 
 		context.execute().then(function () {
-			MessageBox.success("Ok");
+			MessageToast.show("{i18n>ok}");
+			this.getView()?.getModel().refresh();
 		}.bind(this), function (oError) {
 			MessageBox.error(oError.message);
 		}

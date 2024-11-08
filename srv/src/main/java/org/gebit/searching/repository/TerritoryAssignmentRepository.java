@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.gebit.gen.db.TerritoryAssignments;
 import org.gebit.gen.db.TerritoryAssignments_;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.CQL;

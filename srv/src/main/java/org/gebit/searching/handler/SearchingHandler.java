@@ -9,9 +9,13 @@ import org.gebit.gen.db.PartAssignments;
 import org.gebit.gen.db.Territories;
 import org.gebit.gen.db.TerritoryAssignments;
 import org.gebit.gen.srv.admin.Users;
+import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToMeContext;
+import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToUserContext;
+import org.gebit.gen.srv.searching.PartAssignmentsCancelPartAssignmentContext;
 import org.gebit.gen.srv.searching.Searching_;
 import org.gebit.gen.srv.searching.TerritoriesAssignToUserContext;
 import org.gebit.gen.srv.searching.TerritoriesWithdrawFromUserContext;
+import org.gebit.searching.repository.PartAssignmentsRepository;
 import org.gebit.searching.repository.TerritoryAssignmentRepository;
 import org.gebit.searching.repository.TerritoryRepository;
 import org.gebit.searching.repository.UserRepository;
@@ -41,15 +45,15 @@ public class SearchingHandler implements EventHandler {
 	private TerritoryRepository territoryRepository;
 	private TerritoryAssignmentRepository territoryAssignmentRepository;
 	private UserInfo userInfo;
+	private PartAssignmentsRepository partsAssignmentsRepository;
 	
-
-	
-	public SearchingHandler(@Qualifier("searching_user_repository") UserRepository userRepository, TerritoryRepository territoryRepository, TerritoryAssignmentRepository territoryAssignmentRepository, UserInfo userInfo) {
+	public SearchingHandler(@Qualifier("searching_user_repository") UserRepository userRepository, TerritoryRepository territoryRepository, TerritoryAssignmentRepository territoryAssignmentRepository, UserInfo userInfo, PartAssignmentsRepository partsAssignmentsRepository) {
 		super();
 		this.userRepository = userRepository;
 		this.territoryRepository = territoryRepository;
 		this.territoryAssignmentRepository=territoryAssignmentRepository;
 		this.userInfo = userInfo;
+		this.partsAssignmentsRepository = partsAssignmentsRepository;
     }
 
 
@@ -100,6 +104,39 @@ public class SearchingHandler implements EventHandler {
 	public void onwithdrawFromUser(TerritoriesWithdrawFromUserContext c) {
 		Territories assignment = territoryRepository.runCqn(c.getCqn());
 		territoryAssignmentRepository.deleteByTerritoryId(assignment.getId());
+		c.setResult(true);
+		c.setCompleted();
+	}
+	
+	@On(event=PartAssignmentsAssignPartToUserContext.CDS_NAME)
+	public void assignPartToUser(PartAssignmentsAssignPartToUserContext c) {
+		String userId = c.getUserId();
+		CqnSelect select = c.getCqn();
+		PartAssignments pa =  this.partsAssignmentsRepository.runCqnSingleSelect(select, c.getModel());
+		pa.setInWorkById(userId);
+		
+		this.partsAssignmentsRepository.save(pa);
+		
+		c.setResult(true);
+		c.setCompleted();
+	}
+	
+	@On(event=PartAssignmentsAssignPartToMeContext.CDS_NAME)
+	public void assignPartToMe(PartAssignmentsAssignPartToMeContext c) {
+		String userId = c.getUserInfo().getAdditionalAttribute(org.gebit.authentication.CustomUserInfoProvider.USER_ID).toString();
+		
+		CqnSelect select = c.getCqn();
+		PartAssignments pa =  this.partsAssignmentsRepository.runCqnSingleSelect(select, c.getModel());
+		pa.setInWorkById(userId);
+		
+		this.partsAssignmentsRepository.save(pa);
+		c.setResult(true);
+		c.setCompleted();
+	}
+	
+	@On(event=PartAssignmentsCancelPartAssignmentContext.CDS_NAME)
+	public void cancelPartAssignment(PartAssignmentsCancelPartAssignmentContext c) {
+		
 		c.setResult(true);
 		c.setCompleted();
 	}

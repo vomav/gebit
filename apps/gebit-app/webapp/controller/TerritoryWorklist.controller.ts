@@ -9,6 +9,7 @@ import Table from "sap/m/Table";
 import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import Event from "sap/ui/base/Event";
 import ColumnListItem from "sap/m/ColumnListItem";
+import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 
 /**
  * @namespace ui5.gebit.app.controller
@@ -16,12 +17,26 @@ import ColumnListItem from "sap/m/ColumnListItem";
 export default class TerritoryWorklist extends Controller {
 
 	createDialog:Dialog;
+	isModelInitialized:Boolean;
 	public onInit() : void {
 		const view = this.getView() as View
 		if (view) {
 			view.addStyleClass((this.getOwnerComponent() as AppComponent).getContentDensityClass());
 		}
+
+		let router = (this.getOwnerComponent() as UIComponent).getRouter();
+		router.attachRouteMatched(this.attachRouteMatched, this);
 	}
+
+
+	public attachRouteMatched(oEvent:Router$RouteMatchedEvent) {
+		let routeName = oEvent.getParameter("name");
+		if(routeName == "territories" && this.isModelInitialized) {
+			this.getView()?.getModel()?.refresh();
+		}
+		this.isModelInitialized = true;
+	}
+	
 
 	public openCreateDialog(oEvent:any) {
 		let that = this;

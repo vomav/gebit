@@ -1,0 +1,50 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core"
+   xmlns:form="sap.ui.layout.form">
+   
+   <Table id="groupTerrirtoryParts" items="{
+         path:'toPartAssignments'
+      }"> 
+      <columns>
+         <Column>
+				<Text text="{i18n>name}"/>
+			</Column>
+         <Column>
+				<Text text="{i18n>isDone}"/>
+			</Column>
+         <Column>
+				<Text text="{i18n>assignedTo}"/>
+			</Column>
+         <Column>
+				<Text text="{i18n>actions}"/>
+			</Column>
+      </columns>
+      <items>
+         <ColumnListItem
+						type="Inactive"
+						press="onPressListItem">
+						<cells>
+							<Text text="{name}"/>
+                     <CheckBox selected="{isDone}"></CheckBox>
+                     <VBox>
+                        <Text text="{userName}" ></Text>
+                        <Text text="{surname}"></Text>
+                     </VBox>
+               	   <Button
+                        icon="sap-icon://action"
+                        class="sapUiSmallMargin"
+                        press="onActionButtonPress"
+                        type="Transparent"
+                        ariaHasPopup="Menu" >
+                        <dependents>
+                           <core:Fragment
+                              fragmentName="ui5.gebit.app.fragment.MyPartsActionsheet"
+                              type="XML" />
+                        </dependents>
+                     </Button>
+						</cells>
+			</ColumnListItem>
+      </items>
+   </Table>
+</core:FragmentDefinition>

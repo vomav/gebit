@@ -1,0 +1,23 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core">
+<ActionSheet id="myPartsactionSheet"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	title="{i18n>chooseAction}"
+	showCancelButton="true"
+	placement="Bottom">
+	<Button
+		text="{i18n>assignToMe}"
+		icon="sap-icon://person-placeholder"
+		press="assignPartToMe" />
+	<Button
+		text="{i18n>assignToUser}"
+		icon="sap-icon://group"
+		press="assignPartToUser" />
+	<Button
+		text="{i18n>reset}"
+		icon="sap-icon://reset"
+		press="cancelPartAssignment" />
+</ActionSheet>
+</core:FragmentDefinition>

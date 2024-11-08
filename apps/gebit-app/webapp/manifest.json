@@ -116,9 +116,6 @@
 				"controlId": "app",
 				"controlAggregation": "pages",
 				"transition": "slide",
-				"bypassed": {
-					"target": "notFound"
-				},
 				"async": true
 			},
 			"routes": [
@@ -168,6 +165,18 @@
 					"name": "myTerritoryDetail",
 					"pattern": "myTerritory/{id}",
 					"target": "myTerritoryDetail"
+				},
+				{
+					"name": "groupTerritories",
+					"pattern": "groupTerritories",
+					"target": {
+						"name": "groupTerritories"
+					}
+				},
+				{
+					"name": "groupTerritoryDetail",
+					"pattern": "groupTerritoryDetail/{id}",
+					"target": "groupTerritoryDetail"
 				}
 			],
 			"targets": {
@@ -206,11 +215,15 @@
 					"id": "myTerritoryDetail",
 					"name": "MyTerritoryDetail"
 				},
-				"notFound": {
+				"groupTerritories": {
 					"type": "View",
-					"id": "notFound",
-					"name": "NotFound",
-					"transition": "show"
+					"id": "groupTerritoriesWorklist",
+					"name": "GroupTerritoriesWorklist"
+				},
+				"groupTerritoryDetail": {
+					"type": "View",
+					"id": "groupTerritoryDetail",
+					"name": "GroupTerritoryDetail"
 				}
 			}
 		}

@@ -43,7 +43,7 @@ entity TerritoryAssignments : cuid, tenant {
 
 entity PartAssignments : cuid, tenant {
     part: Association to one Parts;
-    inWorkBy: String(128);
+    inWorkBy: Association to one Users;
     isDone: Boolean;
     toParent: Association to TerritoryAssignments;
 }

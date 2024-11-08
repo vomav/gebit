@@ -78,6 +78,9 @@
 								<m:Link href="{link}" text="{name}"/>
 								<m:Label text="{i18n>isReady}" />
 								<m:Switch state="{isReady}" enabled="false"/>
+
+								<m:Label text="{i18n>assignedTo}"/>
+								<m:Text text="{assignedToName} {assignedToSurname} " />
 								<m:Label text="{i18n>lastTimeWorked}" />
 								<m:Text text="{lastTimeWorked}"/>
 							</form:content>

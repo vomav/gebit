@@ -8,11 +8,11 @@
 
 
 
-	<f:DynamicPage id="dynamicPageId" preserveHeaderStateOnScroll="true" headerExpanded="{/headerExpanded}" showFooter="true" fitContent="true">		
+	<f:DynamicPage preserveHeaderStateOnScroll="true" showFooter="true" fitContent="true">		
 
 			<f:content> 
 	<VBox class="sapUiSmallMargin">
-		<form:SimpleForm id="SimpleFormToolbar"
+		<form:SimpleForm 
 			editable="true"
 			layout="ResponsiveGridLayout"
 			labelSpanXL="4"

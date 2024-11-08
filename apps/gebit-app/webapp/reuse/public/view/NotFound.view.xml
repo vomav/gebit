@@ -8,7 +8,7 @@
 
 
 
-	<f:DynamicPage id="dynamicPageId" preserveHeaderStateOnScroll="true" headerExpanded="{/headerExpanded}" showFooter="true" fitContent="true">		
+	<f:DynamicPage preserveHeaderStateOnScroll="true" showFooter="true" fitContent="true">		
 
 			<f:content> 
 	<VBox class="sapUiSmallMargin">

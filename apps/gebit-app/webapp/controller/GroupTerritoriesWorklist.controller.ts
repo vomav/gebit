@@ -7,7 +7,8 @@ import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 /**
  * @namespace ui5.gebit.app.controller
  */           
-export default class MyTerritoryWorklist extends Controller {
+export default class GroupTerritoriesWorklist extends Controller {
+
 	isModelInitialized:Boolean;
 	public onInit() : void {
 		const view = this.getView() as View
@@ -22,16 +23,15 @@ export default class MyTerritoryWorklist extends Controller {
 
 	public attachRouteMatched(oEvent:Router$RouteMatchedEvent) {
 		let routeName = oEvent.getParameter("name");
-		if(routeName == "myTerritories" && this.isModelInitialized) {
+		if(routeName == "groupTerritories" && this.isModelInitialized) {
 			this.getView()?.getModel()?.refresh();
 		}
 		this.isModelInitialized = true;
 	}
-	
 	public onPressListItem(oEvent:Event) {
 		let oBindingContext = (oEvent.getSource() as ColumnListItem).getBindingContext();
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
-		router.navTo("myTerritoryDetail",{
+		router.navTo("groupTerritoryDetail",{
 			"id" : oBindingContext?.getProperty("ID")
 		})
 	}

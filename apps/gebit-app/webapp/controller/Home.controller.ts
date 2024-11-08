@@ -45,4 +45,8 @@ export default class Home extends Controller {
 	public navigateToMyTerritoriesApp(oEven:any) {
 		(this.getOwnerComponent() as UIComponent).getRouter().navTo("myTerritories");
 	}
+
+	public navigateToGroupTerritoriesApp(oEven:any) {
+		(this.getOwnerComponent() as UIComponent).getRouter().navTo("groupTerritories");
+	}
 }

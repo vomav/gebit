@@ -1,0 +1,19 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core"
+   xmlns:form="sap.ui.layout.form">
+   	<SelectDialog
+		id="selectUserToAssignPart"
+		title="{i18n>users}"
+		items="{/AvailableUsers}"
+		search=".onValueHelpSearch"
+		confirm=".onSelectUser"
+		cancel=".onValueHelpClose">
+		<StandardListItem
+			iconDensityAware="false"
+			iconInset="false"
+			title="{name} {surname}"
+			description="{email}" 
+			/>
+	</SelectDialog>
+</core:FragmentDefinition>
