@@ -12,6 +12,7 @@ import ActionSheet from "sap/m/ActionSheet";
 import Button from "sap/m/Button";
 import MessageToast from "sap/m/MessageToast";
 import Sorter from "sap/ui/model/Sorter";
+import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 /**
  * @namespace ui5.gebit.app.controller
  */
@@ -19,6 +20,7 @@ export default class GroupTerritoryDetail extends Controller {
 
 	usersDialog: Dialog;
 	currentPartsContextBinding: Context;
+	currentCoordinates:[];
 	public onInit(): void {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);
@@ -29,39 +31,8 @@ export default class GroupTerritoryDetail extends Controller {
 		if (routeName == "groupTerritoryDetail") {
 			this.matched(oEvent.getParameter("arguments").id);
 		}
-
-		this.getView()?.byId("groupTerrirtoryParts")?.getBinding("items").sort(this.getSortter());
 	}
 
-	private getSortter() {
-		var id_sort=new Sorter("isDone");
-
-		id_sort.fnComparator = function(a, b){
-
-		var intA = parseInt(a), intB = parseInt(b);
-
-		if (intA == intB) {
-
-		return 0;
-
-		}
-
-		if (intA < intB) {
-
-		return -1;
-
-		}
-
-		if (intA > intB) {
-
-		return 1;
-
-		}
-
-		return 0;
-
-		};
-	}
  	public matched(context: string) {
 		(this.getView() as any).bindElement("/TerritoryAssignments(" + context + ")");
 
@@ -134,5 +105,92 @@ export default class GroupTerritoryDetail extends Controller {
 
 	public onValueHelpClose(oEvent: Event) {
 		this.usersDialog.clone();
+	}
+
+	public async onFilterSelect (oEvent:Event) {
+		
+		let sKey = oEvent.getParameter("key");
+
+		let aFilters = [];
+		let aSorters = [] as Sorter[];
+		let oBinding = this.getView()?.byId("groupTerrirtoryParts")?.getBinding("items") as ODataListBinding;
+		let isDoneFilter = new Filter("isDone", FilterOperator.NE, true);
+		let sortByName = new Sorter("name", false);
+		
+		switch (sKey) {
+			case "All":
+				aSorters.push(sortByName);
+				break;
+			
+			case "Available":
+				aFilters.push(isDoneFilter);
+				aSorters.push(sortByName);
+				break;
+	
+			case "CloseToMe":
+			aFilters.push(isDoneFilter);
+
+			// let sort = new Sorter("coordinates", false, this.sortByPossition);
+				navigator.geolocation.getCurrentPosition(this.onCurrentCoordinatesReceived.bind(this));
+				// oBinding.sort([sort]);
+				// aSorters.push(sort);
+				break;
+
+			default:
+				break;
+		}
+
+		oBinding.filter(new Filter(aFilters));
+		oBinding.sort(aSorters);
+		
+
+
+	}
+
+	public sortByPossition(value1, value2) {
+		console.log("value1 " + value1.getObject());
+		console.log("value2 " + value2.getObject());
+		return 0;
+	}
+
+	public onCurrentCoordinatesReceived(position:any) {
+		let oBinding = this.getView()?.byId("groupTerrirtoryParts")?.getBinding("items") as ODataListBinding;
+		
+
+		
+		Sorter.defaultComparator = (a:any,b:any) =>{
+			console.log("value1 " + a.getObject());
+			console.log("value2 " + b.getObject());
+			return 0;
+		};
+
+
+		// let sort = new Sorter("coordinates", false, false, function(value1:any, value2:any) {
+		// 	console.log("value1 " + value1.getObject());
+		// 	console.log("value2 " + value2.getObject());
+		// 	return 0;
+		// });
+
+		let sort = new  Sorter({
+			path: "coordinates",
+			descending: false
+		});
+
+		sort.defaultComparator =function(value1:any, value2:any) {
+				console.log("value1 " + value1.getObject());
+				console.log("value2 " + value2.getObject());
+				return 0;
+			};
+		let lat = position.coords.latitude;
+		let long = position.coords.longitude;
+
+		let coords = [lat, long];
+		this.getView().data("coords", coords)
+
+		oBinding.sort([sort]);
+	
+		console.log(lat + " : " + long);
+		// this.currentCoordinates.push(lat);
+		// this.currentCoordinates.push(long);
 	}
 }

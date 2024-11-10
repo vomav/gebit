@@ -647,7 +647,7 @@
         </Polygon>
       </Placemark>
       <Placemark>
-        <name>1</name>
+        <name>01</name>
         <styleUrl>#poly-880E4F-1200-77-nodesc</styleUrl>
         <Polygon>
           <outerBoundaryIs>
@@ -666,7 +666,7 @@
         </Polygon>
       </Placemark>
       <Placemark>
-        <name>2</name>
+        <name>02</name>
         <styleUrl>#poly-E65100-1200-77-nodesc</styleUrl>
         <Polygon>
           <outerBoundaryIs>
@@ -686,7 +686,7 @@
         </Polygon>
       </Placemark>
       <Placemark>
-        <name>3</name>
+        <name>03</name>
         <styleUrl>#poly-F9A825-1200-77-nodesc</styleUrl>
         <Polygon>
           <outerBoundaryIs>
@@ -707,7 +707,7 @@
         </Polygon>
       </Placemark>
       <Placemark>
-        <name>4</name>
+        <name>04</name>
         <styleUrl>#poly-FFD600-1200-77-nodesc</styleUrl>
         <Polygon>
           <outerBoundaryIs>
@@ -725,7 +725,7 @@
         </Polygon>
       </Placemark>
       <Placemark>
-        <name>5</name>
+        <name>05</name>
         <styleUrl>#poly-558B2F-1200-77-nodesc</styleUrl>
         <Polygon>
           <outerBoundaryIs>
@@ -743,7 +743,7 @@
         </Polygon>
       </Placemark>
       <Placemark>
-        <name>6</name>
+        <name>06</name>
         <styleUrl>#poly-FF5252-1200-77-nodesc</styleUrl>
         <Polygon>
           <outerBoundaryIs>
@@ -761,7 +761,7 @@
         </Polygon>
       </Placemark>
       <Placemark>
-        <name>7</name>
+        <name>07</name>
         <styleUrl>#poly-FFEA00-1200-77-nodesc</styleUrl>
         <Polygon>
           <outerBoundaryIs>
@@ -779,7 +779,7 @@
         </Polygon>
       </Placemark>
       <Placemark>
-        <name>8</name>
+        <name>08</name>
         <styleUrl>#poly-7CB342-1200-77-nodesc</styleUrl>
         <Polygon>
           <outerBoundaryIs>
@@ -799,7 +799,7 @@
         </Polygon>
       </Placemark>
       <Placemark>
-        <name>9</name>
+        <name>09</name>
         <styleUrl>#poly-0F9D58-1200-77-nodesc</styleUrl>
         <Polygon>
           <outerBoundaryIs>
