@@ -14,10 +14,16 @@
 				key="All" />
 			<IconTabSeparator />
 			<IconTabFilter
+				icon="sap-icon://in-progress"
+				iconColor="Neutral"
+				text="{i18n>inProgress}"
+				key="InProgress" />
+			<IconTabFilter
 				icon="sap-icon://check-availability"
 				iconColor="Positive"
 				text="{i18n>available}"
 				key="Available" />
+
 </items>
 		<content>
    <Table id="groupTerrirtoryParts" items="{

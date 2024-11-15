@@ -24,11 +24,11 @@ public class UserRepository {
     }
 
     public Users byId(String id) {
-    	Select<?> selectByUsersEmail = Select.from(Users_.class).columns(CQL.star()).byId(id);
+    	Select<?> selectByUsersEmail = Select.from(Users_.class).columns(CQL.star(), CQL.to("currentTenant").expand()).byId(id);
     	return persistenceService.run(selectByUsersEmail).single(Users.class);
     }
     public Optional<Users> findUserByEmail(String email) {
-       Select<?> selectByUsersEmail = Select.from(Users_.class).columns(CQL.star()).where(predicate->predicate.email().eq(email));
+       Select<?> selectByUsersEmail = Select.from(Users_.class).columns(CQL.star(), CQL.to("currentTenant").expand()).where(predicate->predicate.email().eq(email));
        return persistenceService.run(selectByUsersEmail).first(Users.class);
     }
 

@@ -103,5 +103,6 @@ service ui_service {
         language: String(10);
         role: String(10);
         isAdmin:Boolean;
+        loggedToSite: String(32);
     }
 }

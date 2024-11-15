@@ -13,6 +13,8 @@ import Button from "sap/m/Button";
 import MessageToast from "sap/m/MessageToast";
 import Sorter from "sap/ui/model/Sorter";
 import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
+import Table from "sap/m/Table";
+import CustomData from "sap/ui/core/CustomData";
 /**
  * @namespace ui5.gebit.app.controller
  */
@@ -110,11 +112,9 @@ export default class GroupTerritoryDetail extends Controller {
 	public async onFilterSelect (oEvent:Event) {
 		
 		let sKey = oEvent.getParameter("key");
-
 		let aFilters = [];
 		let aSorters = [] as Sorter[];
 		let oBinding = this.getView()?.byId("groupTerrirtoryParts")?.getBinding("items") as ODataListBinding;
-		let isDoneFilter = new Filter("isDone", FilterOperator.NE, true);
 		let sortByName = new Sorter("name", false);
 		
 		switch (sKey) {
@@ -123,19 +123,20 @@ export default class GroupTerritoryDetail extends Controller {
 				break;
 			
 			case "Available":
-				aFilters.push(isDoneFilter);
+				aFilters.push(new Filter("userName", FilterOperator.EQ, null));
 				aSorters.push(sortByName);
 				break;
 	
 			case "CloseToMe":
-			aFilters.push(isDoneFilter);
-
-			// let sort = new Sorter("coordinates", false, this.sortByPossition);
-				navigator.geolocation.getCurrentPosition(this.onCurrentCoordinatesReceived.bind(this));
-				// oBinding.sort([sort]);
-				// aSorters.push(sort);
 				break;
 
+			case "InProgress": 
+				let isNotDone = new Filter([new Filter("isDone", FilterOperator.EQ, null), new Filter("isDone", FilterOperator.EQ, false)], false);
+				let isAssigned = new Filter([new Filter("userName", FilterOperator.NE, null), isNotDone], true);
+				// aFilters.push(isNotDone);
+				aFilters.push(isAssigned);
+				aSorters.push(sortByName);
+				break;
 			default:
 				break;
 		}
@@ -147,50 +148,27 @@ export default class GroupTerritoryDetail extends Controller {
 
 	}
 
-	public sortByPossition(value1, value2) {
-		console.log("value1 " + value1.getObject());
-		console.log("value2 " + value2.getObject());
-		return 0;
-	}
-
-	public onCurrentCoordinatesReceived(position:any) {
-		let oBinding = this.getView()?.byId("groupTerrirtoryParts")?.getBinding("items") as ODataListBinding;
+	// public onCurrentCoordinatesReceived(position:any) {
+	// 	let table = this.getView()?.byId("groupTerrirtoryParts") as Table;
+	// 	let oBinding = table?.getBinding("items") as ODataListBinding;
 		
+	// 	let lat = position.coords.latitude;
+	// 	let long = position.coords.longitude;
 
-		
-		Sorter.defaultComparator = (a:any,b:any) =>{
-			console.log("value1 " + a.getObject());
-			console.log("value2 " + b.getObject());
-			return 0;
-		};
-
-
-		// let sort = new Sorter("coordinates", false, false, function(value1:any, value2:any) {
-		// 	console.log("value1 " + value1.getObject());
-		// 	console.log("value2 " + value2.getObject());
-		// 	return 0;
-		// });
-
-		let sort = new  Sorter({
-			path: "coordinates",
-			descending: false
-		});
-
-		sort.defaultComparator =function(value1:any, value2:any) {
-				console.log("value1 " + value1.getObject());
-				console.log("value2 " + value2.getObject());
-				return 0;
-			};
-		let lat = position.coords.latitude;
-		let long = position.coords.longitude;
-
-		let coords = [lat, long];
-		this.getView().data("coords", coords)
-
-		oBinding.sort([sort]);
 	
-		console.log(lat + " : " + long);
-		// this.currentCoordinates.push(lat);
-		// this.currentCoordinates.push(long);
-	}
+	// 	table.getItems().forEach(item => {
+	// 		let coordinates = item.getBindingContext()?.getObject();
+	// 		// '[[8.6870917,49.4063731],[8.6871132,49.4034408],[8.6871239,49.4019538],[8.6872848,49.4004946],[8.6868127,49.4004597],[8.6887654,49.3991261],[8.6895379,49.3992239],[8.6901387,49.3990703],[8.6907395,49.3991122],[8.6917909,49.3996009],[8.6927994,49.3984838],[8.6930998,49.3979252],[8.6938723,49.3975761],[8.694516,49.3970175],[8.6952242,49.396822],[8.6973699,49.3967102],[8.6977132,49.4016955],[8.6969622,49.4042437],[8.6941942,49.4075459],[8.6870917,49.4063731]]'
+
+	// 		// long : 8.5717693
+	// 		// lat : 49.3848141
+			
+	// 		let cd = new CustomData({key:"proximity", value: Math.round(Math.random() * 100)})
+	// 		item.removeCustomData("proximity");
+	// 		item.addCustomData(cd);
+	// 	});
+		
+	// 	oBinding.sort([new Sorter("")]);
+	// 	console.log(lat + " : " + long);
+	// }
 }

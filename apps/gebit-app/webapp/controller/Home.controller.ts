@@ -5,6 +5,7 @@ import UIComponent from "sap/ui/core/UIComponent";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 import Component from "../Component";
 import Control from "sap/ui/core/Control";
+import { ObjectBindingInfo } from "sap/ui/base/ManagedObject";
 
 /**
  * @namespace ui5.gebit.app.controller
@@ -27,7 +28,11 @@ export default class Home extends Controller {
 	}
 
 	public homeMatched() {
-		this.getView()?.byId("homePage")?.bindElement("/LoggedInUser",);
+		let bi = {} as ObjectBindingInfo;
+		bi.path = "/LoggedInUser",
+		bi.model = "uiODataModel",
+		
+		this.getView()?.byId("homePage")?.bindElement(bi);
 		(sap.ui.getCore().byId("container-ui5.gebit.app---app--toolHeaderImage") as Control).setVisible(true);
 		(sap.ui.getCore().byId("container-ui5.gebit.app---app--toolHeaderSandwichIcon-img") as Control)?.setVisible(true);
 		

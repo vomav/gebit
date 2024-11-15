@@ -16,7 +16,7 @@
 			"version": "1.0.0"
 		},
 		"dataSources": {
-			"ui_service": {
+			"uiODataModel": {
 				"uri": "/odata/v4/srv.ui_service/",
 				"type": "OData",
 				"settings": {
@@ -97,7 +97,7 @@
 				}
 			},
 			"uiODataModel": {
-				"dataSource": "mainService",
+				"dataSource": "uiODataModel",
 				"preload": false,
 				"type": "sap.ui.model.odata.v4.ODataModel",
 				"settings": {

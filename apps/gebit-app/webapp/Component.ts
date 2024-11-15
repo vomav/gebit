@@ -19,6 +19,9 @@ export default class Component extends UIComponent {
 		let model = this.getModel() as ODataModel;
 		model.changeHttpHeaders({"Authorization" : "Bearer " +  localStorage.getItem("gebitAccessToken")});
 
+		let uiServiceModel = this.getModel("uiODataModel") as ODataModel;
+		uiServiceModel.changeHttpHeaders({"Authorization" : "Bearer " +  localStorage.getItem("gebitAccessToken")});
+
 		super.init();
 		this.getRouter().initialize();
 		let that = this;
@@ -27,8 +30,15 @@ export default class Component extends UIComponent {
 				let router = that.getRouter();
 				router.navTo("welcome");
 			}
-		
+		});
+
+		uiServiceModel.attachDataReceived(function(event:any ) {
+			if(JSON.stringify(event.getParameters()).indexOf("403") >= 0 || JSON.stringify(event.getParameters()).indexOf("401") >= 0 || JSON.stringify(event.getParameters()).indexOf("500") >= 0) {
+				let router = that.getRouter();
+				router.navTo("welcome");
+			}
 		})
+
 	}
 
 
