@@ -75,7 +75,8 @@ entity Tenants : cuid {
     createdBy: Association to one Users;
     name: String(128);
     description: String(1024);
-    toAllowedUsers: Association to many UserTenantMappings on toAllowedUsers.tenant=$self;
-    toAdministrators: Association to many UserTenantMappings on toAdministrators.tenant = $self and toAdministrators.mappingType = 'admin';
+    toUsers: Association to many UserTenantMappings on toUsers.tenant=$self;
+    virtual myRole: String(32);
+    // toAdministrators: Association to many UserTenantMappings on toAdministrators.tenant = $self and toAdministrators.mappingType = 'admin';
 }
 

@@ -1,0 +1,79 @@
+
+<mvc:View
+	controllerName="ui5.gebit.app.reuse.sites.controller.SitesWorklist"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.f.semantic">
+
+	<semantic:SemanticPage
+		headerPinnable="false"
+		toggleHeaderOnTitleClick="false">
+
+		<semantic:titleHeading>
+			<Title text="{i18n>myTerritories}" />
+		</semantic:titleHeading>
+
+		<semantic:content>
+
+			<Table
+				id="sitesWorklist"
+				width="auto"
+				items="{
+					path: '/Tenants'
+				}"
+				noDataText="{i18n>noData}"
+				growing="true"
+				growingScrollToLoad="true"
+				>
+
+				<headerToolbar>
+					<Toolbar>
+						<ToolbarSpacer />
+						<SearchField
+							search=".onSearch"
+							width="auto">
+						</SearchField>
+					</Toolbar>
+				</headerToolbar>
+
+				<columns>
+					<Column>
+						<Text text="{i18n>name}"/>
+					</Column>
+					<Column hAlign="End">
+						<Text text="{i18n>description}"/>
+					</Column>
+					<Column hAlign="End">
+						<Text text="{i18n>myRole}"/>
+					</Column>
+					<Column hAlign="End">
+						<Text text="{i18n>createdBy}"/>
+					</Column>
+				</columns>
+
+				<items>
+					<ColumnListItem
+						type="Navigation"
+						press="onPressListItem">
+						<cells>
+							<Text text="{name}" />
+							<Text text="{description}" />
+							<Text text="{myRole}" />
+							<VBox>
+								<Text text="{createdByName}" />
+								<Text text="{createdBySurname}" />
+							</VBox>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+
+		</semantic:content>
+
+		<semantic:sendEmailAction>
+			
+		</semantic:sendEmailAction>
+
+	</semantic:SemanticPage>
+
+</mvc:View>

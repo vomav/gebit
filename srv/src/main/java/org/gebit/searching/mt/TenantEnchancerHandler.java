@@ -28,7 +28,6 @@ import com.sap.cds.services.request.UserInfo;
 
 @Component
 @ServiceName(value = PersistenceService.DEFAULT_NAME, type = {PersistenceService.class, Searching.class})
-//@ServiceName(value = "*", type = Searching.class)
 public class TenantEnchancerHandler implements EventHandler {
 	
 	private UserInfo userInfo;

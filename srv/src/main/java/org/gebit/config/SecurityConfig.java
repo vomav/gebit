@@ -67,6 +67,7 @@ public class SecurityConfig {
                                         "/odata/v4/srv.registration/**",
                                         "/odata/v4/srv.ui_service/$metadata**",
                                         "/odata/v4/srv.searching/$metadata**",
+                                        "/odata/v4/srv.admin/$metadata**",
                                         "/*",
                                         "/favicon.ico",
                                         "/model/uiModel.json"

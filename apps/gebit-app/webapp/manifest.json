@@ -56,6 +56,12 @@
 				"settings": {},
 				"componentData": {},
 				"lazy": true
+			},
+			"siteComponent": {
+				"name": "ui5.gebit.app.reuse.sites",
+				"settings": {},
+				"componentData": {},
+				"lazy": true
 			}
 		},
 		"dependencies": {
@@ -126,16 +132,6 @@
 					"target": "home"
 				},
 				{
-					"name": "login",
-					"pattern": "login",
-					"target": "login"
-				},
-				{
-					"name": "registration",
-					"pattern": "registration",
-					"target": "registration"
-				},
-				{
 					"name": "welcome",
 					"pattern": "welcome",
 					"target": {
@@ -177,6 +173,18 @@
 					"name": "groupTerritoryDetail",
 					"pattern": "groupTerritoryDetail/{id}",
 					"target": "groupTerritoryDetail"
+				},
+				{
+					"name": "sites",
+					"pattern": "sites",
+					"target": {
+						"name": "sites"
+					}
+				},
+				{
+					"name": "groupTerritoryDetail",
+					"pattern": "groupTerritoryDetail/{id}",
+					"target": "groupTerritoryDetail"
 				}
 			],
 			"targets": {
@@ -184,11 +192,6 @@
 					"type": "View",
 					"id": "home",
 					"name": "Home"
-				},
-				"login": {
-					"type": "View",
-					"id": "login",
-					"name": "Login"
 				},
 				"welcome": {
 					"type": "Component",
@@ -224,6 +227,11 @@
 					"type": "View",
 					"id": "groupTerritoryDetail",
 					"name": "GroupTerritoryDetail"
+				},
+				"sites": {
+					"type": "Component",
+					"usage": "siteComponent",
+					"id": "siteComponent"
 				}
 			}
 		}

@@ -50,7 +50,6 @@ service searching {
     } excluding {
         password
     };
-    entity Tenants as projection on dbTenant;
     // entity UserTenantMappings as projection on dbUserTenantMapping;
 
     entity AvailableUsers as projection on dbUserTenantMapping {
@@ -66,16 +65,29 @@ service searching {
 }
 
 service admin {
-    entity Tenants as projection on dbTenant;
-        entity Users as projection on dbUser {
+
+    entity Tenants as projection on dbTenant {
+        *,
+        createdBy.name as createdByName,
+        createdBy.surname as createdBySurname,
+        toUsers: redirected to UserTenantMappings on toUsers.tenant = $self
+    } 
+    entity Users as projection on dbUser {
         *,
     } excluding {
         password,
         myTerritories
     };
-    entity UserTenantMappings as projection on dbUserTenantMapping;
+    
+    entity UserTenantMappings as projection on dbUserTenantMapping {
+        *,
+        user.name as username,
+        user.surname as surname,
+        user.email as email
+    };
 
 }
+
 
 service registration {
     type RegistredUser {

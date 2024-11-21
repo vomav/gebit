@@ -53,7 +53,7 @@
 					<ImageContent src="sap-icon://company-view" />
 				</TileContent>
 			</GenericTile>
-			<GenericTile header="Manage You Site" subheader="" visible="{uiODataModel>isAdmin}">
+			<GenericTile header="Manage You Site" subheader="" visible="{uiODataModel>isAdmin}" press="navigateToSitesApp">
 				<layoutData>
 					<f:GridContainerItemLayoutData minRows="2" columns="2" />
 				</layoutData>

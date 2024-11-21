@@ -6,6 +6,7 @@ import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 import Component from "../Component";
 import Control from "sap/ui/core/Control";
 import { ObjectBindingInfo } from "sap/ui/base/ManagedObject";
+import { URLHelper } from "sap/m/library";
 
 /**
  * @namespace ui5.gebit.app.controller
@@ -53,5 +54,10 @@ export default class Home extends Controller {
 
 	public navigateToGroupTerritoriesApp(oEven:any) {
 		(this.getOwnerComponent() as UIComponent).getRouter().navTo("groupTerritories");
+	}
+
+	public navigateToSitesApp(oEven:any) {
+		(this.getOwnerComponent() as UIComponent).getRouter().navTo("sites");
+		// URLHelper.redirect("#admin");
 	}
 }

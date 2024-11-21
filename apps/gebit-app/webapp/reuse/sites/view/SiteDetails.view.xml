@@ -1,0 +1,126 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.uxap"
+	xmlns:layout="sap.ui.layout"
+	xmlns:m="sap.m"
+	xmlns:form="sap.ui.layout.form"
+	controllerName="ui5.gebit.app.reuse.sites.controller.SiteDetails"
+	height="100%">
+	<ObjectPageLayout enableLazyLoading="false" upperCaseAnchorBar="false">
+		<headerTitle>
+			<ObjectPageDynamicHeaderTitle>
+				<expandedHeading>
+					<m:Title text="{name}" wrapping="true"/>
+				</expandedHeading>
+
+				<actions>
+					<m:Button text="{i18n>edit}" type="Emphasized" press="onEditButton" visible="{= !${uiModel>/ui/editMode}}"/>
+				</actions>
+			</ObjectPageDynamicHeaderTitle>
+		</headerTitle>
+
+		<sections>
+			<ObjectPageSection titleUppercase="false" title="General Information">
+				<subSections>
+					<ObjectPageSubSection titleUppercase="false" visible="{uiModel>/ui/editMode}" >
+						<form:SimpleForm 
+							editable="true"
+							layout="ResponsiveGridLayout"
+							labelSpanXL="4"
+							labelSpanL="3"
+							labelSpanM="4"
+							labelSpanS="12"
+							adjustLabelSpan="false"
+							emptySpanXL="0"
+							emptySpanL="4"
+							emptySpanM="0"
+							emptySpanS="0"
+							columnsXL="2"
+							columnsL="1"
+							columnsM="1"
+							singleContainerFullSize="false"
+							ariaLabelledBy="Title1" >
+							<form:content>
+								<m:Label text="{i18n>name}"/>
+								<m:Input value="{name}" />
+								<m:Label text="{i18n>description}" />
+								<m:Input value="{description}" />
+							</form:content>
+						</form:SimpleForm>
+					</ObjectPageSubSection>
+					<!-- <ObjectPageSubSection titleUppercase="false" visible="{= !${uiModel>/ui/editMode}}">
+						<form:SimpleForm 
+							editable="false"
+							layout="ResponsiveGridLayout"
+							labelSpanXL="4"
+							labelSpanL="3"
+							labelSpanM="4"
+							labelSpanS="12"
+							adjustLabelSpan="false"
+							emptySpanXL="0"
+							emptySpanL="4"
+							emptySpanM="0"
+							emptySpanS="0"
+							columnsXL="2"
+							columnsL="1"
+							columnsM="1"
+							singleContainerFullSize="false"
+							ariaLabelledBy="Title1" >
+							<form:content>
+								<m:Label text="{i18n>name}"/>
+								<m:Link href="{link}" text="{name}"/>
+								<m:Label text="{i18n>description}"/>
+								<m:Text text="{description}" />
+							</form:content>
+						</form:SimpleForm>
+					</ObjectPageSubSection> -->
+				</subSections>
+			</ObjectPageSection>
+
+			<ObjectPageSection titleUppercase="false" title="{i18n>users}">
+				<subSections>
+					<ObjectPageSubSection titleUppercase="false">
+						<m:Table id="assignedUsers"  items="{
+							path:'toUsers'
+   						}">
+							<m:columns>
+								<m:Column>
+									<m:Text text="{i18n>user}" />
+								</m:Column>
+								<m:Column>
+									<m:Text text="{i18n>role}" />
+								</m:Column>
+								<m:Column>
+									<m:Text text="{i18n>actions}" />
+								</m:Column>
+							</m:columns>
+							<m:items>
+								<m:ColumnListItem >
+									<m:cells>
+										<m:VBox>
+											<m:Text text="{username}" />
+											<m:Text text="{surname}" />
+										</m:VBox>
+										<m:Text text="{mappingType}" />
+										<m:Button
+											icon="sap-icon://action"
+											class="sapUiSmallMargin"
+											press="onActionButtonPress"
+											type="Transparent"
+											ariaHasPopup="Menu" >
+											<m:dependents>
+											<core:Fragment
+												fragmentName="ui5.gebit.app.reuse.sites.fragment.UserTenantMappingActions"
+												type="XML" />
+											</m:dependents>
+										</m:Button>
+									</m:cells>
+								</m:ColumnListItem>
+							</m:items>
+						</m:Table>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+
+		</sections>
+	</ObjectPageLayout>
+</mvc:View>

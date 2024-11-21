@@ -1,0 +1,130 @@
+{
+	"_version": "1.12.0",
+
+	"sap.app": {
+		"id": "ui5.gebit.app.reuse.sites",
+		"type": "application",
+		"i18n": "reuse/sites/i18n/i18n.properties",
+		"title": "UI5 TypeScript Hello World",
+		"description": "UI5 TypeScript Hello World",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"ach": "",
+		
+		"dataSources": {
+			"mainService": {
+				"uri": "/odata/v4/srv.admin/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "4.0"
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		}
+	},
+
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "ui5.gebit.app.reuse.sites.view.App",
+			"type": "XML",
+			"async": true,
+			"id": "app"
+		},
+
+		"dependencies": {
+			"minUI5Version": "1.112.0",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.ui.layout": {},
+				"sap.ui.unified": {},
+				"sap.m": {},
+				"sap.f": {},
+				"sap.ui.integration": {},
+				"sap.uxap": {}
+			}
+		},
+
+		"handleValidation": true,
+
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+				  "bundleName": "ui5.gebit.app.i18n.i18n"
+				}
+			  },
+			  
+			  "": {
+				"dataSource": "mainService",
+				"preload": false,
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"autoExpandSelect": true,
+					"operationMode": "Server",
+					"groupId": "$direct"
+				}
+			}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"path": "ui5.gebit.app.reuse.sites.view",
+				"controlId": "app",
+				"controlAggregation": "pages",
+				"transition": "slide",
+				"async": true
+			},
+			"routes": [
+				{
+					"name": "App",
+					"pattern": "",
+					"target": "App"
+				},
+				{
+					"name": "sites",
+					"pattern": "sites",
+					"target": "sites"
+				},
+				{
+					"name": "site",
+					"pattern": "site/{id}",
+					"target": "site"
+				}
+			],
+			"targets": {
+				"app": {
+					"type": "View",
+					"id": "app",
+					"name": "App"
+				},
+				"sites": {
+					"type": "View",
+					"id": "sites",
+					"name": "SitesWorklist"
+				},
+				"site": {
+					"type": "View",
+					"id": "site",
+					"name": "SiteDetails"
+				}
+			}
+		}
+	}
+}
