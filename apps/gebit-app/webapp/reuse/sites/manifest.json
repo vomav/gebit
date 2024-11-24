@@ -79,7 +79,12 @@
 					"operationMode": "Server",
 					"groupId": "$direct"
 				}
-			}
+			},
+			"uiModel": {
+				"type": "sap.ui.model.json.JSONModel",
+				    "preload": true,
+    				"uri": "/model/uiModel.json"
+			  }
 		},
 		"routing": {
 			"config": {

@@ -14,6 +14,7 @@
 
 				<actions>
 					<m:Button text="{i18n>edit}" type="Emphasized" press="onEditButton" visible="{= !${uiModel>/ui/editMode}}"/>
+					<m:Button text="{i18n>done}" type="Emphasized" press="onDoneEditButton" visible="{= ${uiModel>/ui/editMode}}"/>
 				</actions>
 			</ObjectPageDynamicHeaderTitle>
 		</headerTitle>
@@ -47,7 +48,7 @@
 							</form:content>
 						</form:SimpleForm>
 					</ObjectPageSubSection>
-					<!-- <ObjectPageSubSection titleUppercase="false" visible="{= !${uiModel>/ui/editMode}}">
+					<ObjectPageSubSection titleUppercase="false" visible="{= !${uiModel>/ui/editMode}}">
 						<form:SimpleForm 
 							editable="false"
 							layout="ResponsiveGridLayout"
@@ -67,21 +68,35 @@
 							ariaLabelledBy="Title1" >
 							<form:content>
 								<m:Label text="{i18n>name}"/>
-								<m:Link href="{link}" text="{name}"/>
+								<m:Text text="{name}" />
 								<m:Label text="{i18n>description}"/>
 								<m:Text text="{description}" />
 							</form:content>
 						</form:SimpleForm>
-					</ObjectPageSubSection> -->
+					</ObjectPageSubSection>
 				</subSections>
 			</ObjectPageSection>
 
 			<ObjectPageSection titleUppercase="false" title="{i18n>users}">
 				<subSections>
 					<ObjectPageSubSection titleUppercase="false">
-						<m:Table id="assignedUsers"  items="{
+						<m:Table id="assignedUsers" selectionChange="onUserTableSelectionChange" alternateRowColors="true" mode="{= ${uiModel>/ui/editMode} ? 'SingleSelectLeft' : 'None'}" items="{
 							path:'toUsers'
    						}">
+							<m:headerToolbar>
+								<m:OverflowToolbar visible="{= ${uiModel>/ui/editMode}}">
+									<m:content>
+										<m:ToolbarSpacer />
+										<m:Button press="onPressAddUserButton" text="{i18n>addUser}" />
+										<m:Button enabled="false" id="deleteSelectedUserButton" press="onPressRemodeSelectedUserButton" text="{i18n>removeUser}" visible="{= ${uiModel>/ui/editMode}}" />
+									</m:content>
+								</m:OverflowToolbar>
+							</m:headerToolbar>
+							<m:infoToolbar>
+								<m:OverflowToolbar>
+									<m:Label text="{i18n>siteUsersListDescription}"/>
+								</m:OverflowToolbar>
+							</m:infoToolbar>
 							<m:columns>
 								<m:Column>
 									<m:Text text="{i18n>user}" />

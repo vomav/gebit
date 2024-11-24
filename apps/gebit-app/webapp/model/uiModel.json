@@ -25,6 +25,13 @@
     },
 
 
+    "sites": {
+        "create": {
+            "email" : "",
+            "mappingType": ""
+        }
+    },
+
     "ui" : {
         "editMode": false 
     }

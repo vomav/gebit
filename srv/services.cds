@@ -71,7 +71,9 @@ service admin {
         createdBy.name as createdByName,
         createdBy.surname as createdBySurname,
         toUsers: redirected to UserTenantMappings on toUsers.tenant = $self
-    } 
+    } actions {
+        action addUserByEmail(email:String, mappingType:String) returns Boolean
+    }
     entity Users as projection on dbUser {
         *,
     } excluding {

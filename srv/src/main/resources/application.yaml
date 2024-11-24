@@ -24,3 +24,6 @@ cds:
   data-source:
     auto-config:
       enabled: false
+
+jwt.secret.access: ${JWT_ACCESS_SECRET}
+jwt.secret.refresh: ${JWT_REFRESH_SECRET}
