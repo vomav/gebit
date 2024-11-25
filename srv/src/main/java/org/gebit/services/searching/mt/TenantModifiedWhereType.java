@@ -1,6 +1,6 @@
-package org.gebit.searching.mt;
+package org.gebit.services.searching.mt;
 
-import static org.gebit.searching.mt.TenantEnchancerHandler.TENANT_DESCRIMITATOR_COLUMN;
+import static org.gebit.services.searching.mt.TenantEnchancerHandler.TENANT_DESCRIMITATOR_COLUMN;
 
 import java.util.Optional;
 

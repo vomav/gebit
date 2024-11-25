@@ -1,4 +1,4 @@
-package org.gebit.registration.handler;
+package org.gebit.services.registration.handler;
 
 import java.util.UUID;
 
@@ -8,8 +8,8 @@ import org.gebit.gen.srv.registration.RegisterContext;
 import org.gebit.gen.srv.registration.Registration_;
 import org.gebit.gen.srv.registration.RegistredUser;
 import org.gebit.i18n.MessageKeys;
-import org.gebit.registration.repository.RegistrationUserRepository;
-import org.gebit.registration.repository.TenantRepository;
+import org.gebit.services.registration.repository.RegistrationUserRepository;
+import org.gebit.services.registration.repository.TenantRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 

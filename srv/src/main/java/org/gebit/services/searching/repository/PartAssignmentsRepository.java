@@ -1,4 +1,4 @@
-package org.gebit.searching.repository;
+package org.gebit.services.searching.repository;
 
 import java.util.Map;
 import java.util.Optional;

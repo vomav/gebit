@@ -1,8 +1,5 @@
-package org.gebit.admin.handler;
+package org.gebit.services.admin.handler;
 
-import org.gebit.admin.repository.TenantsRepository;
-import org.gebit.admin.repository.UserMappingsRepository;
-import org.gebit.admin.repository.UsersRepository;
 import org.gebit.authentication.CustomUserInfoProvider;
 import org.gebit.gen.db.UserTenantMappings;
 import org.gebit.gen.db.UserTenantMappings_;
@@ -11,6 +8,9 @@ import org.gebit.gen.srv.admin.Admin_;
 import org.gebit.gen.srv.admin.Tenants;
 import org.gebit.gen.srv.admin.TenantsAddUserByEmailContext;
 import org.gebit.gen.srv.admin.Tenants_;
+import org.gebit.services.admin.repository.TenantsRepository;
+import org.gebit.services.admin.repository.UserMappingsRepository;
+import org.gebit.services.admin.repository.UsersRepository;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.CQL;

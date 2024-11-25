@@ -1,4 +1,4 @@
-package org.gebit.admin.repository;
+package org.gebit.services.admin.repository;
 
 import org.gebit.gen.db.UserTenantMappings;
 import org.gebit.gen.db.UserTenantMappings_;

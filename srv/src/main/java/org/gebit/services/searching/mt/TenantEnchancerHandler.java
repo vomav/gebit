@@ -1,4 +1,4 @@
-package org.gebit.searching.mt;
+package org.gebit.services.searching.mt;
 
 
 

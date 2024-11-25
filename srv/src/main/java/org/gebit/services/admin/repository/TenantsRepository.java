@@ -1,4 +1,4 @@
-package org.gebit.admin.repository;
+package org.gebit.services.admin.repository;
 
 import org.gebit.gen.srv.admin.Tenants;
 import org.springframework.stereotype.Component;

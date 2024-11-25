@@ -1,4 +1,4 @@
-package org.gebit.registration.handler;
+package org.gebit.services.registration.handler;
 
 import static org.gebit.authentication.CustomUserInfoProvider.LOGON_SURNAME;
 import static org.gebit.authentication.CustomUserInfoProvider.LOGON_USERNAME;

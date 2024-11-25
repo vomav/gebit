@@ -1,4 +1,4 @@
-package org.gebit.registration.repository;
+package org.gebit.services.registration.repository;
 
 import org.springframework.stereotype.Component;
 

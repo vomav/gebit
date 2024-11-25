@@ -1,4 +1,4 @@
-package org.gebit.searching.handler;
+package org.gebit.services.searching.handler;
 
 import static org.gebit.authentication.CustomUserInfoProvider.USER_ID;
 
@@ -15,10 +15,10 @@ import org.gebit.gen.srv.searching.PartAssignmentsCancelPartAssignmentContext;
 import org.gebit.gen.srv.searching.Searching_;
 import org.gebit.gen.srv.searching.TerritoriesAssignToUserContext;
 import org.gebit.gen.srv.searching.TerritoriesWithdrawFromUserContext;
-import org.gebit.searching.repository.PartAssignmentsRepository;
-import org.gebit.searching.repository.TerritoryAssignmentRepository;
-import org.gebit.searching.repository.TerritoryRepository;
-import org.gebit.searching.repository.UserRepository;
+import org.gebit.services.searching.repository.PartAssignmentsRepository;
+import org.gebit.services.searching.repository.TerritoryAssignmentRepository;
+import org.gebit.services.searching.repository.TerritoryRepository;
+import org.gebit.services.searching.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
