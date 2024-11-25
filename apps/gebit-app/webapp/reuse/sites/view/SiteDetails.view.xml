@@ -3,9 +3,10 @@
 	xmlns:layout="sap.ui.layout"
 	xmlns:m="sap.m"
 	xmlns:form="sap.ui.layout.form"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 	controllerName="ui5.gebit.app.reuse.sites.controller.SiteDetails"
-	height="100%">
-	<ObjectPageLayout enableLazyLoading="false" upperCaseAnchorBar="false">
+	height="100%" >
+	<ObjectPageLayout id="siteDetails" enableLazyLoading="false" upperCaseAnchorBar="false" app:isAdmin="{uiODataModel>isAdmin}" app:userid="{uiODataModel>id}" app:tenant="{uiODataModel>tenant}">
 		<headerTitle>
 			<ObjectPageDynamicHeaderTitle>
 				<expandedHeading>

@@ -19,6 +19,13 @@
 				"settings": {
 					"odataVersion": "4.0"
 				}
+			},
+			"uiODataModel": {
+				"uri": "/odata/v4/srv.ui_service/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "4.0"
+				}
 			}
 		}
 	},
@@ -84,7 +91,18 @@
 				"type": "sap.ui.model.json.JSONModel",
 				    "preload": true,
     				"uri": "/model/uiModel.json"
-			  }
+			  },
+			  "uiODataModel": {
+				"dataSource": "uiODataModel",
+				"preload": false,
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"autoExpandSelect": true,
+					"earlyRequests": false,
+					"operationMode": "Server",
+					"groupId": "$direct"
+				}
+			}
 		},
 		"routing": {
 			"config": {

@@ -11,6 +11,7 @@ import MessageBox from "sap/m/MessageBox";
 import MessageToast from "sap/m/MessageToast";
 import Context from "sap/ui/model/odata/v4/Context";
 import Button from "sap/m/Button";
+import { ObjectBindingInfo } from "sap/ui/base/ManagedObject";
 /**
  * @namespace ui5.gebit.app.reuse.sites.controller
  */           
@@ -31,6 +32,12 @@ export default class SiteDetails extends Controller {
 
 	public matched(context:string) {
 		(this.getView() as any).bindElement("/Tenants("+context+")");
+
+		let bi = {} as ObjectBindingInfo;
+		bi.path = "/LoggedInUser";
+		bi.model = "uiODataModel";
+		
+		this.getView()?.bindElement(bi);
 		
 	}
 
