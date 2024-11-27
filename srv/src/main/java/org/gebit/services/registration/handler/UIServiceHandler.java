@@ -6,6 +6,7 @@ import static org.gebit.authentication.CustomUserInfoProvider.USER_ID;
 
 import java.util.List;
 
+import org.gebit.authentication.CrossTenantPermissions;
 import org.gebit.authentication.repository.UserRepository;
 import org.gebit.gen.db.Users;
 import org.gebit.gen.srv.ui_service.LoggedInUser;
@@ -47,8 +48,9 @@ public class UIServiceHandler implements EventHandler {
 		user.setSurname(userInfo.getAdditionalAttribute(LOGON_SURNAME).toString());
 		user.setTenant(userInfo.getTenant());
 		user.setLoggedToSite(savedUser.getCurrentTenant().getName());
-		user.setRole(userInfo.getAdditionalAttribute("ROLE_" + savedUser.getCurrentTenantId()).toString());
-		user.setIsAdmin(userInfo.getAdditionalAttribute("ROLE_" + savedUser.getCurrentTenantId()).toString().equals("admin"));
+		CrossTenantPermissions perm = (CrossTenantPermissions) userInfo.getAdditionalAttribute(savedUser.getCurrentTenantId());
+		user.setRole(perm.getMappingType());
+		user.setIsAdmin(perm.getMappingType().equals("admin"));
 		context.setResult(List.of(user));
 		context.setCompleted();
 		

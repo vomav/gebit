@@ -57,7 +57,7 @@ public class JwtProvider {
         return Jwts.builder()
                 .setSubject(user.getEmail())
                 .setExpiration(accessExpiration)
-                .claim(ROLES_CLAIM, permissions.stream().map(permission-> permission.getTenantId() + ":" + permission.getMappingType()).toList())
+                .claim(ROLES_CLAIM, permissions.stream().map(this::createRole).toList())
                 .claim(USERNAME_CLAIM, user.getName())
                 .claim(SURNAME_CLAIM, user.getSurname())
                 .claim(TENANT_ID_CLAIM, user.getCurrentTenantId())
@@ -73,7 +73,7 @@ public class JwtProvider {
         return Jwts.builder()
                 .setSubject(user.getEmail())
                 .setExpiration(refreshExpiration)
-                .claim(ROLES_CLAIM, permissions.stream().map(permission-> permission.getTenantId() + ":" + permission.getMappingType()).toList())
+                .claim(ROLES_CLAIM, permissions.stream().map(this::createRole).toList())
                 .claim(USERNAME_CLAIM, user.getName())
                 .claim(SURNAME_CLAIM, user.getSurname())
                 .claim(TENANT_ID_CLAIM, user.getCurrentTenantId())
@@ -82,6 +82,10 @@ public class JwtProvider {
                 .compact();
     }
 
+    private String createRole(UserTenantMappings permission) {
+    	return permission.getTenant().getName() + ":" + permission.getTenantId() + ":" + permission.getMappingType();
+    }
+    
     public boolean validateAccessToken(String accessToken) {
         return validateToken(accessToken, jwtAccessSecret);
     }

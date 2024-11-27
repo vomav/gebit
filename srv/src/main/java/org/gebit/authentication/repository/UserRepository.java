@@ -33,7 +33,7 @@ public class UserRepository {
     }
 
     public List<UserTenantMappings> getUserPermission(Users Users) {
-        Select<?> selectUsersTenantMappings = Select.from(UserTenantMappings_.class).columns(CQL.star()).where(predicate-> predicate.user_ID().eq(Users.getId()));
+        Select<?> selectUsersTenantMappings = Select.from(UserTenantMappings_.class).columns(CQL.star(), CQL.to("tenant").expand()).where(predicate-> predicate.user_ID().eq(Users.getId()));
         return persistenceService.run(selectUsersTenantMappings).listOf(UserTenantMappings.class);
     }
 

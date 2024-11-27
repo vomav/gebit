@@ -1,6 +1,6 @@
-package org.gebit.services.searching.mt;
+package org.gebit.services.searching.mt.isolatate;
 
-import static org.gebit.services.searching.mt.TenantEnchancerHandler.TENANT_DESCRIMITATOR_COLUMN;
+import static org.gebit.services.searching.mt.isolatate.TenantEnchancerHandler.TENANT_DESCRIMITATOR_COLUMN;
 
 import java.util.Optional;
 
