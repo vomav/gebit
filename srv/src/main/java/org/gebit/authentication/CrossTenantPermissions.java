@@ -37,7 +37,10 @@ public class CrossTenantPermissions {
 		if(parts.length != 3) {
 			throw new ServiceException("Not valid ROLE");
 		}
-		return new CrossTenantPermissions(parts[0], parts[1], parts[2]);
+		
+		String site = parts[0].startsWith("ROLE_") ? parts[0].split("_")[1] : parts[0];
+		
+		return new CrossTenantPermissions(site, parts[1], parts[2]);
 	}
 
 }

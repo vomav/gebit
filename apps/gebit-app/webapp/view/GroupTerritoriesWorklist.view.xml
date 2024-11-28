@@ -3,7 +3,9 @@
 	controllerName="ui5.gebit.app.controller.GroupTerritoriesWorklist"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:semantic="sap.f.semantic">
+	xmlns:semantic="sap.f.semantic"
+	xmlns:core="sap.ui.core"
+	>
 
 	<semantic:SemanticPage
 		headerPinnable="false"
@@ -38,6 +40,9 @@
 					<Column>
 						<Text text="{i18n>name}"/>
 					</Column>
+					<Column>
+						<Text text="{i18n>site}"/>
+					</Column>
 					<Column hAlign="End">
 						<Text text="{i18n>startedDate}"/>
 					</Column>
@@ -56,12 +61,15 @@
 						<cells>
 							<Link
 								text="{name}" href="{link}"/>
+							<Text text="{site}" />	
 							<Text text="{startedDate}" />
 							<Text text="{finishedDate}" />
 							<Text text="{type}" />
 							<CheckBox selected="{isDone}" />	
-
 						</cells>
+						<customData>
+							<core:CustomData id="tenantDiscriminator" value="{tenantDiscriminator}" />
+						</customData>
 					</ColumnListItem>
 				</items>
 			</Table>

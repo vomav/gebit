@@ -32,6 +32,12 @@ service searching {
       toPartAssignments: redirected to PartAssignments
     } where type = 'Public' and toTerritory.isReady = true;
 
+
+    extend projection PublicTerritoryAssignments with {
+        virtual null as site: String
+    };
+     
+
     entity PartAssignments as projection on dbPartAssignmenst {
         *,
         part.name as name,
