@@ -6,6 +6,9 @@ aspect tenant {
     tenantDiscriminator: UUID;
 }
 
+aspect crossTenant {
+    accessBy : String(36) default 'UserTenantMappings';
+}
 
 entity Territories  : cuid, tenant {
     name: String(64);
@@ -28,7 +31,7 @@ entity Parts : cuid, tenant {
 // type GeographyPolygon : String(1024) @odata.Type : 'Edm.GeographyPolygon';
 
 
-entity TerritoryAssignments : cuid, tenant {
+entity TerritoryAssignments : cuid, tenant, crossTenant {
     toTerritory: Association to one Territories;
     isDone: Boolean;
     toPartAssignments: Composition of many PartAssignments on toPartAssignments.toParent = $self;
@@ -39,9 +42,10 @@ entity TerritoryAssignments : cuid, tenant {
         Public;
     };
     assignedTo: Association to one Users;
+    
 }
 
-entity PartAssignments : cuid, tenant {
+entity PartAssignments : cuid, tenant, crossTenant {
     part: Association to one Parts;
     inWorkBy: Association to one Users;
     isDone: Boolean;

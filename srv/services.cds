@@ -1,6 +1,6 @@
 namespace srv;
 
-using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignments as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping } from '../db/database';
+using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignments as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping, db.crossTenant as dbCrossTenant } from '../db/database';
 
 service searching {
 
@@ -25,11 +25,12 @@ service searching {
       toPartAssignments: redirected to PartAssignments
     };
 
+
     entity PublicTerritoryAssignments as select from dbTerritoryAssignment {
       *,
       toTerritory.name as name,
       toTerritory.link as link,
-      toPartAssignments: redirected to PartAssignments
+      toPartAssignments: redirected to PartAssignments,
     } where type = 'Public' and toTerritory.isReady = true;
 
 
@@ -37,7 +38,8 @@ service searching {
         virtual null as site: String
     };
      
-
+    
+    
     entity PartAssignments as projection on dbPartAssignmenst {
         *,
         part.name as name,

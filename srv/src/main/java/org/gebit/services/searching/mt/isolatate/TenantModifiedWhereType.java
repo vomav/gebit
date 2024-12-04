@@ -1,19 +1,14 @@
 package org.gebit.services.searching.mt.isolatate;
 
-import static org.gebit.services.searching.mt.isolatate.TenantEnchancerHandler.TENANT_DESCRIMITATOR_COLUMN;
+import static org.gebit.services.searching.mt.isolatate.TenantPersistenceServiceEnchancerHandler.TENANT_DESCRIMITATOR_COLUMN;
 
 import java.util.Optional;
-
-import javax.sql.rowset.serial.SerialException;
-
-
 
 import com.sap.cds.ql.CQL;
 import com.sap.cds.ql.Predicate;
 import com.sap.cds.ql.cqn.Modifier;
 import com.sap.cds.reflect.CdsElement;
 import com.sap.cds.reflect.CdsEntity;
-import com.sap.cds.services.ServiceException;
 public class TenantModifiedWhereType implements Modifier {
 
 	private String tenant;

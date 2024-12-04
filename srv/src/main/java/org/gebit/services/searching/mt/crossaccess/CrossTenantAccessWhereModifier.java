@@ -1,6 +1,6 @@
 package org.gebit.services.searching.mt.crossaccess;
 
-import static org.gebit.services.searching.mt.isolatate.TenantEnchancerHandler.TENANT_DESCRIMITATOR_COLUMN;
+import static org.gebit.services.searching.mt.isolatate.TenantPersistenceServiceEnchancerHandler.TENANT_DESCRIMITATOR_COLUMN;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +26,12 @@ public class CrossTenantAccessWhereModifier implements Modifier {
 	
 	@Override
 	public Predicate where(Predicate where) {
+		
+//		if(where != null && where.toString().contains("tenantDiscriminator")) {
+//			return where;
+//		}
+		
+		
 		Optional<CdsElement> tenantElement = cdsEntity.elements().filter(e -> e.getName().equals(TENANT_DESCRIMITATOR_COLUMN)).findAny();
 		if(tenantElement.isEmpty()) {
 			tenantElement = cdsEntity.elements().filter(e -> e.getName().equals("tenant_ID")).findAny();
@@ -41,7 +47,7 @@ public class CrossTenantAccessWhereModifier implements Modifier {
 	
 	
 	private Predicate buildDynamicPredicate(CdsElement tenantElement, Predicate p) {
-		Predicate resultPrediate = p;
+		Predicate resultPrediate = null;
 		for(CrossTenantPermissions perm: this.tenants) {
 			String tenant = perm.getTenantId();
 			if(resultPrediate == null) {
@@ -51,7 +57,7 @@ public class CrossTenantAccessWhereModifier implements Modifier {
 			}
 		}
 		
-		return resultPrediate;
+		return p == null ? resultPrediate : CQL.and(p, resultPrediate);
 		
 	}
 	

@@ -4,7 +4,7 @@
    xmlns:form="sap.ui.layout.form"   
    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
    
-<IconTabBar id="idIconTabBar"
+<IconTabBar
 		select=".onFilterSelect">
 
 <items>
@@ -69,6 +69,7 @@
                         ariaHasPopup="Menu" >
                         <dependents>
                            <core:Fragment
+                              id="nestedActions"
                               fragmentName="ui5.gebit.app.fragment.MyPartsActionsheet"
                               type="XML" />
                         </dependents>

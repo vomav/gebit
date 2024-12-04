@@ -36,7 +36,7 @@ export default class GroupTerritoryDetail extends Controller {
 	}
 
  	public matched(context: string) {
-		(this.getView() as any).bindElement("/TerritoryAssignments(" + context + ")");
+		(this.getView() as any).bindElement("/PublicTerritoryAssignments(" + context + ")");
 
 	}
 
@@ -44,7 +44,7 @@ export default class GroupTerritoryDetail extends Controller {
 		let oButton = oEvent.getSource() as Button;
 		this.currentPartsContextBinding = oButton.getBindingContext() ? oButton.getBindingContext():null;
 		let i18nModel = this.getView()?.getModel("i18n");
-		let actionSheet = this.getView()?.byId("myPartsactionSheet") as ActionSheet;
+		let actionSheet = oButton.getDependents()[0] as ActionSheet;
 		actionSheet?.setModel(i18nModel, "i18n");
 		actionSheet.openBy(oButton);
 
