@@ -14,7 +14,11 @@
 				<ToolbarSpacer />
 				<Title text="{i18n>mainTitle}" />
 				<ToolbarSpacer />
-					<!-- <Avatar initials="UI" active="true"/> -->
+					<Avatar
+							enabled="false"
+							initials="{uiODataModel>username}"
+							displaySize="S"
+							press="onPress"/>
 					<Button id="toolHeaderSandwichIcon" icon="sap-icon://menu2"></Button>
 			</tnt:ToolHeader>
 		</tnt:header>

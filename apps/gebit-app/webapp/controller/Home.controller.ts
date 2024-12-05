@@ -33,7 +33,7 @@ export default class Home extends Controller {
 		bi.path = "/LoggedInUser",
 		bi.model = "uiODataModel",
 		
-		this.getView()?.byId("homePage")?.bindElement(bi);
+		sap.ui.getCore().byId("container-ui5.gebit.app---app--toolPage")?.bindElement(bi);
 		(sap.ui.getCore().byId("container-ui5.gebit.app---app--toolHeaderImage") as Control).setVisible(true);
 		(sap.ui.getCore().byId("container-ui5.gebit.app---app--toolHeaderSandwichIcon-img") as Control)?.setVisible(true);
 		

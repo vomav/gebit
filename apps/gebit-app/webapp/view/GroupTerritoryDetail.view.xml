@@ -9,48 +9,14 @@
 		<headerTitle>
 			<ObjectPageDynamicHeaderTitle>
 				<expandedHeading>
-					<m:Title text="{name}" wrapping="true"/>
+					<!-- <m:Title text="{name}" wrapping="true"/> -->
+					<m:Link  text="{name}" href="{link}"/>
 				</expandedHeading>
 
 			</ObjectPageDynamicHeaderTitle>
 		</headerTitle>
 
 		<sections>
-			<ObjectPageSection titleUppercase="false" title="General Information">
-				<subSections>
-					<ObjectPageSubSection titleUppercase="false" >
-						<form:SimpleForm 
-							editable="true"
-							layout="ResponsiveGridLayout"
-							labelSpanXL="4"
-							labelSpanL="3"
-							labelSpanM="4"
-							labelSpanS="12"
-							adjustLabelSpan="false"
-							emptySpanXL="0"
-							emptySpanL="4"
-							emptySpanM="0"
-							emptySpanS="0"
-							columnsXL="2"
-							columnsL="1"
-							columnsM="1"
-							singleContainerFullSize="false"
-							ariaLabelledBy="Title1" >
-							<form:content>
-								<m:Label text="{i18n>link}" />
-								<m:Link  text="{name}" href="{link}"/>
-								<m:Label text="{i18n>isDone}" />
-								<m:CheckBox selected="{isDone}"/>
-								<m:Label text="{i18n>startedDate}" />
-								<m:DatePicker dateValue="{startedDate}"/>
-								<m:Label text="{i18n>finishedDate}" />
-								<m:DatePicker dateValue="{finishedDate}"/>
-							</form:content>
-						</form:SimpleForm>
-					</ObjectPageSubSection>
-				</subSections>
-			</ObjectPageSection>
-
 			<ObjectPageSection titleUppercase="false" title="{i18n>parts}">
 				<subSections>
 					<ObjectPageSubSection titleUppercase="false">
