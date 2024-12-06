@@ -37,7 +37,7 @@
 					<ImageContent src="sap-icon://activities" />
 				</TileContent>
 			</GenericTile>
-			<GenericTile header="My User Profile" subheader="">
+			<GenericTile header="My User Profile" subheader="" press="navigateToUserAdminApp">
 				<layoutData>
 					<f:GridContainerItemLayoutData minRows="2" columns="2" />
 				</layoutData>

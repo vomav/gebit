@@ -58,6 +58,9 @@ export default class Home extends Controller {
 
 	public navigateToSitesApp(oEven:any) {
 		(this.getOwnerComponent() as UIComponent).getRouter().navTo("sites");
-		// URLHelper.redirect("#admin");
+	}
+
+	public navigateToUserAdminApp(oEven:any) {
+		(this.getOwnerComponent() as UIComponent).getRouter().navTo("userAdmin");
 	}
 }

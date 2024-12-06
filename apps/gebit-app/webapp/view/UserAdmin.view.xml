@@ -1,0 +1,12 @@
+<mvc:View xmlns:core="sap.ui.core"
+	controllerName="ui5.gebit.app.controller.UserAdmin"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f">
+
+ 
+	<Page showHeader="false">
+
+	</Page>
+</mvc:View>

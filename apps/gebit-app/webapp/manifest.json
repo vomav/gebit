@@ -185,6 +185,11 @@
 					"name": "groupTerritoryDetail",
 					"pattern": "groupTerritoryDetail/{id}",
 					"target": "groupTerritoryDetail"
+				},
+				{
+					"name": "userAdmin",
+					"pattern": "userAdmin",
+					"target": "userAdmin"
 				}
 			],
 			"targets": {
@@ -232,6 +237,11 @@
 					"type": "Component",
 					"usage": "siteComponent",
 					"id": "siteComponent"
+				},
+				"userAdmin": {
+					"type": "View",
+					"id": "userAdmin",
+					"name": "UserAdmin"
 				}
 			}
 		}
