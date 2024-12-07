@@ -1,4 +1,4 @@
-package org.gebit.authentication.repository;
+package org.gebit.common.user.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +14,7 @@ import com.sap.cds.ql.Select;
 import com.sap.cds.ql.Update;
 import com.sap.cds.services.persistence.PersistenceService;
 
-@Component("authentication_user_repository")
+@Component
 public class UserRepository {
 
     private PersistenceService persistenceService;

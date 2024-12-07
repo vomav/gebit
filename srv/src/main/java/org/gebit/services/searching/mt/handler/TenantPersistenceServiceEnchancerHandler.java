@@ -11,8 +11,6 @@ import org.gebit.gen.srv.searching.Searching;
 import org.gebit.services.searching.mt.crossaccess.CrossTenantAccessWhereModifier;
 import org.gebit.services.searching.mt.isolatate.CrossTenantAccess;
 import org.gebit.services.searching.mt.isolatate.TenantModifiedWhereType;
-import org.gebit.services.searching.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.CdsData;
@@ -41,8 +39,7 @@ public class TenantPersistenceServiceEnchancerHandler implements EventHandler {
 
 	public static final String TENANT_DESCRIMITATOR_COLUMN = "tenantDiscriminator";
 
-	public TenantPersistenceServiceEnchancerHandler(UserInfo userInfo,
-			@Qualifier("searching_user_repository") UserRepository userRepository) {
+	public TenantPersistenceServiceEnchancerHandler(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
 

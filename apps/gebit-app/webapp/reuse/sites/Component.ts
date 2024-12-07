@@ -18,9 +18,6 @@ export default class Component extends UIComponent {
 		let model = this.getModel() as ODataModel;
 		model.changeHttpHeaders({"Authorization" : "Bearer " +  localStorage.getItem("gebitAccessToken")});
 		
-		let uiServiceModel = this.getModel("uiODataModel") as ODataModel;
-		uiServiceModel.changeHttpHeaders({"Authorization" : "Bearer " +  localStorage.getItem("gebitAccessToken")});
-
 		
 		super.init();
 		this.getRouter().initialize();

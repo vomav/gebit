@@ -31,7 +31,7 @@ export default class Home extends Controller {
 	public homeMatched() {
 		let bi = {} as ObjectBindingInfo;
 		bi.path = "/LoggedInUser",
-		bi.model = "uiODataModel",
+		bi.model = "userAdminModel",
 		
 		sap.ui.getCore().byId("container-ui5.gebit.app---app--toolPage")?.bindElement(bi);
 		(sap.ui.getCore().byId("container-ui5.gebit.app---app--toolHeaderImage") as Control).setVisible(true);

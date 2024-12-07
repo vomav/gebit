@@ -16,8 +16,8 @@
 			"version": "1.0.0"
 		},
 		"dataSources": {
-			"uiODataModel": {
-				"uri": "/odata/v4/srv.ui_service/",
+			"userAdminModel": {
+				"uri": "/odata/v4/srv.admin/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "4.0"
@@ -102,8 +102,8 @@
 					"groupId": "$direct"
 				}
 			},
-			"uiODataModel": {
-				"dataSource": "uiODataModel",
+			"userAdminModel": {
+				"dataSource": "userAdminModel",
 				"preload": false,
 				"type": "sap.ui.model.odata.v4.ODataModel",
 				"settings": {

@@ -32,13 +32,6 @@ export default class SiteDetails extends Controller {
 
 	public matched(context:string) {
 		(this.getView() as any).bindElement("/Tenants("+context+")");
-
-		let bi = {} as ObjectBindingInfo;
-		bi.path = "/LoggedInUser";
-		bi.model = "uiODataModel";
-		
-		this.getView()?.bindElement(bi);
-		
 	}
 
 	public onEditButton(oEvent:Event) {

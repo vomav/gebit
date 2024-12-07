@@ -16,7 +16,7 @@
 				<ToolbarSpacer />
 					<Avatar
 							enabled="false"
-							initials="{uiODataModel>username}"
+							initials="{userAdminModel>name}"
 							displaySize="S"
 							press="onPress"/>
 					<Button id="toolHeaderSandwichIcon" icon="sap-icon://menu2"></Button>

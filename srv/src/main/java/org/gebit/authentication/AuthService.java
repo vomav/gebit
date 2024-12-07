@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import jakarta.security.auth.message.AuthException;
 import org.gebit.authentication.dto.JwtRequest;
 import org.gebit.authentication.dto.JwtResponse;
-import org.gebit.authentication.repository.UserRepository;
+import org.gebit.common.user.repository.UserRepository;
 import org.gebit.gen.db.Users;
 import org.gebit.gen.db.UserTenantMappings;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,7 +38,7 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final PasswordEncoder encoder;
 
-    public AuthService(@Qualifier("authentication_user_repository") UserRepository userRepository, JwtProvider jwtProvider, PasswordEncoder encoder) {
+    public AuthService(UserRepository userRepository, JwtProvider jwtProvider, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.jwtProvider = jwtProvider;
         this.encoder = encoder;
