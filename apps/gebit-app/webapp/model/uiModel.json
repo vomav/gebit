@@ -26,9 +26,13 @@
 
 
     "sites": {
-        "create": {
+        "createMapping": {
             "email" : "",
             "mappingType": ""
+        },
+        "createSite": {
+            "name" : "",
+            "description": ""
         }
     },
 

@@ -78,12 +78,12 @@ export default class SiteDetails extends Controller {
 	}
 
 	public  closeAddUserToSiteDialog(oEvent: Event) {
-		this.getView()?.getModel("uiModel").setProperty("/sites/create", {});
+		this.getView()?.getModel("uiModel").setProperty("/sites/createMapping", {});
 		this.addUserToSiteDialog.close();
 	}
 
 	public async addUserToSiteByEmail(oEvent:Event) {
-		let object = this.getView()?.getModel("uiModel").getProperty("/sites/create");
+		let object = this.getView()?.getModel("uiModel").getProperty("/sites/createMapping");
 
 		let model = (this.getView()?.getModel() as ODataModel);
 		let detailPageContext = this.getView()?.getBindingContext() as Context;

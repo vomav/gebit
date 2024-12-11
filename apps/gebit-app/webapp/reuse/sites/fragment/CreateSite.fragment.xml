@@ -3,11 +3,11 @@
    xmlns="sap.m"
    xmlns:u="sap.ui.unified"
    xmlns:form="sap.ui.layout.form">
-   <Dialog
+   <Dialog id="createSite"
       
-      title ="{i18n>addUserByEmail}">
+      title ="{i18n>addSiteDialogTitle}">
 	  <content>
-	  	<VBox class="sapUiSmallMargin">
+
 			
 		<form:SimpleForm
 			editable="true"
@@ -24,33 +24,25 @@
 			columnsXL="2"
 			columnsL="1"
 			columnsM="1"
-			singleContainerFullSize="false" >
+			singleContainerFullSize="false">
 			<form:content>
-				<Label text="{i18n>email}" />
-				<Input value="{uiModel>/sites/createMapping/email}"></Input>
-				<Label text="{i18n>role}" />
-				<Input value="{uiModel>/sites/createMapping/mappingType}"></Input>
-				<!-- <Select forceSelection="true" selectedKey="{/sites/create/mappingType}">
-					<items>
-					    
-						<core:Item key="user" text="{i18n>userRole}" />
-						<core:Item key="admin" text="{i18n>adminRole}" />
-					</items>
-				</Select> -->
+				<Label text="{i18n>name}" />
+				<Input value="{uiModel>name}"></Input>
+				<Label text="{i18n>description}" />
+				<Input value="{uiModel>description}" />
 			</form:content>
 		</form:SimpleForm>
-
-		</VBox>
+		
 	  </content>
       <beginButton>
          <Button
             text="{i18n>create}"
-            press="addUserToSiteByEmail"/>
+            press="onPressCreateSite"/>
       </beginButton>
 	  <endButton>
               <Button
             text="{i18n>close}"
-            press="closeAddUserToSiteDialog"/>
+            press="onCancelCreateSite"/>
       </endButton>
    </Dialog>
 </core:FragmentDefinition>

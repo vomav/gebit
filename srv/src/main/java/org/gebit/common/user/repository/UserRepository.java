@@ -1,5 +1,7 @@
 package org.gebit.common.user.repository;
 
+import static org.gebit.gen.db.Db_.USER_TENANT_MAPPINGS;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -10,8 +12,10 @@ import org.gebit.gen.db.Users_;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.CQL;
+import com.sap.cds.ql.Insert;
 import com.sap.cds.ql.Select;
 import com.sap.cds.ql.Update;
+import com.sap.cds.ql.Upsert;
 import com.sap.cds.services.persistence.PersistenceService;
 
 @Component
@@ -37,8 +41,13 @@ public class UserRepository {
         return persistenceService.run(selectUsersTenantMappings).listOf(UserTenantMappings.class);
     }
 
-   public void updateUser (Users Users){
+   public void updateUser(Users Users){
        Update<?> updatedUsers = Update.entity(Users_.class).data(Users);
        persistenceService.run(updatedUsers);
+   }
+
+   public void upsertUserTenantMapping(UserTenantMappings userMapping) {
+		Upsert insertTenantMapping = Upsert.into(USER_TENANT_MAPPINGS).entry(userMapping);
+		persistenceService.run(insertTenantMapping);
    }
 }

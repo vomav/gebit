@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.gebit.authentication.CrossTenantPermissions;
 import org.gebit.authentication.CustomUserInfoProvider;
+import org.gebit.gen.srv.searching.AvailableUsers_;
 import org.gebit.gen.srv.searching.PublicTerritoryAssignments;
 import org.gebit.gen.srv.searching.PublicTerritoryAssignments_;
 import org.gebit.gen.srv.searching.Searching;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 import com.sap.cds.CdsData;
 import com.sap.cds.ql.CQL;
 import com.sap.cds.ql.cqn.Modifier;
+import com.sap.cds.reflect.CdsElement;
 import com.sap.cds.reflect.CdsEntity;
 import com.sap.cds.reflect.CdsModel;
 import com.sap.cds.reflect.CdsStructuredType;
@@ -51,6 +53,13 @@ public class TenantPersistenceServiceEnchancerHandler implements EventHandler {
 
 		if (m.isPresent())
 			c.setCqn(CQL.copy(c.getCqn(), m.get()));
+
+	}
+	
+	@Before(event = { PersistenceService.EVENT_READ }, entity = {AvailableUsers_.CDS_NAME}, serviceType = { Searching.class })
+	public void onAvailableUsersBeforeRead(CdsReadEventContext c) {
+		
+		
 
 	}
 
@@ -98,11 +107,11 @@ public class TenantPersistenceServiceEnchancerHandler implements EventHandler {
 	private Optional<Modifier> resolveModifier(CrossTenantAccess access, CdsEntity entity) {
 		if (access == CrossTenantAccess.TENANT) {
 			return Optional.of(createTenantSpecifictWhere(entity));
-		} else if (access == CrossTenantAccess.USER_TENANT_MAPPINGS) {
-			return Optional.of(createCrossTenantSpecifictWhere(entity));
+		} 
+		if(access == CrossTenantAccess.NONE) {
+			return Optional.empty();
 		}
-		return Optional.empty();
-
+		return Optional.of(createCrossTenantSpecifictWhere(entity));
 	}
 
 	@Before(event = PersistenceService.EVENT_CREATE, serviceType = { PersistenceService.class })
@@ -110,7 +119,7 @@ public class TenantPersistenceServiceEnchancerHandler implements EventHandler {
 
 		CrossTenantAccess access = this.getCrossTenantAccessType(c.getModel(), c.getTarget().getQualifiedName());
 
-		if (access == CrossTenantAccess.TENANT || access == CrossTenantAccess.USER_TENANT_MAPPINGS) {
+		if (access != CrossTenantAccess.NONE) {
 			data.put(TENANT_DESCRIMITATOR_COLUMN, this.userInfo.getTenant());
 		}
 
@@ -118,18 +127,44 @@ public class TenantPersistenceServiceEnchancerHandler implements EventHandler {
 
 	private CrossTenantAccess getCrossTenantAccessType(CdsModel model, String name) {
 		CdsStructuredType type = model.getStructuredType(name);
-		Optional<?> tenantDiscriminatorElemOpt = type.findElement(TENANT_DESCRIMITATOR_COLUMN);
-		Optional<?> tenantCrossTenantAccessOpt = type.findElement("accessBy");
+		Optional<CdsElement> tenantDiscriminatorElemOpt = type.findElement(TENANT_DESCRIMITATOR_COLUMN);
+		Optional<CdsElement> tenantCrossTenantAccessOpt = type.findElement("accessBy");
 
 		if (tenantDiscriminatorElemOpt.isEmpty() && tenantCrossTenantAccessOpt.isEmpty()) {
 			return CrossTenantAccess.NONE;
 		}
 
-		return tenantDiscriminatorElemOpt.isPresent() && tenantCrossTenantAccessOpt.isPresent()
-				? CrossTenantAccess.USER_TENANT_MAPPINGS
-				: CrossTenantAccess.TENANT;
+		if(tenantCrossTenantAccessOpt.isPresent()) {
+			String accessType = tenantCrossTenantAccessOpt.get().defaultValue().get().toString();
+			CrossTenantAccess crossAccessType;
+			switch (accessType) {
+			case "admin":
+				crossAccessType = CrossTenantAccess.USER_TENANT_MAPPINGS_ADMIN;
+				break;
+
+			case "user":
+				crossAccessType = CrossTenantAccess.USER_TENANT_MAPPINGS_USER;
+				break;
+				
+			case "admin,user":
+				crossAccessType = CrossTenantAccess.USER_TENANT_MAPPINGS_BOTH;
+				break;
+
+				
+			default:
+				crossAccessType = CrossTenantAccess.TENANT;
+				break;
+			}
+			
+			return crossAccessType;
+			
+		}
+		
+		return CrossTenantAccess.TENANT;
+		
 	}
 
+	@SuppressWarnings("unchecked")
 	@After(event = PersistenceService.EVENT_READ, serviceType = { Searching.class }, entity = {
 			PublicTerritoryAssignments_.CDS_NAME })
 	public void onAfterReadPublicTerritoryAssignments(CdsReadEventContext c) {

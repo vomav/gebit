@@ -27,13 +27,13 @@
 				>
 
 				<headerToolbar>
-					<Toolbar>
-						<ToolbarSpacer />
-						<SearchField
-							search=".onSearch"
-							width="auto">
-						</SearchField>
-					</Toolbar>
+					<OverflowToolbar>
+						<content>
+							<ToolbarSpacer />
+							<Button press="onOpenAddSiteDialog" text="{i18n>addSite}" />
+							<Button enabled="false" press="onPressRemoveSite" text="{i18n>removeSite}" />
+						</content>
+					</OverflowToolbar>
 				</headerToolbar>
 
 				<columns>

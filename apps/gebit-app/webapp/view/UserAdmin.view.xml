@@ -3,10 +3,37 @@
 	displayBlock="true"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
-    xmlns:f="sap.f">
+    xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form">
 
  
 	<Page showHeader="false">
+
+			
+		<form:SimpleForm
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="4"
+			labelSpanL="3"
+			labelSpanM="4"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="4"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="2"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<form:content>
+				<Label text="{i18n>name}" />
+				<Input value="{userAdminModel>name}"></Input>
+				<Label text="{i18n>surename}" />
+				<Input value="{userAdminModel>surname}" />
+			</form:content>
+		</form:SimpleForm>
+		
 
 	</Page>
 </mvc:View>

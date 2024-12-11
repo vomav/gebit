@@ -4,7 +4,7 @@
    xmlns:form="sap.ui.layout.form">
    	<SelectDialog
 		title="{i18n>users}"
-		items="{/AvailableUsers}"
+		items="{toAllowedUsers}"
 		search=".onValueHelpSearch"
 		confirm=".onSelectUser"
 		cancel=".onValueHelpClose">

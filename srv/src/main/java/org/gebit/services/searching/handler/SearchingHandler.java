@@ -4,10 +4,17 @@ import static org.gebit.authentication.CustomUserInfoProvider.USER_ID;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.UUID;
 
+import org.gebit.authentication.CustomUserInfoProvider;
+import org.gebit.common.user.repository.UserRepository;
 import org.gebit.gen.db.PartAssignments;
+import org.gebit.gen.db.Tenant;
+import org.gebit.gen.db.Tenants;
 import org.gebit.gen.db.Territories;
 import org.gebit.gen.db.TerritoryAssignments;
+import org.gebit.gen.db.UserTenantMappings;
+import org.gebit.gen.db.Users;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToMeContext;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToUserContext;
 import org.gebit.gen.srv.searching.PartAssignmentsCancelPartAssignmentContext;
@@ -15,6 +22,7 @@ import org.gebit.gen.srv.searching.Searching_;
 import org.gebit.gen.srv.searching.TerritoriesAssignToUserContext;
 import org.gebit.gen.srv.searching.TerritoriesWithdrawFromUserContext;
 import org.gebit.services.searching.repository.PartAssignmentsRepository;
+import org.gebit.services.searching.repository.TenantSearchingRepository;
 import org.gebit.services.searching.repository.TerritoryAssignmentRepository;
 import org.gebit.services.searching.repository.TerritoryRepository;
 import org.springframework.stereotype.Component;
@@ -47,9 +55,6 @@ public class SearchingHandler implements EventHandler {
 		this.userInfo = userInfo;
 		this.partsAssignmentsRepository = partsAssignmentsRepository;
     }
-
-
-	
 
 	@On(event=TerritoriesAssignToUserContext.CDS_NAME)
 	public void onRegister(TerritoriesAssignToUserContext context) {
@@ -112,7 +117,7 @@ public class SearchingHandler implements EventHandler {
 	
 	@On(event=PartAssignmentsAssignPartToMeContext.CDS_NAME)
 	public void assignPartToMe(PartAssignmentsAssignPartToMeContext c) {
-		String userId = c.getUserInfo().getAdditionalAttribute(org.gebit.authentication.CustomUserInfoProvider.USER_ID).toString();
+		String userId = c.getUserInfo().getAdditionalAttribute(USER_ID).toString();
 		
 		CqnSelect select = c.getCqn();
 		PartAssignments pa =  this.partsAssignmentsRepository.runCqnSingleSelect(select, c.getModel());
@@ -130,4 +135,5 @@ public class SearchingHandler implements EventHandler {
 		c.setCompleted();
 	}
 	
+
 }

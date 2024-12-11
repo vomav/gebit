@@ -14,6 +14,7 @@ service searching {
     } actions {
        action assignToUser(userId:String) returns Boolean;
        action withdrawFromUser() returns Boolean;
+       action trasferToAnotherSite(siteId:String) returns Boolean;
     } ;
     entity Parts as projection on dbPart;
 
@@ -30,7 +31,7 @@ service searching {
       *,
       toTerritory.name as name,
       toTerritory.link as link,
-      toPartAssignments: redirected to PartAssignments,
+      toPartAssignments: redirected to PartAssignments
     } where type = 'Public' and toTerritory.isReady = true;
 
 
@@ -52,7 +53,7 @@ service searching {
         action assignPartToUser(userId: String) returns Boolean;
         action cancelPartAssignment() returns Boolean;
     };
-    
+
     entity AvailableUsers as projection on dbUserTenantMapping {
         *,
         tenant.name as tenantName,
@@ -61,7 +62,6 @@ service searching {
         user.surname as surname,
         mappingType as role
     }
-
 
 }
 
@@ -90,6 +90,8 @@ service admin {
         user.surname as surname,
         user.email as email
     };
+
+    action createSite(name:String, description:String) returns Boolean;
 }
 
 

@@ -1,16 +1,24 @@
 package org.gebit.services.admin.handler;
 
-import org.gebit.authentication.CustomUserInfoProvider;
+import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
+
+import static org.gebit.authentication.CustomUserInfoProvider.USER_ID;
+
+import org.gebit.common.user.repository.UserRepository;
+import org.gebit.gen.db.Tenants;
 import org.gebit.gen.db.UserTenantMappings;
 import org.gebit.gen.db.UserTenantMappings_;
 import org.gebit.gen.db.Users;
 import org.gebit.gen.srv.admin.Admin_;
-import org.gebit.gen.srv.admin.Tenants;
+import org.gebit.gen.srv.admin.CreateSiteContext;
+import org.gebit.gen.srv.admin.LoggedInUser_;
 import org.gebit.gen.srv.admin.TenantsAddUserByEmailContext;
 import org.gebit.gen.srv.admin.Tenants_;
 import org.gebit.services.admin.repository.TenantsRepository;
 import org.gebit.services.admin.repository.UserMappingsRepository;
-import org.gebit.services.admin.repository.UsersRepository;
+
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.CQL;
@@ -32,29 +40,33 @@ import com.sap.cds.services.request.UserInfo;
 public class AdminHandler implements EventHandler {
 	
 	private UserInfo userInfo;
-	private UsersRepository userRepository;
+	private UserRepository userRepository;
 	private TenantsRepository tenantRepository;
-	private UserMappingsRepository userMappingRepository;
 	
 	
-	public AdminHandler(UserInfo userInfo, TenantsRepository tenantRepository, UsersRepository userRepository, UserMappingsRepository userMappingRepository) {
+	public AdminHandler(UserInfo userInfo, TenantsRepository tenantRepository, UserRepository userRepository) {
 		this.userInfo = userInfo;
 		this.tenantRepository = tenantRepository;
 		this.userRepository = userRepository;
-		this.userMappingRepository = userMappingRepository;
 	}
 	
 	@Before(entity = Tenants_.CDS_NAME, event = CqnService.EVENT_READ)
 	public void onBeforeTenantsRead(CdsReadEventContext c) {
-		String userId = userInfo.getAdditionalAttribute(CustomUserInfoProvider.USER_ID).toString();
+		String userId = userInfo.getAdditionalAttribute(USER_ID).toString();
 		Modifier m = new WhereModifier(userId);
 		c.setCqn(CQL.copy(c.getCqn(), m));
 	}
 	
+	@Before(entity = LoggedInUser_.CDS_NAME, event = CqnService.EVENT_READ)
+	public void onBeforeLoggedInUserRead(CdsReadEventContext c) {
+		String userId = userInfo.getAdditionalAttribute(USER_ID).toString();
+		Modifier m = new SingletonUserByUserId(userId);
+		c.setCqn(CQL.copy(c.getCqn(), m));
+	}
 	
 	@On(event=TenantsAddUserByEmailContext.CDS_NAME)
 	public void addUserToTenant(TenantsAddUserByEmailContext c) {
-		Tenants tenant = this.tenantRepository.selectSingleTenantByCqnSelect(c.getCqn());
+		org.gebit.gen.srv.admin.Tenants tenant = this.tenantRepository.selectSingleTenantByCqnSelect(c.getCqn());
 		Users user = this.userRepository.findUserByEmail(c.getEmail()).orElseThrow(() -> new ServiceException("email.is.not.registered"));
 		
 		UserTenantMappings mapping = UserTenantMappings.create();
@@ -62,11 +74,41 @@ public class AdminHandler implements EventHandler {
 		mapping.setUserId(user.getId());
 		mapping.setMappingType(c.getMappingType());
 		
-		this.userMappingRepository.upsert(mapping);
+		this.userRepository.upsertUserTenantMapping(mapping);
 		
 		c.setCompleted();
 		c.setResult(true);
 	}
+	
+	@On(event=CreateSiteContext.CDS_NAME)
+	public void onCreateTenant(CreateSiteContext c) {
+		Users user = this.userRepository.byId(this.userInfo.getAdditionalAttribute(USER_ID).toString());
+		String tenantId = UUID.randomUUID().toString();
+		
+		UserTenantMappings mapping = UserTenantMappings.create();
+		mapping.setTenantId(UUID.randomUUID().toString());
+		mapping.setMappingType("admin");
+		mapping.setTenantId(tenantId);
+		mapping.setUserId(user.getId());
+		
+		
+		
+		Tenants newTenant = Tenants.create();
+		newTenant.setId(tenantId);
+		newTenant.setName(c.getName());
+		newTenant.setDescription(c.getDescription());
+		newTenant.setCreatedAt(Instant.now());
+		newTenant.setCreatedBy(user);
+		
+		this.tenantRepository.upsert(newTenant);
+		
+		this.userRepository.upsertUserTenantMapping(mapping);
+		
+		
+		c.setResult(true);
+		c.setCompleted();
+	}
+	
 	
 	
 }
@@ -90,4 +132,23 @@ class WhereModifier implements Modifier {
 		return where == null ? exists : CQL.and(where, exists);
 	}
 	
+}
+
+class SingletonUserByUserId implements Modifier {
+	
+	private String userId;
+
+	public SingletonUserByUserId(String userId) {
+		this.userId = userId;
+	}
+
+//	@Override
+//	public CqnSelectListItem expand(CqnExpand expand) {
+//		Expand<?> toUsers = CQL.to(".toUsers").expand();
+//		return toUsers;
+//	}
+	@Override
+	public CqnPredicate where(Predicate where) {
+		return CQL.get("ID").eq(userId);
+	}
 }

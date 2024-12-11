@@ -4,13 +4,15 @@ using { cuid } from '@sap/cds/common';
 
 aspect tenant {
     tenantDiscriminator: UUID;
+    toAllowedUsers: Association to many UserTenantMappings on toAllowedUsers.tenant.ID = tenantDiscriminator;
 }
 
 aspect crossTenant {
-    accessBy : String(36) default 'UserTenantMappings';
+    accessBy : String(36) default 'admin,user';
 }
 
-entity Territories  : cuid, tenant {
+
+entity Territories  : cuid, tenant, crossTenant {
     name: String(64);
     link: String(2048);
     isReady: Boolean default false;
@@ -19,6 +21,7 @@ entity Territories  : cuid, tenant {
     lastTimeWorked: Date;
     createdAt: Timestamp;
     updatedAt: Timestamp;
+    accessBy: String (36) default 'admin';
 }
 
 entity Parts : cuid, tenant {
@@ -42,7 +45,7 @@ entity TerritoryAssignments : cuid, tenant, crossTenant {
         Public;
     };
     assignedTo: Association to one Users;
-    
+    accessBy: String (36) default 'admin,user';
 }
 
 entity PartAssignments : cuid, tenant, crossTenant {

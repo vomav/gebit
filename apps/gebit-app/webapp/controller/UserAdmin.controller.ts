@@ -29,7 +29,10 @@ export default class UserAdmin extends Controller {
 	}
 
 	public homeMatched() {
-		
+		let bc = {} as ObjectBindingInfo;
+		bc.model="userAdminModel";
+		bc.path="/LoggedInUser";
+		this.getView()?.bindElement(bc);
 	}
 
 	

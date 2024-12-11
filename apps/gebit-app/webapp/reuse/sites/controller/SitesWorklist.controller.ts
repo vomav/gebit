@@ -12,12 +12,16 @@ import Table from "sap/m/Table";
 import Context from "sap/ui/model/Context";
 import ColumnListItem from "sap/m/ColumnListItem";
 import Text from "sap/m/Text";
+import Dialog from "sap/m/Dialog";
+import JSONModel from "sap/ui/model/json/JSONModel";
+import MessageToast from "sap/m/MessageToast";
 
 /**
  * @namespace ui5.gebit.app.reuse.sites.controller
  */           
 export default class SitesWorklist extends Controller {
 
+	oAddSiteDialog: Dialog;
 	public onInit() : void {
 		// apply content density mode to root view
 		const view = this.getView() as View
@@ -69,5 +73,53 @@ export default class SitesWorklist extends Controller {
 		router.navTo("site",{
 			"id" : oBindingContext?.getProperty("ID")
 		})
+	}
+
+	public onOpenAddSiteDialog(oEven:Event) {
+		let that = this;
+		if(this.oAddSiteDialog == null) {
+			this.loadFragment({name:"ui5.gebit.app.reuse.sites.fragment.CreateSite", addToDependents: true}).then(function(dialog:any){
+				that.oAddSiteDialog = dialog as Dialog;
+				that.oAddSiteDialog.bindElement({
+					path: "/sites/createSite",
+					model:"uiModel"
+				});
+				that.oAddSiteDialog.open();
+
+				
+			}.bind(this));
+		} else {
+			that.oAddSiteDialog.open();
+
+		}
+	}
+
+	public onCloseAddSiteDialog(oEven: Event) {
+		(this.getView()?.getModel("uiModel") as JSONModel).setProperty("/sites/createSite", {});
+		this.oAddSiteDialog.close();
+	}
+
+
+
+	public async onPressCreateSite(pEvent:Event) {
+		let object = this.getView()?.getModel("uiModel").getProperty("/sites/createSite");
+
+		let model = (this.getView()?.getModel() as ODataModel);
+		let context = await model.bindContext("/createSite(...)");
+		context.setParameter("name", object.name);
+		context.setParameter("description", object.description);
+
+
+		context.execute().then(function () {
+			MessageToast.show("{i18n>ok}");
+			this.getView()?.getModel().refresh();
+		}.bind(this), function (oError) {
+			MessageBox.error(oError.message);
+		});
+
+	}
+
+	public onPressRemoveSite(pEvent: Event) {
+		
 	}
 }

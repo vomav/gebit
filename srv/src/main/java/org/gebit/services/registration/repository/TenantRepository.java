@@ -3,6 +3,7 @@ package org.gebit.services.registration.repository;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.Insert;
+import com.sap.cds.ql.Upsert;
 import com.sap.cds.services.persistence.PersistenceService;
 
 import static org.gebit.gen.db.Db_.TENANTS;
@@ -11,6 +12,7 @@ import static org.gebit.gen.db.Db_.USER_TENANT_MAPPINGS;
 import java.time.Instant;
 
 import org.gebit.gen.db.Tenants;
+import org.gebit.gen.db.Tenants_;
 import org.gebit.gen.db.Users;
 import org.gebit.gen.db.UserTenantMappings;
 @Component

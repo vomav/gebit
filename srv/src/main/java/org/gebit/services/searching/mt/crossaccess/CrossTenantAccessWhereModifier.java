@@ -17,10 +17,12 @@ public class CrossTenantAccessWhereModifier implements Modifier {
 
 	private List<CrossTenantPermissions> tenants;
 	private CdsEntity cdsEntity;
+	private String permType;
 
 	public CrossTenantAccessWhereModifier(List<CrossTenantPermissions> tenants, CdsEntity cdsEntity) {
 		this.tenants = tenants;
 		this.cdsEntity = cdsEntity;
+		this.permType = cdsEntity.getElement("accessBy").defaultValue().get().toString();
 	}
 	
 	
@@ -43,12 +45,15 @@ public class CrossTenantAccessWhereModifier implements Modifier {
 	private Predicate buildDynamicPredicate(CdsElement tenantElement, Predicate p) {
 		Predicate resultPrediate = null;
 		for(CrossTenantPermissions perm: this.tenants) {
-			String tenant = perm.getTenantId();
-			if(resultPrediate == null) {
-				resultPrediate = CQL.get(tenantElement.getName()).eq(tenant); 
-			} else { 
-				resultPrediate = buildDynamicPredicate(tenantElement, resultPrediate, tenant);
+			String tenant = perm.getTenantId();			
+			if(this.permType.contains(perm.getMappingType())) {
+				if(resultPrediate == null) {
+					resultPrediate = CQL.get(tenantElement.getName()).eq(tenant); 
+				} else { 
+					resultPrediate = buildDynamicPredicate(tenantElement, resultPrediate, tenant);
+				}				
 			}
+			
 		}
 		
 		return p == null ? resultPrediate : CQL.and(p, resultPrediate);
