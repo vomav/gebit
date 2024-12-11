@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.gebit.authentication.CrossTenantPermissions;
 import org.gebit.authentication.CustomUserInfoProvider;
-import org.gebit.gen.srv.searching.AvailableUsers_;
 import org.gebit.gen.srv.searching.PublicTerritoryAssignments;
 import org.gebit.gen.srv.searching.PublicTerritoryAssignments_;
 import org.gebit.gen.srv.searching.Searching;
@@ -56,12 +55,6 @@ public class TenantPersistenceServiceEnchancerHandler implements EventHandler {
 
 	}
 	
-	@Before(event = { PersistenceService.EVENT_READ }, entity = {AvailableUsers_.CDS_NAME}, serviceType = { Searching.class })
-	public void onAvailableUsersBeforeRead(CdsReadEventContext c) {
-		
-		
-
-	}
 
 	private Modifier createTenantSpecifictWhere(CdsEntity cdsEntity) {
 		String tenant = userInfo.getTenant();
