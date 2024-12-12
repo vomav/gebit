@@ -20,6 +20,7 @@ import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToUserContext;
 import org.gebit.gen.srv.searching.PartAssignmentsCancelPartAssignmentContext;
 import org.gebit.gen.srv.searching.Searching_;
 import org.gebit.gen.srv.searching.TerritoriesAssignToUserContext;
+import org.gebit.gen.srv.searching.TerritoriesTrasferToAnotherSiteContext;
 import org.gebit.gen.srv.searching.TerritoriesWithdrawFromUserContext;
 import org.gebit.services.searching.repository.PartAssignmentsRepository;
 import org.gebit.services.searching.repository.TenantSearchingRepository;
@@ -133,6 +134,21 @@ public class SearchingHandler implements EventHandler {
 		
 		c.setResult(true);
 		c.setCompleted();
+	}
+	
+	@On(event = TerritoriesTrasferToAnotherSiteContext.CDS_NAME)
+	public void transferTerritoryToAnotherSite(TerritoriesTrasferToAnotherSiteContext context) {
+		Territories territory = this.territoryRepository.runCqn(context.getCqn());
+		context.getSiteId();
+		
+		territory.setTenantDiscriminator(context.getSiteId());
+		
+		territory.getToParts().forEach(p -> p.setTenantDiscriminator(context.getSiteId()));
+		
+		this.territoryRepository.save(territory);
+		
+		context.setResult(true);
+		context.setCompleted();
 	}
 	
 

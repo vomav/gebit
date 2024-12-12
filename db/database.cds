@@ -5,6 +5,7 @@ using { cuid } from '@sap/cds/common';
 aspect tenant {
     tenantDiscriminator: UUID;
     toAllowedUsers: Association to many UserTenantMappings on toAllowedUsers.tenant.ID = tenantDiscriminator;
+    toTenant: Association to one Tenants on toTenant.ID = $self.tenantDiscriminator;
 }
 
 aspect crossTenant {

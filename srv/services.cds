@@ -10,7 +10,8 @@ service searching {
     into {
         *,
         toTerritoryAssignment.assignedTo.name as assignedToName,
-        toTerritoryAssignment.assignedTo.surname as assignedToSurname
+        toTerritoryAssignment.assignedTo.surname as assignedToSurname,
+        toAllowedUsers: redirected to TenantMappings on toAllowedUsers.tenant.ID = tenantDiscriminator
     } actions {
        action assignToUser(userId:String) returns Boolean;
        action withdrawFromUser() returns Boolean;
@@ -54,14 +55,18 @@ service searching {
         action cancelPartAssignment() returns Boolean;
     };
 
-    entity AvailableUsers as projection on dbUserTenantMapping {
+    entity TenantMappings as projection on dbUserTenantMapping {
         *,
-        tenant.name as tenantName,
-        user.email as email,
         user.name as name,
         user.surname as surname,
-        mappingType as role
+        user.email as email,
+        tenant.name as siteName,
+        tenant.description as siteDescription
     }
+
+    entity Tenants as projection on dbTenant {
+       *
+    };
 
 }
 

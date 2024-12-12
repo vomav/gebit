@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.sap.cds.ql.CQL;
 import com.sap.cds.ql.Expand;
 import com.sap.cds.ql.Select;
+import com.sap.cds.ql.Upsert;
 import com.sap.cds.ql.cqn.CqnExpand;
 import com.sap.cds.ql.cqn.CqnSelect;
 import com.sap.cds.ql.cqn.CqnSelectListItem;
@@ -44,6 +45,11 @@ public class TerritoryRepository {
 		
 		Territories territory = ps.run(CQL.copy(cqnSelect, m)).single(Territories.class);
 		return this.byId(territory.getId()).get();
+	}
+	
+	public void save(Territories territory) {
+		Upsert upsert = Upsert.into(Territories_.class).entry(territory);
+		ps.run(upsert);
 	}
 
 	
