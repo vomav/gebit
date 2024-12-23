@@ -42,6 +42,8 @@ public class CustomUserInfoProvider implements UserInfoProvider {
 		userInfo.setAdditionalAttribute(LOGON_USERNAME, jwtInfoToken.getUsername());
 		userInfo.setAdditionalAttribute(LOGON_SURNAME, jwtInfoToken.getSurname());
 		userInfo.setAdditionalAttribute(USER_ID, jwtInfoToken.getUserId());
+		
+		
 		List<CrossTenantPermissions> perms = new ArrayList<>();
 		jwtInfoToken.getAuthorities().forEach(authority -> {
 			CrossTenantPermissions perm = CrossTenantPermissions.create(authority.toString());

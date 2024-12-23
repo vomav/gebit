@@ -55,6 +55,13 @@ public class TenantPersistenceServiceEnchancerHandler implements EventHandler {
 
 	}
 	
+	
+	@After(event = { PersistenceService.EVENT_READ }, serviceType = { Searching.class })
+	public void onAfterRead(CdsReadEventContext c) {
+		System.out.println("c.getCqn() " + c.getCqn());
+
+	}
+	
 
 	private Modifier createTenantSpecifictWhere(CdsEntity cdsEntity) {
 		String tenant = userInfo.getTenant();

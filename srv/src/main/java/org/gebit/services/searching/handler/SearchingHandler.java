@@ -4,32 +4,30 @@ import static org.gebit.authentication.CustomUserInfoProvider.USER_ID;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.UUID;
 
-import org.gebit.authentication.CustomUserInfoProvider;
-import org.gebit.common.user.repository.UserRepository;
 import org.gebit.gen.db.PartAssignments;
-import org.gebit.gen.db.Tenant;
-import org.gebit.gen.db.Tenants;
 import org.gebit.gen.db.Territories;
 import org.gebit.gen.db.TerritoryAssignments;
-import org.gebit.gen.db.UserTenantMappings;
-import org.gebit.gen.db.Users;
+import org.gebit.gen.db.UserTenantMappings_;
+import org.gebit.gen.srv.searching.Tenants_;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToMeContext;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToUserContext;
 import org.gebit.gen.srv.searching.PartAssignmentsCancelPartAssignmentContext;
 import org.gebit.gen.srv.searching.Searching_;
+import org.gebit.gen.srv.searching.TenantMappings;
+import org.gebit.gen.srv.searching.TenantMappings_;
 import org.gebit.gen.srv.searching.TerritoriesAssignToUserContext;
 import org.gebit.gen.srv.searching.TerritoriesTrasferToAnotherSiteContext;
 import org.gebit.gen.srv.searching.TerritoriesWithdrawFromUserContext;
+import org.gebit.gen.srv.searching.TerritoryAssignments_;
 import org.gebit.services.searching.repository.PartAssignmentsRepository;
-import org.gebit.services.searching.repository.TenantSearchingRepository;
 import org.gebit.services.searching.repository.TerritoryAssignmentRepository;
 import org.gebit.services.searching.repository.TerritoryRepository;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.CQL;
 import com.sap.cds.ql.Predicate;
+import com.sap.cds.ql.Select;
 import com.sap.cds.ql.cqn.CqnPredicate;
 import com.sap.cds.ql.cqn.CqnSelect;
 import com.sap.cds.ql.cqn.Modifier;
@@ -81,7 +79,7 @@ public class SearchingHandler implements EventHandler {
 		context.setCompleted();
 	}
 	
-	@Before(event = CqnService.EVENT_READ, entity = org.gebit.gen.srv.searching.TerritoryAssignments_.CDS_NAME)
+	@Before(event = CqnService.EVENT_READ, entity = TerritoryAssignments_.CDS_NAME)
 	public void onBeforeReadMyTerritories(CdsReadEventContext c) {
 		CqnSelect select = c.getCqn();
 		Modifier m = new Modifier() {
@@ -94,6 +92,28 @@ public class SearchingHandler implements EventHandler {
 		c.setCqn(CQL.copy(select,m));
 		
 	}
+	
+	@Before(event = CqnService.EVENT_READ, entity = TenantMappings_.CDS_NAME)
+	public void onBeforeTenantMappingsRead(CdsReadEventContext c) {
+		if(c.getTarget().getQualifiedName().equals(TenantMappings_.CDS_NAME)) {
+			
+		
+		String userId = userInfo.getAdditionalAttribute(USER_ID).toString();
+		
+		Modifier m = new Modifier() {
+			@Override
+			public CqnPredicate where(Predicate where) {
+				Select<?> s = Select.from(TenantMappings_.class).columns(CQL.star()).where(p -> p.user_ID().eq(userId));
+				return where == null ? CQL.exists(s): CQL.and(where,CQL.exists(s));
+			}
+		};
+		
+		
+		c.setCqn(CQL.copy(c.getCqn(), m));
+		
+		}
+	}
+	
 	
 	@On(event=TerritoriesWithdrawFromUserContext.CDS_NAME)
 	public void onwithdrawFromUser(TerritoriesWithdrawFromUserContext c) {
@@ -152,4 +172,19 @@ public class SearchingHandler implements EventHandler {
 	}
 	
 
+//	class WhereModifier implements Modifier {
+//		
+//		private String userId;
+//
+//		public WhereModifier(String userId) {
+//			this.userId = userId;
+//		}
+//
+//		@Override
+//		public CqnPredicate where(Predicate where) {
+//			Predicate exists = CQL.exists(Select.from(UserTenantMappings_.class).columns(CQL.star()).where( predicate -> CQL.and( predicate.user_ID().eq(userId), CQL.get("$outer.ID").eq(predicate.tenant_ID()))  ));
+//			return where == null ? exists : CQL.and(where, exists);
+//		}
+//		
+//	}
 }

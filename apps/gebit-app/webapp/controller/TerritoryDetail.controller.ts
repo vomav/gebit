@@ -16,6 +16,7 @@ import Context from "sap/ui/model/odata/v4/Context";
 export default class TerritoryDetail extends Controller {
 
 	assigTerritoryToUserDialog:Dialog;
+	trasferTerritoryToAnotherSiteDialog:Dialog;
 	public onInit() : void {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);
@@ -117,5 +118,22 @@ export default class TerritoryDetail extends Controller {
 			MessageBox.error(oError.message);
 		}
 	);
+	}
+
+	public onPressTransferToAnotherSiteButton(oEvent: Event) {
+
+		let oView = this.getView();
+		let that = this;
+		if (!this.assigTerritoryToUserDialog) {
+			this.loadFragment({name:"ui5.gebit.app.fragment.SitesToSelectWheretoTransfertTerritory", addToDependents: true}).then(function(dialog:any){
+				that.assigTerritoryToUserDialog = dialog as Dialog;
+				oView?.addDependent(that.assigTerritoryToUserDialog);
+				
+				that.assigTerritoryToUserDialog.open();
+				return that.assigTerritoryToUserDialog;
+			});
+		} else {
+			that.assigTerritoryToUserDialog.open();
+		}
 	}
 }

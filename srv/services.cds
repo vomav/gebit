@@ -11,7 +11,7 @@ service searching {
         *,
         toTerritoryAssignment.assignedTo.name as assignedToName,
         toTerritoryAssignment.assignedTo.surname as assignedToSurname,
-        toAllowedUsers: redirected to TenantMappings on toAllowedUsers.tenant.ID = tenantDiscriminator
+        // toAllowedUsers: redirected to TenantMappings
     } actions {
        action assignToUser(userId:String) returns Boolean;
        action withdrawFromUser() returns Boolean;

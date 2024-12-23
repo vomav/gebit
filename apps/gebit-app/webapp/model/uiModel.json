@@ -21,6 +21,9 @@
         "assignTerritoryToUser": {
             "input" : "",
             "selectedUser" : {}
+        },
+        "transferToAnotherSite": {
+            "sites" : []
         }
     },
 

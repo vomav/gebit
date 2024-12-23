@@ -47,12 +47,6 @@ public class AdminHandler implements EventHandler {
 		this.userRepository = userRepository;
 	}
 	
-	@Before(entity = Tenants_.CDS_NAME, event = CqnService.EVENT_READ)
-	public void onBeforeTenantsRead(CdsReadEventContext c) {
-		String userId = userInfo.getAdditionalAttribute(USER_ID).toString();
-		Modifier m = new WhereModifier(userId);
-		c.setCqn(CQL.copy(c.getCqn(), m));
-	}
 	
 	@Before(entity = LoggedInUser_.CDS_NAME, event = CqnService.EVENT_READ)
 	public void onBeforeLoggedInUserRead(CdsReadEventContext c) {
@@ -88,6 +82,7 @@ public class AdminHandler implements EventHandler {
 		newTenant.setDescription(c.getDescription());
 		newTenant.setCreatedAt(Instant.now());
 		newTenant.setCreatedBy(user);
+		newTenant.setDefaultUserTenant(false);
 		this.tenantRepository.upsert(newTenant);
 		
 		UserTenantMappings mapping = UserTenantMappings.create();

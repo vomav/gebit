@@ -6,6 +6,7 @@ aspect tenant {
     tenantDiscriminator: UUID;
     toAllowedUsers: Association to many UserTenantMappings on toAllowedUsers.tenant.ID = tenantDiscriminator;
     toTenant: Association to one Tenants on toTenant.ID = $self.tenantDiscriminator;
+    // toAllowedTenants: Association to many UserTenantMappings on toAllowedTenants;
 }
 
 aspect crossTenant {
@@ -85,6 +86,7 @@ entity Tenants : cuid {
     description: String(1024);
     toUsers: Association to many UserTenantMappings on toUsers.tenant=$self;
     virtual myRole: String(32);
+    defaultUserTenant: Boolean default true;
     // toAdministrators: Association to many UserTenantMappings on toAdministrators.tenant = $self and toAdministrators.mappingType = 'admin';
 }
 

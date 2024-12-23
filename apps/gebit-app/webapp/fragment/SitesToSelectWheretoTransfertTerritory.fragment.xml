@@ -1,0 +1,17 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core"
+   xmlns:form="sap.ui.layout.form">
+   	<SelectDialog
+		title="{i18n>sites}"
+		items="{/TenantMappings}"
+		search=".onValueHelpSearch"
+		confirm=".onSelectTenant"
+		cancel=".onValueHelpClose">
+		<StandardListItem
+			iconDensityAware="false"
+			iconInset="false"
+			title="{name}"
+			/>
+	</SelectDialog>
+</core:FragmentDefinition>

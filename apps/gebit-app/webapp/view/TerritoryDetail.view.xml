@@ -17,6 +17,7 @@
 					<m:Button text="{i18n>done}" type="Emphasized" press="onDisplayMode" visible="{uiModel>/ui/editMode}"/>
 					<m:Button text="{i18n>withdraw}" type="Emphasized" press="onWithdraw" visible="{= !${uiModel>/ui/editMode}}"/>
 					<m:Button text="{i18n>assignToUser}" type="Emphasized" press="onOpenDialogAssignTerritoryToUserPress" visible="{= !${uiModel>/ui/editMode}}"/>
+					<m:Button text="{i18n>transferToAnotherSite}" type="Emphasized" press="onPressTransferToAnotherSiteButton" visible="{= !${uiModel>/ui/editMode}}"/>
 					<m:Button type="Transparent" text="Delete" press="onDeleteTerritory" visible="{= !${isReady}}" />
 				</actions>
 			</ObjectPageDynamicHeaderTitle>
