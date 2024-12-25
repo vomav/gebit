@@ -51,14 +51,17 @@
 
 				<columns>
 					<Column>
-						<Text text="Name"/>
+						<Text text="{i18n>name}"/>
 					</Column>
 					<Column>
-						<Text text="{assignedTo}" />
+						<Text text="{i18n>assignedTo}" />
 					</Column>
-					
+					<Column>
+						<Text text="{i18n>siteId}" />
+					</Column>
+
 					<Column hAlign="End">
-						<Text text="Last Time Worked"/>
+						<Text text="{i18n>lastTimeWorked}"/>
 					</Column>
 				</columns>
 
@@ -70,6 +73,7 @@
 							<Link
 								text="{name}" href="{link}"/>
 							<Text text="{assignedToName} {assignedToSurname} " />
+							<Text text="{siteName}" />
 							<Text text="{lastTimeWorked}" />
 						</cells>
 					</ColumnListItem>

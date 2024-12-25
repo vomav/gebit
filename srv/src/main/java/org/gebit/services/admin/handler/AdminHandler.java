@@ -14,7 +14,6 @@ import org.gebit.gen.srv.admin.Admin_;
 import org.gebit.gen.srv.admin.CreateSiteContext;
 import org.gebit.gen.srv.admin.LoggedInUser_;
 import org.gebit.gen.srv.admin.TenantsAddUserByEmailContext;
-import org.gebit.gen.srv.admin.Tenants_;
 import org.gebit.services.admin.repository.TenantsRepository;
 import org.springframework.stereotype.Component;
 
@@ -53,6 +52,12 @@ public class AdminHandler implements EventHandler {
 		String userId = userInfo.getAdditionalAttribute(USER_ID).toString();
 		Modifier m = new SingletonUserByUserId(userId);
 		c.setCqn(CQL.copy(c.getCqn(), m));
+	}
+	
+	@Before(entity = org.gebit.gen.srv.admin.UserTenantMappings_.CDS_NAME, event = CqnService.EVENT_READ)
+	public void onBeforeTenantMappingsRead(CdsReadEventContext c) {
+		System.out.println("onBeforeTenantMappingsRead");
+		System.out.println(c.getCqn());
 	}
 	
 	@On(event=TenantsAddUserByEmailContext.CDS_NAME)

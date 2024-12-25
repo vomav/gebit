@@ -1,18 +1,18 @@
 package org.gebit.authentication;
 
-import io.jsonwebtoken.Claims;
-import jakarta.security.auth.message.AuthException;
+import java.util.List;
+
 import org.gebit.authentication.dto.JwtRequest;
 import org.gebit.authentication.dto.JwtResponse;
 import org.gebit.common.user.repository.UserRepository;
-import org.gebit.gen.db.Users;
 import org.gebit.gen.db.UserTenantMappings;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.gebit.gen.db.Users;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import io.jsonwebtoken.Claims;
+import jakarta.security.auth.message.AuthException;
 
 
 /**
@@ -47,8 +47,8 @@ public class AuthService {
     public JwtResponse login(JwtRequest authRequest) throws AuthException {
         final Users user = userRepository.findUserByEmail(authRequest.getLogin())
                 .orElseThrow(() -> new AuthException("User is not found"));
-        List<UserTenantMappings> permissions = userRepository.getUserPermission(user);
         if (encoder.matches(authRequest.getPassword(), user.getPassword())) {
+        	List<UserTenantMappings> permissions = userRepository.getUserPermission(user);
             final String accessToken = jwtProvider.generateAccessToken(user,permissions);
             final String refreshToken = jwtProvider.generateRefreshToken(user,permissions);
             user.setRefreshToken(refreshToken);

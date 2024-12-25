@@ -1,26 +1,38 @@
 namespace srv;
 
-using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignments as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping, db.crossTenant as dbCrossTenant } from '../db/database';
+using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignments as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping } from '../db/database';
 
 service searching {
 
-    entity Territories as select from dbTerritory mixin{
+    entity Territories     
+    @(restrict: [
+     { grant: '*',
+       where: '$user.adminIn = tenantDiscriminator' } ])  
+    as select from dbTerritory mixin{
         toTerritoryAssignment: Association to one TerritoryAssignments on toTerritoryAssignment.toTerritory = $self;
     }
     into {
         *,
         toTerritoryAssignment.assignedTo.name as assignedToName,
         toTerritoryAssignment.assignedTo.surname as assignedToSurname,
-        // toAllowedUsers: redirected to TenantMappings
+        toTenant.name as siteName,
+        toTenant.description as siteDescription
     } actions {
        action assignToUser(userId:String) returns Boolean;
        action withdrawFromUser() returns Boolean;
        action trasferToAnotherSite(siteId:String) returns Boolean;
     } ;
-    entity Parts as projection on dbPart;
+    entity Parts @(restrict: [
+     { grant: '*',
+       where: '$user.adminIn = tenantDiscriminator' } ]) 
+     as projection on dbPart;
 
     @cds.redirection.target: true
-    entity TerritoryAssignments as projection on dbTerritoryAssignment {
+    entity TerritoryAssignments
+    @(restrict: [
+     { grant: '*',
+       where: '$user.userIn = tenantDiscriminator' } ]) 
+    as projection on dbTerritoryAssignment {
       *,
       toTerritory.name as name,
       toTerritory.link as link,
@@ -28,7 +40,11 @@ service searching {
     };
 
     @cds.redirection.target: false
-    entity PublicTerritoryAssignments as select from dbTerritoryAssignment {
+    entity PublicTerritoryAssignments
+    @(restrict: [
+     { grant: '*',
+       where: '$user.userIn = tenantDiscriminator' } ]) 
+    as select from dbTerritoryAssignment {
       *,
       toTerritory.name as name,
       toTerritory.link as link,
@@ -42,7 +58,11 @@ service searching {
      
     
     
-    entity PartAssignments as projection on dbPartAssignmenst {
+    entity PartAssignments 
+    @(restrict: [
+     { grant: '*',
+       where: '$user.userIn = tenantDiscriminator' } ]) 
+    as projection on dbPartAssignmenst {
         *,
         part.name as name,
         part.coordinates as coordinates,
@@ -64,7 +84,11 @@ service searching {
         tenant.description as siteDescription
     }
 
-    entity Tenants as projection on dbTenant {
+    entity Tenants
+    @(restrict: [
+     { grant: '*',
+       where: '$user.adminIn = ID' } ]) 
+    as projection on dbTenant {
        *
     };
 
@@ -72,7 +96,11 @@ service searching {
 
 service admin {
 
-    entity Tenants as projection on dbTenant {
+    entity Tenants 
+    @(restrict: [
+     { grant: '*',
+       where: '$user.adminIn = ID' } ]) 
+    as projection on dbTenant {
         *,
         createdBy.name as createdByName,
         createdBy.surname as createdBySurname,
@@ -89,7 +117,8 @@ service admin {
         myTerritories
     };
     
-    entity UserTenantMappings as projection on dbUserTenantMapping {
+    entity UserTenantMappings as projection on dbUserTenantMapping 
+    {
         *,
         user.name as username,
         user.surname as surname,

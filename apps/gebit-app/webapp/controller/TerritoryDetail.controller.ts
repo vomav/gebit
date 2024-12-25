@@ -124,16 +124,34 @@ export default class TerritoryDetail extends Controller {
 
 		let oView = this.getView();
 		let that = this;
-		if (!this.assigTerritoryToUserDialog) {
+		if (!this.trasferTerritoryToAnotherSiteDialog) {
 			this.loadFragment({name:"ui5.gebit.app.fragment.SitesToSelectWheretoTransfertTerritory", addToDependents: true}).then(function(dialog:any){
-				that.assigTerritoryToUserDialog = dialog as Dialog;
-				oView?.addDependent(that.assigTerritoryToUserDialog);
+				that.trasferTerritoryToAnotherSiteDialog = dialog as Dialog;
+				oView?.addDependent(that.trasferTerritoryToAnotherSiteDialog);
 				
-				that.assigTerritoryToUserDialog.open();
-				return that.assigTerritoryToUserDialog;
+				that.trasferTerritoryToAnotherSiteDialog.open();
+				return that.trasferTerritoryToAnotherSiteDialog;
 			});
 		} else {
-			that.assigTerritoryToUserDialog.open();
+			that.trasferTerritoryToAnotherSiteDialog.open();
 		}
 	}
+
+	public async onSelectTenant(oEvent:Event) {
+		let userId = oEvent.getParameter("selectedItem").getBindingContext().getObject().ID;
+
+		let model = (this.getView()?.getModel() as ODataModel);
+		let detailPageContext = this.getView()?.getBindingContext() as Context;
+		let context = await model.bindContext("srv.searching.trasferToAnotherSite(...)", detailPageContext);
+		context.setParameter("siteId", userId);
+
+		context.execute().then(function () {
+				MessageToast.show("{i18n>ok}");
+				this.getView()?.getModel().refresh();
+			}.bind(this), function (oError) {
+				MessageBox.error(oError.message);
+			}
+		);
+	}
+
 }

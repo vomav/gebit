@@ -1,6 +1,5 @@
 package org.gebit.authentication.controller;
 
-import jakarta.security.auth.message.AuthException;
 import org.gebit.authentication.AuthService;
 import org.gebit.authentication.dto.JwtRequest;
 import org.gebit.authentication.dto.JwtRequestRefresh;
@@ -10,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.security.auth.message.AuthException;
 
 /**
  * REST Controller for handling authentication and token operations.

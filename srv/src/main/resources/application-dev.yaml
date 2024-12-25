@@ -1,5 +1,4 @@
 ---
-pg.db.host: localhost
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/gebit_dev

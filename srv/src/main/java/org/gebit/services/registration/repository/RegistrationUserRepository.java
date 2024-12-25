@@ -1,13 +1,13 @@
 package org.gebit.services.registration.repository;
 
+import static org.gebit.gen.db.Db_.USERS;
+
 import org.gebit.gen.db.Users;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.Insert;
 import com.sap.cds.ql.Select;
 import com.sap.cds.services.persistence.PersistenceService;
-
-import static org.gebit.gen.db.Db_.USERS;
 
 @Component
 public class RegistrationUserRepository {

@@ -8,13 +8,10 @@ import java.util.ArrayList;
 import org.gebit.gen.db.PartAssignments;
 import org.gebit.gen.db.Territories;
 import org.gebit.gen.db.TerritoryAssignments;
-import org.gebit.gen.db.UserTenantMappings_;
-import org.gebit.gen.srv.searching.Tenants_;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToMeContext;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToUserContext;
 import org.gebit.gen.srv.searching.PartAssignmentsCancelPartAssignmentContext;
 import org.gebit.gen.srv.searching.Searching_;
-import org.gebit.gen.srv.searching.TenantMappings;
 import org.gebit.gen.srv.searching.TenantMappings_;
 import org.gebit.gen.srv.searching.TerritoriesAssignToUserContext;
 import org.gebit.gen.srv.searching.TerritoriesTrasferToAnotherSiteContext;
@@ -66,11 +63,14 @@ public class SearchingHandler implements EventHandler {
 		assignment.setStartedDate(Instant.now());
 		assignment.setType("Personal");
 		assignment.setToPartAssignments(new ArrayList<>());
+		assignment.setTenantDiscriminator(territory.getTenantDiscriminator());
 		
 		territory.getToParts().forEach(part -> {
 			PartAssignments partAssignment = PartAssignments.create();
 			partAssignment.setPartId(part.getId());
 			partAssignment.setTenantDiscriminator(userInfo.getTenant());
+			partAssignment.setTenantDiscriminator(part.getTenantDiscriminator());
+
 			assignment.getToPartAssignments().add(partAssignment);
 		});
 		
@@ -170,21 +170,4 @@ public class SearchingHandler implements EventHandler {
 		context.setResult(true);
 		context.setCompleted();
 	}
-	
-
-//	class WhereModifier implements Modifier {
-//		
-//		private String userId;
-//
-//		public WhereModifier(String userId) {
-//			this.userId = userId;
-//		}
-//
-//		@Override
-//		public CqnPredicate where(Predicate where) {
-//			Predicate exists = CQL.exists(Select.from(UserTenantMappings_.class).columns(CQL.star()).where( predicate -> CQL.and( predicate.user_ID().eq(userId), CQL.get("$outer.ID").eq(predicate.tenant_ID()))  ));
-//			return where == null ? exists : CQL.and(where, exists);
-//		}
-//		
-//	}
 }

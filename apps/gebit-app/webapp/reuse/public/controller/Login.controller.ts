@@ -30,6 +30,7 @@ export default class Login extends Controller {
             data: JSON.stringify(data),
             
             success: function(data:any) {
+                localStorage.removeItem('gebitAccessToken');
                 localStorage.setItem('gebitAccessToken', data.accessToken);
                 that.getView()?.setBusy(true);
                 setTimeout(()=> {

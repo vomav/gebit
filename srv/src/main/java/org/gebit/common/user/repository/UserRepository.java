@@ -12,7 +12,6 @@ import org.gebit.gen.db.Users_;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.CQL;
-import com.sap.cds.ql.Insert;
 import com.sap.cds.ql.Select;
 import com.sap.cds.ql.Update;
 import com.sap.cds.ql.Upsert;
@@ -37,8 +36,17 @@ public class UserRepository {
     }
 
     public List<UserTenantMappings> getUserPermission(Users Users) {
-        Select<?> selectUsersTenantMappings = Select.from(UserTenantMappings_.class).columns(CQL.star(), CQL.to("tenant").expand()).where(predicate-> predicate.user_ID().eq(Users.getId()));
-        return persistenceService.run(selectUsersTenantMappings).listOf(UserTenantMappings.class);
+        Select<?> userBasedPermissionsSelect = Select.from(UserTenantMappings_.class).columns(CQL.star(), CQL.to("tenant").expand()).where(predicate-> predicate.user_ID().eq(Users.getId()));
+        List<UserTenantMappings> userBasedPermissions = persistenceService.run(userBasedPermissionsSelect).listOf(UserTenantMappings.class);
+        
+        List<UserTenantMappings> nonUserTenants = userBasedPermissions.stream().filter(utm -> !utm.getTenant().getDefaultUserTenant()).toList();
+        
+//        Select<?> nonUserBasedPermissionsSelect = Select.from(UserTenantMappings_.class).columns(CQL.star(), CQL.to("tenant").expand()).where(predicate-> predicate.tenant_ID().eq(nonUserTenants.get(0).getTenantId()));
+        
+//        List<UserTenantMappings> nonUserBasedPermissions = persistenceService.run(nonUserBasedPermissionsSelect).listOf(UserTenantMappings.class);
+//        userBasedPermissions.addAll(nonUserBasedPermissions);
+        
+        return userBasedPermissions;
     }
 
    public void updateUser(Users Users){
