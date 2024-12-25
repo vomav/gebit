@@ -4,17 +4,13 @@ using { cuid } from '@sap/cds/common';
 
 aspect tenant {
     tenantDiscriminator: UUID;
-    toAllowedUsers: Association to many UserTenantMappings on toAllowedUsers.tenant.ID = tenantDiscriminator;
+    toAllowedUsers: Association to many UserTenantMappings on toAllowedUsers.tenant.ID = tenantDiscriminator and (toAllowedUsers.mappingType='user' or toAllowedUsers.mappingType='admin');
+    toAllowedAdmins: Association to many UserTenantMappings on toAllowedAdmins.tenant.ID = tenantDiscriminator and toAllowedAdmins.mappingType='admin';
     toTenant: Association to one Tenants on toTenant.ID = $self.tenantDiscriminator;
-    // toAllowedTenants: Association to many UserTenantMappings on toAllowedTenants;
-}
-
-aspect crossTenant {
-    accessBy : String(36) default 'admin,user';
 }
 
 
-entity Territories  : cuid, tenant, crossTenant {
+entity Territories  : cuid, tenant {
     name: String(64);
     link: String(2048);
     isReady: Boolean default false;
@@ -23,7 +19,6 @@ entity Territories  : cuid, tenant, crossTenant {
     lastTimeWorked: Date;
     createdAt: Timestamp;
     updatedAt: Timestamp;
-    accessBy: String (36) default 'admin';
 }
 
 entity Parts : cuid, tenant {
@@ -36,7 +31,7 @@ entity Parts : cuid, tenant {
 // type GeographyPolygon : String(1024) @odata.Type : 'Edm.GeographyPolygon';
 
 
-entity TerritoryAssignments : cuid, tenant, crossTenant {
+entity TerritoryAssignments : cuid, tenant {
     toTerritory: Association to one Territories;
     isDone: Boolean;
     toPartAssignments: Composition of many PartAssignments on toPartAssignments.toParent = $self;
@@ -47,10 +42,9 @@ entity TerritoryAssignments : cuid, tenant, crossTenant {
         Public;
     };
     assignedTo: Association to one Users;
-    accessBy: String (36) default 'admin,user';
 }
 
-entity PartAssignments : cuid, tenant, crossTenant {
+entity PartAssignments : cuid, tenant {
     part: Association to one Parts;
     inWorkBy: Association to one Users;
     isDone: Boolean;
@@ -65,7 +59,7 @@ entity Users : cuid {
     password: String(128);
     oid:String(64);
     toAllowedTenants: Association to many UserTenantMappings on toAllowedTenants.user=$self;
-    toTerritories: Association to many TerritoryAssignments on toTerritories.assignedTo=$self;
+    // toTerritories: Association to many TerritoryAssignments on toTerritories.assignedTo=$self;
     refreshToken: String(2048);
 }
 
@@ -90,3 +84,16 @@ entity Tenants : cuid {
     // toAdministrators: Association to many UserTenantMappings on toAdministrators.tenant = $self and toAdministrators.mappingType = 'admin';
 }
 
+entity TestEntity : cuid {
+    testString: String(64);
+    testInt: Integer;
+    subent: Composition of many TestSubEntity on subent.to_Entity=$self;
+}
+
+entity TestSubEntity : cuid {
+    testSubString: String(64);
+    testSubInt: Integer;
+    user: Association to one Users;
+    tenant: Association to one Tenants;
+    to_Entity: Association to one TestEntity;
+}

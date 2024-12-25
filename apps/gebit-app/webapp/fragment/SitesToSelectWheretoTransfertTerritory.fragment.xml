@@ -4,7 +4,7 @@
    xmlns:form="sap.ui.layout.form">
    	<SelectDialog
 		title="{i18n>sites}"
-		items="{/TenantMappings}"
+		items="{/Tenants}"
 		search=".onValueHelpSearch"
 		confirm=".onSelectTenant"
 		cancel=".onValueHelpClose">

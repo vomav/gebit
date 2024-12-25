@@ -23,15 +23,19 @@ public class CustomUserInfoProvider implements UserInfoProvider {
 	@Override
 	public UserInfo get() {
 		JwtAuthentication jwtInfoToken;
+		
+		if(SecurityContextHolder.getContext().getAuthentication() instanceof org.springframework.security.authentication.AnonymousAuthenticationToken) {
+			return defaultProvider.get();
+		}
+		
 		try {
 			jwtInfoToken  = (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
 			if(jwtInfoToken == null) {
 				return defaultProvider.get();
 			}
 		}catch (Exception e) {
-//			throw new ServiceException(ErrorStatuses.UNAUTHORIZED, "" );
+			System.out.println(e.getMessage());
 			return defaultProvider.get();
-			
 		}
 		
 		
@@ -44,13 +48,22 @@ public class CustomUserInfoProvider implements UserInfoProvider {
 		userInfo.setAdditionalAttribute(USER_ID, jwtInfoToken.getUserId());
 		
 		
+		
 		List<CrossTenantPermissions> perms = new ArrayList<>();
+		List<String> allowedUsers = new ArrayList<>();
+		List<String> allowedAdmins = new ArrayList<>();
 		jwtInfoToken.getAuthorities().forEach(authority -> {
 			CrossTenantPermissions perm = CrossTenantPermissions.create(authority.toString());
 			userInfo.setAdditionalAttribute(perm.getTenantId(), perm);
 			perms.add(perm);
+			allowedUsers.add(perm.getTenantId());
+			
+			if(perm.getMappingType().equals("admin")) 
+				allowedAdmins.add(perm.getTenantId());
 		});
 		
+		userInfo.setAttributeValues("userIn", allowedUsers);
+		userInfo.setAttributeValues("adminIn", allowedAdmins);
 		
 		userInfo.setAdditionalAttribute(PERM, perms);
 		

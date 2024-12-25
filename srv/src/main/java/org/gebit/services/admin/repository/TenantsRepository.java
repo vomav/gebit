@@ -1,7 +1,7 @@
 package org.gebit.services.admin.repository;
 
-import org.gebit.gen.db.Tenants_;
 import org.gebit.gen.db.Tenants;
+import org.gebit.gen.db.Tenants_;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.Upsert;

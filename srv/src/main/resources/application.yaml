@@ -1,14 +1,11 @@
 ---
 spring:
-  pg:
-    db:
-      host: ${PG_HOST}
   config:
     activate:
       on-profile: default
   datasource:
     password: postgres
-    url: jdbc:postgresql://${pg.db.host}:5432/gebit
+    url: jdbc:postgresql://${PG_HOST}:5432/gebit
     username: postgres
   liquibase:
     contexts: prod

@@ -1,10 +1,11 @@
 package org.gebit.authentication;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import io.jsonwebtoken.Claims;
-import java.util.stream.Collectors;
 
 @Component
 public class JwtUtils {
