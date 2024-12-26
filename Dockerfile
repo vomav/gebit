@@ -1,44 +1,58 @@
 # syntax=docker/dockerfile:1
 
-FROM maven:3.9.4-eclipse-temurin-21 as build-stage
+### Stage 1: Node.js and Maven Build ###
+FROM maven:3.9.4-eclipse-temurin-21 AS build-stage
 
+# Environment variables
 ENV NPM_CONFIG_PREFIX=/home/node/.npm
 ENV PATH=$NPM_CONFIG_PREFIX/bin:$PATH
 
-# Install curl and Node.js
-RUN apt-get update && \
-    apt-get install -y curl gnupg && \
+# Install Node.js and CDS CLI
+RUN apt-get update && apt-get install -y curl gnupg && \
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
-    node --version && npm --version
+    npm install -g @sap/cds-dk && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g @sap/cds-dk
-    # Set working directory
+# Set working directory
 WORKDIR /app
 
 # Copy project files
 COPY . .
 
-# RUN npm --version  
-
-# RUN node --version 
-
-# RUN cd apps/gebit-app && \ 
-#     npm install && \ 
-#     npm run build
+# Install Node.js dependencies and build Node.js assets
+RUN npm install && cds build
 
 # Run Maven build
-
-RUN npm install
-RUN cds build
 RUN mvn clean install
 
+# Copy built artifacts for the final stage
+RUN mv srv/target/gebit-exec.jar /app/app.jar
+
+### Stage 2: Final Runtime Image ###
+FROM eclipse-temurin:21-jre-jammy AS final
+
+# Create a non-root user for security
+ARG UID=10001
+RUN adduser \
+    --disabled-password \
+    --gecos "" \
+    --home "/nonexistent" \
+    --shell "/sbin/nologin" \
+    --no-create-home \
+    --uid "${UID}" \
+    appuser
+
+USER appuser
+
 # Set working directory
-# WORKDIR /app
+WORKDIR /app
 
-# Copy built artifacts from build stage
-COPY srv/target/gebit-exec.jar /app
+# Copy built artifacts from the build stage
+COPY --from=build-stage /app/app.jar .
 
-# Command to run the application (modify as needed)
-# CMD ["java", "-jar", "gebit-exec.jar"]
-# ENTRYPOINT ["java","-Dspring.profiles.active=prod" "-jar","gebit-exec.jar"]
+# Expose the application's port
+EXPOSE 80
+
+# Command to run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
