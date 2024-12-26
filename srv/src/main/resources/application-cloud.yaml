@@ -5,7 +5,7 @@ spring:
       on-profile: default
   datasource:
     password: ${PG_PASSWORD}
-    url: jdbc:postgresql://${PG_HOST}:5432/gebit
+    url: jdbc:postgresql://${DATABASE_URL}:5432/gebit
     username: ${PG_USERNAME}
   liquibase:
     contexts: dev
