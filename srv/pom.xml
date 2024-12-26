@@ -147,54 +147,7 @@
 				<artifactId>cds-maven-plugin</artifactId>
 				<version>${cds.services.version}</version>
 				<executions>
-					<execution>
-						<id>cds.clean</id>
-						<goals>
-							<goal>clean</goal>
-						</goals>
-					</execution>
-
-					<execution>
-						<id>cds.install-node</id>
-						<goals>
-							<goal>install-node</goal>
-						</goals>
-						<configuration>
-							<skip>${cdsdk-global}</skip>
-						</configuration>
-					</execution>
-
-					<execution>
-						<id>cds.install-cdsdk</id>
-						<goals>
-							<goal>install-cdsdk</goal>
-						</goals>
-						<configuration>
-							<skip>${cdsdk-global}</skip>
-						</configuration>
-					</execution>
-
-					<execution>
-						<id>cds.resolve</id>
-						<goals>
-							<goal>resolve</goal>
-						</goals>
-					</execution>
-
-					<execution>
-						<id>cds.build</id>
-						<goals>
-							<goal>cds</goal>
-						</goals>
-						<configuration>
-							<commands>
-								<command>build --for java</command>
-								<command>deploy --to postgres --dry &gt; "${project.basedir}/src/main/resources/db/changelog/dev/schema.sql"</command>
-								<command>deploy --model-only --dry &gt; "${project.basedir}/src/main/resources/db/changelog/dev/csn.json"</command>
-								<!-- <command>compile srv/service.cds -2 openapi openapi:url /odata/v4/srv.review &gt; ${project.basedir}/src/main/resources/swagger/openapi.json</command> -->
-							</commands>
-						</configuration>
-					</execution>
+				
 
 					<execution>
 						<id>cds.generate</id>

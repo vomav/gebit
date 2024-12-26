@@ -42,12 +42,12 @@ README.md
 **/.nb-gradle
 **/.springBeans
 **/build
-**/dist
+# **/dist
 **/gradle-app.setting
 **/nbbuild
 **/nbdist
 **/nbproject/private
-**/target
+# **/target
 *.ctxt
 .mtj.tmp
 .mvn/timing.properties
