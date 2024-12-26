@@ -21,7 +21,7 @@ WORKDIR /app
 COPY . .
 
 # Install Node.js dependencies and build Node.js assets
-RUN npm install && cds build
+RUN npm install && cds build && cds build --for java && cds deploy --to postgres --dry > "srv/src/main/resources/db/changelog/dev/schema.sql"
 
 # Run Maven build
 RUN mvn clean install
