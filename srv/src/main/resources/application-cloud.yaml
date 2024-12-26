@@ -1,7 +1,7 @@
 ---
 spring:
   datasource:
-    url: jdbc:postgresql://${PG_HOST}:${PG_PORT}/gebit
+    url: jdbc:postgresql://${PG_HOST}:${PG_PORT}/db
     username: ${PG_USERNAME}
     password: ${PG_PASSWORD}
     driver-class-name: org.postgresql.Driver
