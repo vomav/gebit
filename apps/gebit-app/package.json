@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "serve": "npx ui5 serve -o test.html",
-    "build": "npx ui5 build --clean-dest"
+    "build": "ui5 build --clean-dest"
   },
   "keywords": [],
   "author": "",

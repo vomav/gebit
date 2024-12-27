@@ -12,10 +12,14 @@ RUN apt-get update && apt-get install -y curl gnupg && \
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
     npm install -g @sap/cds-dk && \
+    npm install -g @ui5/cli && \
+    npm install -g @types/openui5 && \
+    npm install -g typescript && \
+    npm install -g ui5-tooling-transpile && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
-WORKDIR /app
+WORKDIR /build
 
 # Copy project files
 COPY . .
@@ -23,11 +27,15 @@ COPY . .
 # Install Node.js dependencies and build Node.js assets
 RUN npm install && cds build && cds build --for java && cds deploy --to postgres --dry > "srv/src/main/resources/db/changelog/dev/schema.sql"
 
-# Run Maven build
-RUN mvn clean install
+# RUN pwd
 
-# Copy built artifacts for the final stage
-RUN mv srv/target/gebit-exec.jar /app/app.jar
+WORKDIR /build/apps/gebit-app
+
+RUN npm install && npm run build
+
+WORKDIR /build
+# Run Maven build
+RUN mvn clean install && mv srv/target/gebit-exec.jar /build/app.jar
 
 ### Stage 2: Final Runtime Image ###
 FROM eclipse-temurin:21-jre-jammy AS final
@@ -49,10 +57,10 @@ USER appuser
 WORKDIR /app
 
 # Copy built artifacts from the build stage
-COPY --from=build-stage /app/app.jar .
+COPY --from=build-stage /build/app.jar .
 
-# Expose the application's port
-EXPOSE 80
+# # Expose the application's port
+# EXPOSE 8080
 
 # Command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]

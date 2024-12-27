@@ -1,62 +1,62 @@
-# Include any files or directories that you don't want to be copied to your
-# container here (e.g., local build artifacts, temporary files, etc.).
-#
-# For more help, visit the .dockerignore file reference guide at
-# https://docs.docker.com/go/build-context-dockerignore/
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-**/.DS_Store
-**/.classpath
-**/.dockerignore
-**/.env
-**/.factorypath
-**/.git
-**/.gitignore
-**/.idea
-**/.project
-**/.sts4-cache
-**/.settings
-**/.toolstarget
-**/.vs
-**/.vscode
-**/.next
-**/.cache
-**/*.dbmdl
-**/*.jfm
-**/charts
-**/docker-compose*
-**/compose.y*ml
-**/Dockerfile*
-**/secrets.dev.yaml
-**/values.dev.yaml
-**/vendor
-LICENSE
-README.md
-**/*.class
-**/*.iml
-**/*.ipr
-**/*.iws
-**/*.log
-**/.apt_generated
-**/.gradle
-**/.gradletasknamecache
-**/.nb-gradle
-**/.springBeans
-**/build
-# **/dist
-**/gradle-app.setting
-**/nbbuild
-**/nbdist
-**/nbproject/private
-# **/target
-*.ctxt
-.mtj.tmp
-.mvn/timing.properties
-buildNumber.properties
-dependency-reduced-pom.xml
-hs_err_pid*
-pom.xml.next
-pom.xml.releaseBackup
-pom.xml.tag
-pom.xml.versionsBackup
-release.properties
-replay_pid*
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# nyc test coverage
+.nyc_output
+
+# CI (Azure Pipelines) xUnit test results
+test-results.xml
+
+# IDEs
+.vscode/
+*.~vsdx
+.idea/
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+node_modules
+jspm_packages
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Misc
+yarn.lock
+.DS_Store
+
+# Don't include private SSH key for deployment via Travis CI
+deploy_key
+
+# Custom directories
+test/tmp/
+jsdocs/
