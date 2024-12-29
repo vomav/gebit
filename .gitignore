@@ -34,3 +34,4 @@ package-lock.json
 **/dist/**
 apps/gebit-app/tsconfig.tsbuildinfo
 apps/**/webapp/Component.js
+srv/src/main/resources/static
