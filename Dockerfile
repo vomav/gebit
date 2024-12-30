@@ -63,7 +63,7 @@ WORKDIR /app
 # Copy built artifacts from the build stage
 # COPY --from=build-stage /build/app.jar .
 
-COPY --from=build-stage /build/app.jar /opt/app/app.jar
+COPY --from=build-stage /build/app-exec.jar /opt/app/app.jar
 
 
 # # Expose the application's port
