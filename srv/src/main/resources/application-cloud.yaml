@@ -1,13 +1,12 @@
 ---
 server:
-  port: 80
+  port: 8080
 spring:
   datasource:
     url: jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DB}
     username: ${PG_USERNAME}
     password: ${PG_PASSWORD}
     driver-class-name: org.postgresql.Driver
-    embedded-database-connection: none
   liquibase:
     contexts: dev
     change-log: classpath:db/changelog/db.changelog-master.yaml

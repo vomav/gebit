@@ -41,7 +41,7 @@ WORKDIR /build
 # Run Maven build
 RUN mvn clean install && mv srv/target/gebit-exec.jar /build/app.jar
 
-### Stage 2: Final Runtime Image ###
+## Stage 2: Final Runtime Image ###
 FROM eclipse-temurin:21-jre-jammy AS final
 
 # Create a non-root user for security
@@ -64,7 +64,7 @@ WORKDIR /app
 COPY --from=build-stage /build/app.jar .
 
 # # Expose the application's port
-EXPOSE 80
+EXPOSE 8080
 
 # Command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]

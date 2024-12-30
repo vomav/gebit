@@ -1,15 +1,18 @@
 ---
+server:
+  port: 8080
 spring:
   config:
     activate:
       on-profile: default
   datasource:
-    password: ${PG_PASSWORD}
-    url: jdbc:postgresql://${PG_HOST}:5432/gebit
+    url: jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DB}
     username: ${PG_USERNAME}
+    password: ${PG_PASSWORD}
+    driver-class-name: org.postgresql.Driver
   liquibase:
-    contexts: prod
-    change-log: classpath:db/changelog/db.changelog-master-prod.yaml
+    contexts: dev
+    change-log: classpath:db/changelog/db.changelog-master.yaml
 
 cds:
   index-page:
