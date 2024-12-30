@@ -39,7 +39,7 @@ WORKDIR /build
 # COPY apps/gebit-app/dist/** srv/src/main/resources/static
 
 # Run Maven build
-RUN mvn clean install && mv srv/target/gebit.jar /build/app.jar
+RUN mvn clean install && mv srv/target/gebit-exec.jar /build/app.jar
 
 ## Stage 2: Final Runtime Image ###
 FROM eclipse-temurin:21-jre-jammy AS final
@@ -63,7 +63,7 @@ WORKDIR /app
 # Copy built artifacts from the build stage
 # COPY --from=build-stage /build/app.jar .
 
-COPY --from=build-stage /build/app-exec.jar /opt/app/app.jar
+COPY --from=build-stage /build/app.jar /opt/app/app.jar
 
 
 # # Expose the application's port
