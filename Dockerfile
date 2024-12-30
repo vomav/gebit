@@ -61,10 +61,13 @@ USER appuser
 WORKDIR /app
 
 # Copy built artifacts from the build stage
-COPY --from=build-stage /build/app.jar .
+# COPY --from=build-stage /build/app.jar .
+
+COPY --from=build-stage /build/app.jar /opt/app/app.jar
+
 
 # # Expose the application's port
-# EXPOSE 8080
+EXPOSE 8080
 
 # Command to run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/opt/app/app.jar"]
