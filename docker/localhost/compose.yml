@@ -5,7 +5,7 @@ services:
     ports: [ '5432:5432' ]
     restart: always
     volumes:
-      - ./schema.sql:/docker-entrypoint-initdb.d/create_database.sql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -d postgres" ]
       interval: 30s
@@ -18,12 +18,12 @@ services:
       - "80:80"      # HTTP
       - "443:443"    # HTTPS
     volumes:
-      - ./docker/localhost/nginx/config:/etc/nginx/conf.d:ro  # Nginx configuration
-      - ./docker/localhost/nginx/certs:/etc/nginx/certs:ro
+      - ./nginx/config:/etc/nginx/conf.d:ro  # Nginx configuration
+      - ./nginx/certs:/etc/nginx/certs:ro
     restart: unless-stopped
 
   gebit-app:
-    build: ./
+    build: ../../
     depends_on:
       - "db"
     image: gebit_app:latest
