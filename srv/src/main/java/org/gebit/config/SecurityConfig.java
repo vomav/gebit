@@ -21,11 +21,11 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-@SuppressWarnings("deprecation")
+//@SuppressWarnings("deprecation")
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableWebSecurity
+//@EnableMethodSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     @Bean
     PasswordEncoder encoder() {
@@ -109,13 +109,23 @@ public class SecurityConfig {
     
     
     CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.setAllowCredentials(true);
+//        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//        config.setAllowedHeaders(Arrays.asList("OData-Version", "OData-maxversion"));
+//        config.setAllowedOriginPatterns(Arrays.asList("*"));
+//        config.setExposedHeaders(Arrays.asList("OData-Version", "OData-maxversion"));
+//        source.registerCorsConfiguration("/**", config);
+//        return new CorsFilter(source);
+    	
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(Arrays.asList("OData-Version", "OData-maxversion"));
-        config.setAllowedOriginPatterns(Arrays.asList("*"));
-        config.setExposedHeaders(Arrays.asList("OData-Version", "OData-maxversion"));
+        config.addAllowedOrigin("*");  // Allow all origins
+        config.addAllowedMethod("*");  // Allow all HTTP methods
+        config.addAllowedHeader("*");  // Allow all headers
+        config.setAllowCredentials(false);  // Disable credentials for universal access
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
