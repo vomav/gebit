@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 ### Stage 1: Node.js and Maven Build ###
 FROM maven:3.9.4-eclipse-temurin-21 AS build-stage
 
