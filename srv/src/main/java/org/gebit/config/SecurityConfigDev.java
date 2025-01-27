@@ -8,6 +8,7 @@ import org.gebit.authentication.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,19 +22,20 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@Profile("cloud")
+@Profile("dev")
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig {
+public class SecurityConfigDev {
     @Bean
     PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
     private final JwtFilter jwtFilter;
 
-    public SecurityConfig(JwtFilter jwtFilter) {
+    public SecurityConfigDev(JwtFilter jwtFilter) {
         this.jwtFilter = jwtFilter;
     }
 
@@ -64,7 +66,10 @@ public class SecurityConfig {
                                         "/*.css",
                                         "/*.json",
                                         "/services",
-                                        "/odata/v4/**",
+                                        "/odata/v4/srv.registration/**",
+                                        "/odata/v4/srv.ui_service/$metadata**",
+                                        "/odata/v4/srv.searching/$metadata**",
+                                        "/odata/v4/srv.admin/$metadata**",
                                         "/*",
                                         "/favicon.ico",
                                         "/model/uiModel.json",
@@ -77,18 +82,17 @@ public class SecurityConfig {
                 .build();
     }
     
-    
     CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(Arrays.asList("OData-Version", "OData-maxversion"));
-        config.setAllowedOriginPatterns(Arrays.asList("*"));
-        config.setExposedHeaders(Arrays.asList("OData-Version", "OData-maxversion"));
+        config.addAllowedOrigin("*");  // Allow all origins
+        config.addAllowedMethod("*");  // Allow all HTTP methods
+        config.addAllowedHeader("*");  // Allow all headers
+        config.setAllowCredentials(false);  // Disable credentials for universal access
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
-
     }
 
    

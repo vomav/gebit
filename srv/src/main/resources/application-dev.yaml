@@ -7,7 +7,6 @@ spring:
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
-    embedded-database-connection: none
   liquibase:
     contexts: dev
     change-log: classpath:db/changelog/db.changelog-master.yaml
