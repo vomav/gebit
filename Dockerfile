@@ -34,7 +34,7 @@ RUN npm install && npm run build
 # Set working directory
 WORKDIR /build
 
-# COPY apps/gebit-app/dist/** srv/src/main/resources/static
+COPY apps/gebit-app/dist/** srv/src/main/resources/static
 
 # Run Maven build
 RUN mvn clean install && mv srv/target/gebit-exec.jar /build/app.jar
