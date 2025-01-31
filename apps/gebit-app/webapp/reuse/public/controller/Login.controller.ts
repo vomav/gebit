@@ -32,11 +32,14 @@ export default class Login extends Controller {
             success: function(data:any) {
                 localStorage.removeItem('gebitAccessToken');
                 localStorage.setItem('gebitAccessToken', data.accessToken);
+                
                 that.getView()?.setBusy(true);
                 setTimeout(()=> {
                     // (that.getOwnerComponent() as UIComponent).getRouter().navTo("home");
                     URLHelper.redirect("#");
                     that.getView()?.setBusy(false);
+
+                    window.location.reload();
                 }, 1500);
                 
             },

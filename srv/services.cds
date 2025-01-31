@@ -58,11 +58,7 @@ service searching {
      
     
     
-    entity PartAssignments 
-    @(restrict: [
-     { grant: '*',
-       where: '$user.userIn = tenantDiscriminator' } ]) 
-    as projection on dbPartAssignmenst {
+    entity PartAssignments as projection on dbPartAssignmenst {
         *,
         part.name as name,
         part.coordinates as coordinates,

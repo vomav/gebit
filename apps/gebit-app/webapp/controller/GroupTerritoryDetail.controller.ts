@@ -148,6 +148,11 @@ export default class GroupTerritoryDetail extends Controller {
 
 	}
 
+	public formatLinkToEmbedHtml(link:string) {
+		let escapedLink = link.replace("&", "&amp;")
+		// return "&lt;iframe src=&quot;" + escapedLink + "&quot width=&quot;100%&quot; height=&quot;480&quot;&gt;&lt;/iframe&gt;"
+		return "<iframe src=\"" +link+ "\" width=\"100%\" height=\"480\"></iframe>"
+	}
 	// public onCurrentCoordinatesReceived(position:any) {
 	// 	let table = this.getView()?.byId("groupTerrirtoryParts") as Table;
 	// 	let oBinding = table?.getBinding("items") as ODataListBinding;
