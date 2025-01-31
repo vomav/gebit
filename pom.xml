@@ -64,7 +64,7 @@
 					<goal>copy-resources</goal>
 					</goals>
 					<configuration>
-						<directory>${basedir}/../apps/gebit-app/dist</directory>
+						<directory>${basedir}/apps/gebit-app/dist</directory>
 						<outputDirectory>${basedir}/src/main/resources/static</outputDirectory>
 						<resources>
 							<resource>
