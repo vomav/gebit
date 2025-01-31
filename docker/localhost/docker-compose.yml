@@ -21,30 +21,6 @@ services:
       - ./nginx/certs:/etc/nginx/certs:ro
     restart: unless-stopped
 
-
-services:
-  db:
-    image: postgres:alpine
-    container_name: db
-    environment: { POSTGRES_PASSWORD: postgres,  POSTGRES_USER: postgres, POSTGRES_DB: gebit_dev}
-    ports: [ '5432:5432' ]
-    restart: always
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -d postgres" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-  nginx:
-    image: nginx:latest  # Use plain nginx, not trajano/nginx-letsencrypt
-    container_name: nginx
-    ports:
-      - "80:80"      # HTTP
-      - "443:443"    # HTTPS
-    volumes:
-      - ./nginx/config:/etc/nginx/conf.d:ro  # Nginx configuration
-      - ./nginx/certs:/etc/nginx/certs:ro
-    restart: unless-stopped
-
   gebit-app:
     build: ../../
     container_name: gebit-app
