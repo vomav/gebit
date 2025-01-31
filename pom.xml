@@ -64,12 +64,11 @@
 					<goal>copy-resources</goal>
 					</goals>
 					<configuration>
-						<directory>./apps/gebit-app/dist</directory>
-						<outputDirectory>./srv/src/main/resources/static</outputDirectory>
+						<directory>apps/gebit-app/dist</directory>
+						<outputDirectory>${basedir}/srv/src/main/resources/static</outputDirectory>
 						<resources>
 							<resource>
-								<directory>dist</directory>
-								<filtering>false</filtering>
+								<directory>${basedir}/apps/gebit-app/dist</directory>
 							</resource>
 						</resources>
 					</configuration>
