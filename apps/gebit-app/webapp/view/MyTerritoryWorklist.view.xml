@@ -37,7 +37,7 @@
 
 				<columns>
 					<Column>
-						<Text text="{i18n>name}"/>
+						<Text text="{i18n>title}"/>
 					</Column>
 					<Column hAlign="End">
 						<Text text="{i18n>startedDate}"/>

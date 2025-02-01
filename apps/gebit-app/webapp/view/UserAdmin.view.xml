@@ -29,7 +29,7 @@
 			<form:content>
 				<Label text="{i18n>name}" />
 				<Input value="{userAdminModel>name}"></Input>
-				<Label text="{i18n>surename}" />
+				<Label text="{i18n>surname}" />
 				<Input value="{userAdminModel>surname}" />
 			</form:content>
 		</form:SimpleForm>
