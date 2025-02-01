@@ -10,7 +10,7 @@
 		toggleHeaderOnTitleClick="false">
 
 		<semantic:titleHeading>
-			<Title text="{i18n>myTerritories}" />
+			<Title text="{i18n>myAccount}" />
 		</semantic:titleHeading>
 
 		<semantic:content>
