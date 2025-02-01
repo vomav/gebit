@@ -51,7 +51,7 @@
 
 				<columns>
 					<Column>
-						<Text text="{i18n>name}"/>
+						<Text text="{i18n>title}"/>
 					</Column>
 					<Column>
 						<Text text="{i18n>assignedTo}" />

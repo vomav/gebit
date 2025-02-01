@@ -45,7 +45,7 @@
 							singleContainerFullSize="false"
 							ariaLabelledBy="Title1" >
 							<form:content>
-								<m:Label text="{i18n>name}"/>
+								<m:Label text="{i18n>title}"/>
 								<m:Input value="{name}" />
 								<m:Label text="{i18n>link}" />
 								<m:Input  value="{link}"/>
@@ -75,7 +75,7 @@
 							singleContainerFullSize="false"
 							ariaLabelledBy="Title1" >
 							<form:content>
-								<m:Label text="{i18n>name}"/>
+								<m:Label text="{i18n>title}"/>
 								<m:Link href="{link}" text="{name}"/>
 								<m:Label text="{i18n>isReady}" />
 								<m:Switch state="{isReady}" enabled="false"/>

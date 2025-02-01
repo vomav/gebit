@@ -12,7 +12,7 @@
 		toggleHeaderOnTitleClick="false">
 
 		<semantic:titleHeading>
-			<Title text="{i18n>myTerritories}" />
+			<Title text="{i18n>groupTerritories}" />
 		</semantic:titleHeading>
 
 		<semantic:content>
@@ -38,7 +38,7 @@
 
 				<columns>
 					<Column>
-						<Text text="{i18n>name}"/>
+						<Text text="{i18n>title}"/>
 					</Column>
 					<Column>
 						<Text text="{i18n>site}"/>

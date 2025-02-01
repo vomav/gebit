@@ -93,11 +93,6 @@
 									</m:content>
 								</m:OverflowToolbar>
 							</m:headerToolbar>
-							<m:infoToolbar>
-								<m:OverflowToolbar>
-									<m:Label text="{i18n>siteUsersListDescription}"/>
-								</m:OverflowToolbar>
-							</m:infoToolbar>
 							<m:columns>
 								<m:Column>
 									<m:Text text="{i18n>user}" />
