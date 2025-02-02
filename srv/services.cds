@@ -10,13 +10,16 @@ service searching {
        where: '$user.adminIn = tenantDiscriminator' } ])  
     as select from dbTerritory mixin{
         toTerritoryAssignment: Association to one TerritoryAssignments on toTerritoryAssignment.toTerritory = $self;
+        toAssigedUsersToThisAccount: Association to many TenantMappings on toAssigedUsersToThisAccount.siteId = $self.siteId;
     }
     into {
         *,
         toTerritoryAssignment.assignedTo.name as assignedToName,
         toTerritoryAssignment.assignedTo.surname as assignedToSurname,
         toTenant.name as siteName,
-        toTenant.description as siteDescription
+        toTenant.description as siteDescription,
+        toTenant.ID as siteId,
+        toAssigedUsersToThisAccount
     } actions {
        action assignToUser(userId:String) returns Boolean;
        action withdrawFromUser() returns Boolean;
@@ -49,7 +52,7 @@ service searching {
       toTerritory.name as name,
       toTerritory.link as link,
       toPartAssignments: redirected to PartAssignments
-    } where type = 'Public' and toTerritory.isReady = true;
+    } where type = 'Public' and toTerritory.isReady = true ;
 
 
     extend projection PublicTerritoryAssignments with {
@@ -57,8 +60,10 @@ service searching {
     };
      
     
-    
-    entity PartAssignments as projection on dbPartAssignmenst {
+    @(restrict: [
+     { grant: '*',
+       where: '$user.userIn = tenantDiscriminator' } ]) 
+    entity PartAssignments as select from dbPartAssignmenst {
         *,
         part.name as name,
         part.coordinates as coordinates,
@@ -69,7 +74,7 @@ service searching {
         action assignPartToMe() returns Boolean;
         action assignPartToUser(userId: String) returns Boolean;
         action cancelPartAssignment() returns Boolean;
-    };
+    } ;
 
     entity TenantMappings as projection on dbUserTenantMapping {
         *,
@@ -77,6 +82,7 @@ service searching {
         user.surname as surname,
         user.email as email,
         tenant.name as siteName,
+        tenant.ID as siteId,
         tenant.description as siteDescription
     }
 

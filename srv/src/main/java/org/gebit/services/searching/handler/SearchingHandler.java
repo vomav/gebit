@@ -68,8 +68,7 @@ public class SearchingHandler implements EventHandler {
 		territory.getToParts().forEach(part -> {
 			PartAssignments partAssignment = PartAssignments.create();
 			partAssignment.setPartId(part.getId());
-			partAssignment.setTenantDiscriminator(userInfo.getTenant());
-			partAssignment.setTenantDiscriminator(part.getTenantDiscriminator());
+			partAssignment.setTenantDiscriminator(assignment.getTenantDiscriminator());
 
 			assignment.getToPartAssignments().add(partAssignment);
 		});
@@ -93,26 +92,26 @@ public class SearchingHandler implements EventHandler {
 		
 	}
 	
-	@Before(event = CqnService.EVENT_READ, entity = TenantMappings_.CDS_NAME)
-	public void onBeforeTenantMappingsRead(CdsReadEventContext c) {
-		if(c.getTarget().getQualifiedName().equals(TenantMappings_.CDS_NAME)) {
-			
-		
-		String userId = userInfo.getAdditionalAttribute(USER_ID).toString();
-		
-		Modifier m = new Modifier() {
-			@Override
-			public CqnPredicate where(Predicate where) {
-				Select<?> s = Select.from(TenantMappings_.class).columns(CQL.star()).where(p -> p.user_ID().eq(userId));
-				return where == null ? CQL.exists(s): CQL.and(where,CQL.exists(s));
-			}
-		};
-		
-		
-		c.setCqn(CQL.copy(c.getCqn(), m));
-		
-		}
-	}
+//	@Before(event = CqnService.EVENT_READ, entity = TenantMappings_.CDS_NAME)
+//	public void onBeforeTenantMappingsRead(CdsReadEventContext c) {
+//		if(c.getTarget().getQualifiedName().equals(TenantMappings_.CDS_NAME)) {
+//			
+//		
+//		String userId = userInfo.getAdditionalAttribute(USER_ID).toString();
+//		
+//		Modifier m = new Modifier() {
+//			@Override
+//			public CqnPredicate where(Predicate where) {
+//				Select<?> s = Select.from(TenantMappings_.class).columns(CQL.star()).where(p -> p.user_ID().eq(userId));
+//				return where == null ? CQL.exists(s): CQL.and(where,CQL.exists(s));
+//			}
+//		};
+//		
+//		
+//		c.setCqn(CQL.copy(c.getCqn(), m));
+//		
+//		}
+//	}
 	
 	
 	@On(event=TerritoriesWithdrawFromUserContext.CDS_NAME)

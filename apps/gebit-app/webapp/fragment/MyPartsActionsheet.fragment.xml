@@ -11,10 +11,10 @@
 		text="{i18n>assignToMe}"
 		icon="sap-icon://person-placeholder"
 		press="assignPartToMe" />
-	<Button
+	 <!-- <Button
 		text="{i18n>assignToUser}"
 		icon="sap-icon://group"
-		press="assignPartToUser" />
+		press="assignPartToUser" /> -->
 	<Button
 		text="{i18n>reset}"
 		icon="sap-icon://reset"
