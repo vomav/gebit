@@ -17,8 +17,8 @@
 
 			<GenericTile
 				press="navigateToTerritoriesApp"
-				header="Manage Territories"
-				subheader="All" 
+				header="{i18n>manageTerritories}"
+				subheader="{i18n>all}"
 				
 				>
 				<layoutData>
@@ -28,7 +28,7 @@
 					<ImageContent src="sap-icon://map-3" />
 				</TileContent>
 			</GenericTile>
-			<GenericTile header="My Territories"
+			<GenericTile header="{i18n>myTerritories}"
 				press="navigateToMyTerritoriesApp" >
 				<layoutData>
 					<f:GridContainerItemLayoutData minRows="2" columns="2" />
@@ -53,7 +53,7 @@
 					<ImageContent src="sap-icon://company-view" />
 				</TileContent>
 			</GenericTile>
-			<GenericTile header="Manage You Account" subheader=""  press="navigateToSitesApp">
+			<GenericTile header="Manage My Account" subheader=""  press="navigateToSitesApp">
 				<layoutData>
 					<f:GridContainerItemLayoutData minRows="2" columns="2" />
 				</layoutData>

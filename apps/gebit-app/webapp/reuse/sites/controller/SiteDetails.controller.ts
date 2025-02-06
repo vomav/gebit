@@ -12,6 +12,7 @@ import MessageToast from "sap/m/MessageToast";
 import Context from "sap/ui/model/odata/v4/Context";
 import Button from "sap/m/Button";
 import { ObjectBindingInfo } from "sap/ui/base/ManagedObject";
+
 /**
  * @namespace ui5.gebit.app.reuse.sites.controller
  */           
@@ -92,11 +93,27 @@ export default class SiteDetails extends Controller {
 		context.setParameter("mappingType", object.mappingType);
 
 		context.execute().then(function () {
-				MessageToast.show("{i18n>ok}");
+				MessageToast.show("Ok");
 				this.getView()?.getModel().refresh();
+				this.addUserToSiteDialog.close();
 			}.bind(this), function (oError) {
 				MessageBox.error(oError.message);
+				this.addUserToSiteDialog.close();
 			}
 		);
 	}
+
+		 public formatMappingType(sRole:string){
+             let resourceBundle = this.getView().getModel("i18n").getResourceBundle();
+                        switch (sRole){
+                            case "display":
+                                return resourceBundle.getText("user");
+                            case "admin":
+                                return resourceBundle.getText("administrator");
+                            default:
+                                return sRole;
+                        }
+                    }
+
+
 }
