@@ -29,14 +29,12 @@
 				<Label text="{i18n>email}" />
 				<Input value="{uiModel>/sites/createMapping/email}"></Input>
 				<Label text="{i18n>role}" />
-				<Input value="{uiModel>/sites/createMapping/mappingType}"></Input>
-				<!-- <Select forceSelection="true" selectedKey="{/sites/create/mappingType}">
-					<items>
-					    
-						<core:Item key="user" text="{i18n>userRole}" />
-						<core:Item key="admin" text="{i18n>adminRole}" />
-					</items>
-				</Select> -->
+				<Select selectedItemId="display" selectedKey="{uiModel>/sites/createMapping/mappingType}">
+					<core:Item key=" " text="{i18n>select}" />
+					<core:Item key="display" text="{i18n>user}" />
+					<core:Item key="admin" text="{i18n>administrator}" />
+				</Select>
+
 			</form:content>
 		</form:SimpleForm>
 

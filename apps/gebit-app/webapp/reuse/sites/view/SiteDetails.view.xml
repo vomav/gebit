@@ -111,7 +111,9 @@
 											<m:Text text="{username}" />
 											<m:Text text="{surname}" />
 										</m:VBox>
-										<m:Text text="{mappingType}" />
+										<m:Text text="{
+										path: 'mappingType',
+										formatter: '.formatMappingType'}" />
 										<m:Button
 											icon="sap-icon://action"
 											class="sapUiSmallMargin"
