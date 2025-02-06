@@ -37,6 +37,7 @@ export default class Register extends Controller {
 
 		context.execute().then(function () {
 			MessageBox.success("Ok");
+		this.getOwnerComponent().getRouter().navTo("login");
 		}.bind(this), function (oError) {
 			MessageBox.error(oError.message);
 		}
