@@ -97,7 +97,6 @@ export default class GroupTerritoryDetail extends Controller {
 			context.execute().then(function () {
 				MessageToast.show("{i18n>ok}");
 				this.getView()?.getModel().refresh();
-				this.currentPartsContextBinding
 			}.bind(this), function (oError) {
 				MessageBox.error(oError.message);
 			}

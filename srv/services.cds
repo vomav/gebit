@@ -108,7 +108,8 @@ service admin {
         createdBy.surname as createdBySurname,
         toUsers: redirected to UserTenantMappings on toUsers.tenant = $self
     } actions {
-        action addUserByEmail(email:String, mappingType:String) returns Boolean
+        action addUserByEmail(email:String, mappingType:String) returns Boolean;
+        action removeSite() returns Boolean;
     };
 
     @odata.singleton
