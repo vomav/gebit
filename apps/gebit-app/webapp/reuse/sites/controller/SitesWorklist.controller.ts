@@ -113,8 +113,10 @@ export default class SitesWorklist extends Controller {
 		context.execute().then(function () {
 			MessageToast.show("{i18n>ok}");
 			this.getView()?.getModel().refresh();
+			this.oAddSiteDialog.close();
 		}.bind(this), function (oError) {
 			MessageBox.error(oError.message);
+			this.oAddSiteDialog.close();
 		});
 
 	}
