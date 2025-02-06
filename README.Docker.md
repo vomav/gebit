@@ -17,3 +17,17 @@ Then, push it to your registry, e.g. `docker push myregistry.com/myapp`.
 
 Consult Docker's [getting started](https://docs.docker.com/go/get-started-sharing/)
 docs for more detail on building and pushing.
+
+```
+docker run -e PG_HOST='localhost' -e PG_PORT='5432' -e PG_DB='gebit_dev' -e PG_USERNAME='postgres' -e PG_PASSWORD='postgres' -e JWT_ACCESS_SECRET='dGVzdHhzYWRzZHNkc2Fkc2Rzc2Zkc2FmZHN0ZXN0eHNhZHNkc2RzYWRzZHNzZmRzYWZkcw==' -e JWT_REFRESH_SECRET='dGVzdHhzYWRzZHNkc2Fkc2Rzc2Zkc2FmZHN0ZXN0eHNhZHNkc2RzYWRzZHNzZmRzYWZkcw==' -it $(docker build -q .)
+```
+
+# Kill all containers
+```
+docker stop $(docker ps -a -q)
+```
+
+start db locally
+```
+docker container run -d --rm -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=gebit_dev --name db postgres:alpine
+```
