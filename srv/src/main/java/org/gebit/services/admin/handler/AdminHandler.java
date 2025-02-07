@@ -107,8 +107,8 @@ public class AdminHandler implements EventHandler {
 	public void onRemoveSiteAction(TenantsRemoveSiteContext context) {
 		org.gebit.gen.srv.admin.Tenants tenantToDelete = this.tenantRepository.selectSingleTenantByCqnSelect(context.getCqn());
 		
-//		this.userRepository.deleteUserMappingsByTenantId(tenantToDelete.getId());
-//		this.tenantRepository.delete(tenantToDelete.getId());
+		this.userRepository.deleteUserMappingsByTenantId(tenantToDelete.getId());
+		this.tenantRepository.delete(tenantToDelete.getId());
 		
 		context.setResult(true);
 		context.setCompleted();

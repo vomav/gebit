@@ -22,7 +22,6 @@ export default class GroupTerritoryDetail extends Controller {
 
 	usersDialog: Dialog;
 	currentPartsContextBinding: Context;
-	currentCoordinates:[];
 	public onInit(): void {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);

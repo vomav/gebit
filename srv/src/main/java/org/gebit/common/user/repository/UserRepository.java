@@ -5,6 +5,7 @@ import static org.gebit.gen.db.Db_.USER_TENANT_MAPPINGS;
 import java.util.List;
 import java.util.Optional;
 
+import org.gebit.gen.db.Tenant;
 import org.gebit.gen.db.UserTenantMappings;
 import org.gebit.gen.db.UserTenantMappings_;
 import org.gebit.gen.db.Users;
@@ -12,6 +13,7 @@ import org.gebit.gen.db.Users_;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.CQL;
+import com.sap.cds.ql.Delete;
 import com.sap.cds.ql.Select;
 import com.sap.cds.ql.Update;
 import com.sap.cds.ql.Upsert;
@@ -58,4 +60,9 @@ public class UserRepository {
 		Upsert insertTenantMapping = Upsert.into(USER_TENANT_MAPPINGS).entry(userMapping);
 		persistenceService.run(insertTenantMapping);
    }
+
+	public void deleteUserMappingsByTenantId(String id) {	// TODO Auto-generated method stub
+		Delete<?> deleteByTenantId = Delete.from(UserTenantMappings_.class).where(p -> p.tenant_ID().eq(id));
+		persistenceService.run(deleteByTenantId);
+	}
 }
