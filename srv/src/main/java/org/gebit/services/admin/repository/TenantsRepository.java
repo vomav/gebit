@@ -4,6 +4,7 @@ import org.gebit.gen.db.Tenants;
 import org.gebit.gen.db.Tenants_;
 import org.springframework.stereotype.Component;
 
+import com.sap.cds.ql.Delete;
 import com.sap.cds.ql.Upsert;
 import com.sap.cds.ql.cqn.CqnSelect;
 import com.sap.cds.services.persistence.PersistenceService;
@@ -25,5 +26,12 @@ public class TenantsRepository {
 	public Tenants upsert(Tenants tenant) {
 		Upsert upsert = Upsert.into(Tenants_.class).entry(tenant);
 		return ps.run(upsert).single(Tenants.class);
+	}
+
+
+	public void delete(String id) {
+		Delete<Tenants_> deleteById = Delete.from(Tenants_.class).byId(id);
+		ps.run(deleteById);
+		
 	}
 }

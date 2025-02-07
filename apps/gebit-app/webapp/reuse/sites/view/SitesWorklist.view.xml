@@ -24,6 +24,8 @@
 				noDataText="{i18n>noData}"
 				growing="true"
 				growingScrollToLoad="true"
+				selectionChange="onUserTableSelectionChange"
+				mode="SingleSelectLeft"
 				>
 
 				<headerToolbar>
@@ -31,7 +33,7 @@
 						<content>
 							<ToolbarSpacer />
 							<Button press="onOpenAddSiteDialog" text="{i18n>addSite}" />
-							<Button enabled="false" press="onPressRemoveSite" text="{i18n>removeSite}" />
+							<Button id="deleteSelectedSiteButton" enabled="false" press="onPressRemoveSite" text="{i18n>removeSite}" />
 						</content>
 					</OverflowToolbar>
 				</headerToolbar>

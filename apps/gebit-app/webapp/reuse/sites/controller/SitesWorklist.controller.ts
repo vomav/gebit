@@ -15,6 +15,7 @@ import Text from "sap/m/Text";
 import Dialog from "sap/m/Dialog";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import MessageToast from "sap/m/MessageToast";
+import Button from "sap/m/Button";
 
 /**
  * @namespace ui5.gebit.app.reuse.sites.controller
@@ -22,6 +23,7 @@ import MessageToast from "sap/m/MessageToast";
 export default class SitesWorklist extends Controller {
 
 	oAddSiteDialog: Dialog;
+	oSelectedColumnListItem: ColumnListItem
 	public onInit() : void {
 		// apply content density mode to root view
 		const view = this.getView() as View
@@ -121,7 +123,24 @@ export default class SitesWorklist extends Controller {
 
 	}
 
-	public onPressRemoveSite(pEvent: Event) {
+	public onUserTableSelectionChange(oEvent:Event) {
+		this.oSelectedColumnListItem = oEvent.getParameter("listItem");
+		let isSelected = oEvent.getParameter("selected") as boolean;
+		(this.byId("deleteSelectedSiteButton") as Button).setEnabled(isSelected);
+	}
+
+	public async onPressRemoveSite(pEvent: Event) {
+		let model = (this.getView()?.getModel() as ODataModel);
+
+		let actionContext = await model.bindContext("srv.admin.removeSite(...)", this.oSelectedColumnListItem.getBindingContext());
 		
+		actionContext.execute().then(function () {
+			MessageToast.show("{i18n>ok}");
+			this.getView()?.getModel().refresh();
+			this.oAddSiteDialog.close();
+		}.bind(this), function (oError) {
+			MessageBox.error(oError.message);
+			this.oAddSiteDialog.close();
+		});
 	}
 }

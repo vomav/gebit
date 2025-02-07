@@ -22,7 +22,6 @@ export default class GroupTerritoryDetail extends Controller {
 
 	usersDialog: Dialog;
 	currentPartsContextBinding: Context;
-	currentCoordinates:[];
 	public onInit(): void {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);
@@ -97,7 +96,6 @@ export default class GroupTerritoryDetail extends Controller {
 			context.execute().then(function () {
 				MessageToast.show("{i18n>ok}");
 				this.getView()?.getModel().refresh();
-				this.currentPartsContextBinding
 			}.bind(this), function (oError) {
 				MessageBox.error(oError.message);
 			}

@@ -11,6 +11,7 @@ import MessageBox from "sap/m/MessageBox";
 import MessageToast from "sap/m/MessageToast";
 import Context from "sap/ui/model/odata/v4/Context";
 import Button from "sap/m/Button";
+import ListItemBase from "sap/m/ListItemBase";
 import { ObjectBindingInfo } from "sap/ui/base/ManagedObject";
 
 /**
@@ -19,6 +20,7 @@ import { ObjectBindingInfo } from "sap/ui/base/ManagedObject";
 export default class SiteDetails extends Controller {
 
 	addUserToSiteDialog:Dialog;
+	selectedItem : ListItemBase;
 	public onInit() : void {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);
@@ -47,6 +49,7 @@ export default class SiteDetails extends Controller {
 	}
 
 	public onUserTableSelectionChange(oEvent: Event) {
+		this.selectedItem = oEvent.getParameter("listItem");
 		let isSelected = oEvent.getParameter("selected") as boolean;
 		(this.byId("deleteSelectedUserButton") as Button).setEnabled(isSelected);
 	}
@@ -78,7 +81,7 @@ export default class SiteDetails extends Controller {
 		
 	}
 
-	public  closeAddUserToSiteDialog(oEvent: Event) {
+	public closeAddUserToSiteDialog(oEvent: Event) {
 		this.getView()?.getModel("uiModel").setProperty("/sites/createMapping", {});
 		this.addUserToSiteDialog.close();
 	}

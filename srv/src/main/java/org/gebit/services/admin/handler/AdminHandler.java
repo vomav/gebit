@@ -14,6 +14,7 @@ import org.gebit.gen.srv.admin.Admin_;
 import org.gebit.gen.srv.admin.CreateSiteContext;
 import org.gebit.gen.srv.admin.LoggedInUser_;
 import org.gebit.gen.srv.admin.TenantsAddUserByEmailContext;
+import org.gebit.gen.srv.admin.TenantsRemoveSiteContext;
 import org.gebit.services.admin.repository.TenantsRepository;
 import org.springframework.stereotype.Component;
 
@@ -101,6 +102,17 @@ public class AdminHandler implements EventHandler {
 		c.setCompleted();
 	}
 	
+	
+	@On(event=TenantsRemoveSiteContext.CDS_NAME) 
+	public void onRemoveSiteAction(TenantsRemoveSiteContext context) {
+		org.gebit.gen.srv.admin.Tenants tenantToDelete = this.tenantRepository.selectSingleTenantByCqnSelect(context.getCqn());
+		
+		this.userRepository.deleteUserMappingsByTenantId(tenantToDelete.getId());
+		this.tenantRepository.delete(tenantToDelete.getId());
+		
+		context.setResult(true);
+		context.setCompleted();
+	}
 	
 	
 }
