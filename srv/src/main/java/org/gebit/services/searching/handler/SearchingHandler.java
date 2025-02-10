@@ -5,9 +5,13 @@ import static org.gebit.authentication.CustomUserInfoProvider.USER_ID;
 import java.time.Instant;
 import java.util.ArrayList;
 
+import com.sap.cds.services.handler.annotations.After;
+import jakarta.servlet.http.Part;
+import org.gebit.common.user.repository.UserRepository;
 import org.gebit.gen.db.PartAssignments;
 import org.gebit.gen.db.Territories;
 import org.gebit.gen.db.TerritoryAssignments;
+import org.gebit.gen.srv.admin.TenantsRemoveSiteContext;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToMeContext;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToUserContext;
 import org.gebit.gen.srv.searching.PartAssignmentsCancelPartAssignmentContext;
@@ -17,6 +21,7 @@ import org.gebit.gen.srv.searching.TerritoriesAssignToUserContext;
 import org.gebit.gen.srv.searching.TerritoriesTrasferToAnotherSiteContext;
 import org.gebit.gen.srv.searching.TerritoriesWithdrawFromUserContext;
 import org.gebit.gen.srv.searching.TerritoryAssignments_;
+import org.gebit.services.admin.repository.TenantsRepository;
 import org.gebit.services.searching.repository.PartAssignmentsRepository;
 import org.gebit.services.searching.repository.TerritoryAssignmentRepository;
 import org.gebit.services.searching.repository.TerritoryRepository;
@@ -43,13 +48,17 @@ public class SearchingHandler implements EventHandler {
 	private TerritoryAssignmentRepository territoryAssignmentRepository;
 	private UserInfo userInfo;
 	private PartAssignmentsRepository partsAssignmentsRepository;
-	
-	public SearchingHandler(TerritoryRepository territoryRepository, TerritoryAssignmentRepository territoryAssignmentRepository, UserInfo userInfo, PartAssignmentsRepository partsAssignmentsRepository) {
+	private UserRepository userRepository;
+	private TenantsRepository tenantRepository;
+
+	public SearchingHandler(TerritoryRepository territoryRepository, TerritoryAssignmentRepository territoryAssignmentRepository, UserInfo userInfo, PartAssignmentsRepository partsAssignmentsRepository, UserRepository userRepository, TenantsRepository tenantRepository) {
 		super();
 		this.territoryRepository = territoryRepository;
 		this.territoryAssignmentRepository=territoryAssignmentRepository;
 		this.userInfo = userInfo;
 		this.partsAssignmentsRepository = partsAssignmentsRepository;
+		this.userRepository=userRepository;
+		this.tenantRepository=tenantRepository;
     }
 
 	@On(event=TerritoriesAssignToUserContext.CDS_NAME)
@@ -150,7 +159,9 @@ public class SearchingHandler implements EventHandler {
 	
 	@On(event=PartAssignmentsCancelPartAssignmentContext.CDS_NAME)
 	public void cancelPartAssignment(PartAssignmentsCancelPartAssignmentContext c) {
-		
+		PartAssignments assignment = partsAssignmentsRepository.runCqnSingleSelect(c.getCqn(), c.getModel());
+		assignment.setInWorkById(null);
+		this.partsAssignmentsRepository.save(assignment);
 		c.setResult(true);
 		c.setCompleted();
 	}
@@ -169,4 +180,8 @@ public class SearchingHandler implements EventHandler {
 		context.setResult(true);
 		context.setCompleted();
 	}
+
+
+
+
 }
