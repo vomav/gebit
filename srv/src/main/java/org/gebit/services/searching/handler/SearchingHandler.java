@@ -8,34 +8,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.sap.cds.services.handler.annotations.After;
-import jakarta.servlet.http.Part;
-import org.gebit.common.user.repository.UserRepository;
 import org.gebit.gen.db.InWorkBy;
 import org.gebit.gen.db.PartAssignments;
 import org.gebit.gen.db.Territories;
 import org.gebit.gen.db.TerritoryAssignments;
-import org.gebit.gen.db.Users;
-import org.gebit.gen.srv.admin.TenantsRemoveSiteContext;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToMeContext;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToUserContext;
 import org.gebit.gen.srv.searching.PartAssignmentsCancelPartAssignmentContext;
 import org.gebit.gen.srv.searching.Searching_;
-import org.gebit.gen.srv.searching.TenantMappings_;
 import org.gebit.gen.srv.searching.TerritoriesAssignToUserContext;
 import org.gebit.gen.srv.searching.TerritoriesTrasferToAnotherSiteContext;
 import org.gebit.gen.srv.searching.TerritoriesWithdrawFromUserContext;
 import org.gebit.gen.srv.searching.TerritoryAssignments_;
-import org.gebit.services.admin.repository.TenantsRepository;
 import org.gebit.services.searching.repository.PartAssignmentsRepository;
 import org.gebit.services.searching.repository.TerritoryAssignmentRepository;
 import org.gebit.services.searching.repository.TerritoryRepository;
-
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.CQL;
 import com.sap.cds.ql.Predicate;
-import com.sap.cds.ql.Select;
 import com.sap.cds.ql.cqn.CqnPredicate;
 import com.sap.cds.ql.cqn.CqnSelect;
 import com.sap.cds.ql.cqn.Modifier;
@@ -54,17 +45,13 @@ public class SearchingHandler implements EventHandler {
 	private TerritoryAssignmentRepository territoryAssignmentRepository;
 	private UserInfo userInfo;
 	private PartAssignmentsRepository partsAssignmentsRepository;
-	private UserRepository userRepository;
-	private TenantsRepository tenantRepository;
 
-	public SearchingHandler(TerritoryRepository territoryRepository, TerritoryAssignmentRepository territoryAssignmentRepository, UserInfo userInfo, PartAssignmentsRepository partsAssignmentsRepository, UserRepository userRepository, TenantsRepository tenantRepository) {
+	public SearchingHandler(TerritoryRepository territoryRepository, TerritoryAssignmentRepository territoryAssignmentRepository, UserInfo userInfo, PartAssignmentsRepository partsAssignmentsRepository) {
 		super();
 		this.territoryRepository = territoryRepository;
 		this.territoryAssignmentRepository=territoryAssignmentRepository;
 		this.userInfo = userInfo;
 		this.partsAssignmentsRepository = partsAssignmentsRepository;
-		this.userRepository=userRepository;
-		this.tenantRepository=tenantRepository;
     }
 
 	@On(event=TerritoriesAssignToUserContext.CDS_NAME)
@@ -141,7 +128,6 @@ public class SearchingHandler implements EventHandler {
 	
 	@On(event=PartAssignmentsAssignPartToUserContext.CDS_NAME)
 	public void assignPartToUser(PartAssignmentsAssignPartToUserContext c) {
-		String userId = c.getUserId();
 		CqnSelect select = c.getCqn();
 		PartAssignments pa =  this.partsAssignmentsRepository.runCqnSingleSelect(select, c.getModel());
 		// pa.setInWorkById(userId);

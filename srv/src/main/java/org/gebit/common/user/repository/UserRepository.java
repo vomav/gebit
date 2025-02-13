@@ -5,7 +5,6 @@ import static org.gebit.gen.db.Db_.USER_TENANT_MAPPINGS;
 import java.util.List;
 import java.util.Optional;
 
-import org.gebit.gen.db.Tenant;
 import org.gebit.gen.db.UserTenantMappings;
 import org.gebit.gen.db.UserTenantMappings_;
 import org.gebit.gen.db.Users;
@@ -40,14 +39,6 @@ public class UserRepository {
     public List<UserTenantMappings> getUserPermission(Users Users) {
         Select<?> userBasedPermissionsSelect = Select.from(UserTenantMappings_.class).columns(CQL.star(), CQL.to("tenant").expand()).where(predicate-> predicate.user_ID().eq(Users.getId()));
         List<UserTenantMappings> userBasedPermissions = persistenceService.run(userBasedPermissionsSelect).listOf(UserTenantMappings.class);
-        
-        List<UserTenantMappings> nonUserTenants = userBasedPermissions.stream().filter(utm -> !utm.getTenant().getDefaultUserTenant()).toList();
-        
-//        Select<?> nonUserBasedPermissionsSelect = Select.from(UserTenantMappings_.class).columns(CQL.star(), CQL.to("tenant").expand()).where(predicate-> predicate.tenant_ID().eq(nonUserTenants.get(0).getTenantId()));
-        
-//        List<UserTenantMappings> nonUserBasedPermissions = persistenceService.run(nonUserBasedPermissionsSelect).listOf(UserTenantMappings.class);
-//        userBasedPermissions.addAll(nonUserBasedPermissions);
-        
         return userBasedPermissions;
     }
 

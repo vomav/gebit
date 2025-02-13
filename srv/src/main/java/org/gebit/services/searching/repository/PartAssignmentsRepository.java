@@ -3,7 +3,6 @@ package org.gebit.services.searching.repository;
 import java.util.Map;
 import java.util.Optional;
 
-import org.apache.catalina.User;
 import org.gebit.gen.db.PartAssignments;
 import org.gebit.gen.db.PartAssignments_;
 import org.springframework.stereotype.Component;
