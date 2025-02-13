@@ -61,7 +61,10 @@
                            tokens="{
                               path: 'inWorkBy',
                               sorter: { path: 'surname' }
-                           }" enableTableAutoPopinMode="true" showValueHelp="false">
+                           }" 
+                           enableTableAutoPopinMode="true" 
+                           showValueHelp="false"
+                           tokenUpdate="onUpdateMultiValueUpdate">
                            <tokens>
                               <Token key="{id}" text="{= ${surname} +', '+ ${username}}" />
                            </tokens>

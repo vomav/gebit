@@ -15,6 +15,7 @@ import Sorter from "sap/ui/model/Sorter";
 import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import Table from "sap/m/Table";
 import CustomData from "sap/ui/core/CustomData";
+import ContextBinding from "sap/ui/model/ContextBinding";
 /**
  * @namespace ui5.gebit.app.controller
  */
@@ -174,4 +175,18 @@ export default class GroupTerritoryDetail extends Controller {
 	// 	oBinding.sort([new Sorter("")]);
 	// 	console.log(lat + " : " + long);
 	// }
+
+	public async onUpdateMultiValueUpdate(oEvent: Event) {
+		let type = oEvent.getParameter("type");
+		let source = oEvent.getSource().getBindingContext();
+
+		if(type == "removed") {
+			let removedTokens = oEvent.getParameter("removedTokens") as [];
+			for(let token of removedTokens) {
+				let context = token.getBindingContext();
+				await context.delete();
+				source.refresh();
+			}
+		}
+	}
 }
