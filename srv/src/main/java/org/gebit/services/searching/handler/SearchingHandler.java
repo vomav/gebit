@@ -3,6 +3,7 @@ package org.gebit.services.searching.handler;
 import static org.gebit.authentication.CustomUserInfoProvider.USER_ID;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -132,6 +133,8 @@ public class SearchingHandler implements EventHandler {
 	public void onwithdrawFromUser(TerritoriesWithdrawFromUserContext c) {
 		Territories assignment = territoryRepository.runCqn(c.getCqn());
 		territoryAssignmentRepository.deleteByTerritoryId(assignment.getId());
+		assignment.setLastTimeWorked(LocalDate.now());
+		territoryRepository.save(assignment);
 		c.setResult(true);
 		c.setCompleted();
 	}
