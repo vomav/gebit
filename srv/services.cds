@@ -1,6 +1,6 @@
 namespace srv;
 
-using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignments as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping } from '../db/database';
+using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignments as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping, db.InWorkBy as dbInworkBy } from '../db/database';
 
 service searching {
 
@@ -68,8 +68,7 @@ service searching {
         part.name as name,
         part.coordinates as coordinates,
         part.isBoundaries as isBoundaries,
-        inWorkBy.name as userName,
-        inWorkBy.surname as surname
+        inWorkBy: redirected to InWorkBy on inWorkBy.toParent = $self
     } actions {
         action assignPartToMe() returns Boolean;
         action assignPartToUser(userId: String) returns Boolean;
@@ -94,6 +93,12 @@ service searching {
        *
     };
 
+    entity InWorkBy as projection on dbInworkBy {
+        user.name as username,
+        user.surname as surname,
+        ID as id,
+        toParent as toParent
+    };
 }
 
 service admin {
@@ -125,7 +130,7 @@ service admin {
         *,
         user.name as username,
         user.surname as surname,
-        user.email as email
+        user.email as email,
     };
 
     action createSite(name:String, description:String) returns Boolean;

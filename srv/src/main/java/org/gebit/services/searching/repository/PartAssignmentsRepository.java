@@ -26,7 +26,7 @@ public class PartAssignmentsRepository {
 	}
 	
 	public Optional<PartAssignments> byId(String id) {
-		Select<?> userById = Select.from(PartAssignments_.class).columns(CQL.star()).byId(id);
+		Select<?> userById = Select.from(PartAssignments_.class).columns(CQL.star(), CQL.to(PartAssignments.IN_WORK_BY).expand()).byId(id);
 		return ps.run(userById).first(PartAssignments.class);
 	}
 	

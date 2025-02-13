@@ -193,8 +193,8 @@
 						<configuration>
 							<commands>
 								<command>build --for java</command>
-								<command>deploy --to postgres --dry &gt; "${project.basedir}/src/main/resources/db/changelog/dev/schema.sql"</command>
-								<command>deploy --model-only --dry &gt; "${project.basedir}/src/main/resources/db/changelog/dev/csn.json"</command>
+								<command>deploy --to postgres --dry &gt; "${project.basedir}/src/main/resources/db/changelog/dev/model.sql"</command>
+								<command>deploy --model-only --dry &gt; "${project.basedir}/src/main/resources/db/changelog/dev/model.csn"</command>
 								<!-- <command>compile srv/service.cds -2 openapi openapi:url /odata/v4/srv.review &gt; ${project.basedir}/src/main/resources/swagger/openapi.json</command> -->
 							</commands>
 						</configuration>

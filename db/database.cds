@@ -46,9 +46,15 @@ entity TerritoryAssignments : cuid, tenant {
 
 entity PartAssignments : cuid, tenant {
     part: Association to one Parts;
-    inWorkBy: Association to one Users;
+    inWorkBy: Composition of many InWorkBy on inWorkBy.toParent = $self;
     isDone: Boolean;
     toParent: Association to TerritoryAssignments;
+}
+
+entity InWorkBy : cuid {
+    user : Association to one Users;
+    test: String(32);
+    toParent: Association to one PartAssignments;
 }
 
 entity Users : cuid {
@@ -57,9 +63,7 @@ entity Users : cuid {
     surname: String(128);
     currentTenant: Association to one Tenants;
     password: String(128);
-    oid:String(64);
     toAllowedTenants: Association to many UserTenantMappings on toAllowedTenants.user=$self;
-    // toTerritories: Association to many TerritoryAssignments on toTerritories.assignedTo=$self;
     refreshToken: String(2048);
 }
 

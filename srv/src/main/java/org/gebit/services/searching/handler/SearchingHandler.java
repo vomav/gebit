@@ -4,13 +4,17 @@ import static org.gebit.authentication.CustomUserInfoProvider.USER_ID;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import com.sap.cds.services.handler.annotations.After;
 import jakarta.servlet.http.Part;
 import org.gebit.common.user.repository.UserRepository;
+import org.gebit.gen.db.InWorkBy;
 import org.gebit.gen.db.PartAssignments;
 import org.gebit.gen.db.Territories;
 import org.gebit.gen.db.TerritoryAssignments;
+import org.gebit.gen.db.Users;
 import org.gebit.gen.srv.admin.TenantsRemoveSiteContext;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToMeContext;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToUserContext;
@@ -25,6 +29,7 @@ import org.gebit.services.admin.repository.TenantsRepository;
 import org.gebit.services.searching.repository.PartAssignmentsRepository;
 import org.gebit.services.searching.repository.TerritoryAssignmentRepository;
 import org.gebit.services.searching.repository.TerritoryRepository;
+
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.CQL;
@@ -136,7 +141,7 @@ public class SearchingHandler implements EventHandler {
 		String userId = c.getUserId();
 		CqnSelect select = c.getCqn();
 		PartAssignments pa =  this.partsAssignmentsRepository.runCqnSingleSelect(select, c.getModel());
-		pa.setInWorkById(userId);
+		// pa.setInWorkById(userId);
 		
 		this.partsAssignmentsRepository.save(pa);
 		
@@ -150,7 +155,20 @@ public class SearchingHandler implements EventHandler {
 		
 		CqnSelect select = c.getCqn();
 		PartAssignments pa =  this.partsAssignmentsRepository.runCqnSingleSelect(select, c.getModel());
-		pa.setInWorkById(userId);
+		// pa.setInWorkById(userId);
+		
+		InWorkBy inWorkBy = InWorkBy.create();
+		
+		inWorkBy.setId(UUID.randomUUID().toString());
+		inWorkBy.setToParentId(pa.getId());
+		
+		inWorkBy.setUserId(userId);
+		if(pa.getInWorkBy() == null) {
+			pa.setInWorkBy(List.of(inWorkBy));
+		} else {
+			pa.getInWorkBy().add(inWorkBy);
+		}
+		
 		
 		this.partsAssignmentsRepository.save(pa);
 		c.setResult(true);
@@ -160,7 +178,7 @@ public class SearchingHandler implements EventHandler {
 	@On(event=PartAssignmentsCancelPartAssignmentContext.CDS_NAME)
 	public void cancelPartAssignment(PartAssignmentsCancelPartAssignmentContext c) {
 		PartAssignments assignment = partsAssignmentsRepository.runCqnSingleSelect(c.getCqn(), c.getModel());
-		assignment.setInWorkById(null);
+		assignment.setInWorkBy(List.of());
 		this.partsAssignmentsRepository.save(assignment);
 		c.setResult(true);
 		c.setCompleted();

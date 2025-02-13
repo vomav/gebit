@@ -5,4 +5,4 @@ databaseChangeLog:
       changes:
         - sqlFile:
             dbms: postgresql
-            path: db/changelog/dev/schema.sql
+            path: db/changelog/dev/model.sql

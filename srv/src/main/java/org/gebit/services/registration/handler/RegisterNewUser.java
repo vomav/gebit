@@ -51,7 +51,6 @@ public class RegisterNewUser implements EventHandler {
 		user.setSurname(context.getSurname());
 		user.setCurrentTenantId(currentTenant);
 		user.setPassword(encoder.encode(context.getPassword()));
-		user.setOid("gebit.org");
 		
 		user = this.userRepository.registerUser(user);
 		Tenants tenant = this.tenantRepository.onboardTenantForUser(user, currentTenant);
