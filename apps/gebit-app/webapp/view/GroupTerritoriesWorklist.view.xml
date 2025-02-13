@@ -40,17 +40,14 @@
 					<Column>
 						<Text text="{i18n>title}"/>
 					</Column>
-					<Column>
+					<Column demandPopin="true" minScreenWidth="600px">
 						<Text text="{i18n>site}"/>
 					</Column>
-					<Column hAlign="End">
+					<Column hAlign="End" demandPopin="true" minScreenWidth="600px">
 						<Text text="{i18n>startedDate}"/>
 					</Column>
-					<Column hAlign="End">
+					<Column hAlign="End" demandPopin="true" minScreenWidth="600px">
 						<Text text="{i18n>finishedDate}"/>
-					</Column>
-					<Column hAlign="End">
-						<Text text="{i18n>type}"/>
 					</Column>
 				</columns>
 
@@ -70,7 +67,6 @@
 								path: 'finishedDate',
 								formatter: '.formatStartEndDate'
 							}" />
-							<CheckBox selected="{isDone}" />	
 						</cells>
 						<customData>
 							<core:CustomData id="tenantDiscriminator" value="{tenantDiscriminator}" />

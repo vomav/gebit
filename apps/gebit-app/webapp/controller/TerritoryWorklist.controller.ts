@@ -10,7 +10,7 @@ import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import Event from "sap/ui/base/Event";
 import ColumnListItem from "sap/m/ColumnListItem";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
-
+import {Formatter} from "./FormatterUtils"
 /**
  * @namespace ui5.gebit.app.controller
  */           
@@ -178,5 +178,9 @@ class KmlParser {
 
 		return result;
 
+	}
+
+	public formatStartEndDate(value:string) {
+		return Formatter.formatDateColumn(value);
 	}
 }

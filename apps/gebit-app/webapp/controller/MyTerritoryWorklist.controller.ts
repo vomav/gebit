@@ -4,6 +4,7 @@ import View from "sap/ui/core/mvc/View";
 import ColumnListItem from "sap/m/ColumnListItem";
 import UIComponent from "sap/ui/core/UIComponent";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
+import {Formatter} from "./FormatterUtils"
 /**
  * @namespace ui5.gebit.app.controller
  */           
@@ -34,5 +35,10 @@ export default class MyTerritoryWorklist extends Controller {
 		router.navTo("myTerritoryDetail",{
 			"id" : oBindingContext?.getProperty("ID")
 		})
+	}
+
+
+	public formatStartEndDate(value:string) {
+		return Formatter.formatDateColumn(value);
 	}
 }

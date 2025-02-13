@@ -53,14 +53,14 @@
 					<Column>
 						<Text text="{i18n>title}"/>
 					</Column>
-					<Column>
+					<Column demandPopin="true" minScreenWidth="600px">
 						<Text text="{i18n>assignedTo}" />
 					</Column>
-					<Column>
+					<Column demandPopin="true" minScreenWidth="600px">
 						<Text text="{i18n>siteId}" />
 					</Column>
 
-					<Column hAlign="End">
+					<Column hAlign="End" demandPopin="true" minScreenWidth="600px">
 						<Text text="{i18n>lastTimeWorked}"/>
 					</Column>
 				</columns>

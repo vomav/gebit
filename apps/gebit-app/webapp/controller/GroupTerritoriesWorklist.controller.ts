@@ -4,6 +4,7 @@ import View from "sap/ui/core/mvc/View";
 import ColumnListItem from "sap/m/ColumnListItem";
 import UIComponent from "sap/ui/core/UIComponent";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
+import {Formatter} from "./FormatterUtils"
 /**
  * @namespace ui5.gebit.app.controller
  */           
@@ -37,10 +38,7 @@ export default class GroupTerritoriesWorklist extends Controller {
 	}
 
 	public formatStartEndDate(value:string) {
-		let date = new Date(value);
-		var d = date.getDate();
-		var m = date.getMonth() + 1; //Month from 0 to 11
-		var y = date.getFullYear();
-		return '' + y + '-' + (m<=9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
+		return Formatter.formatDateColumn(value);
 	}
+
 }

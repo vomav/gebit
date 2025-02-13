@@ -39,17 +39,14 @@
 					<Column>
 						<Text text="{i18n>title}"/>
 					</Column>
-					<Column hAlign="End">
+					<Column hAlign="End" demandPopin="true" minScreenWidth="600px">
 						<Text text="{i18n>startedDate}"/>
 					</Column>
-					<Column hAlign="End">
+					<Column hAlign="End" demandPopin="true" minScreenWidth="600px">
 						<Text text="{i18n>finishedDate}"/>
 					</Column>
-					<Column hAlign="End">
+					<Column hAlign="End" demandPopin="true" minScreenWidth="600px">
 						<Text text="{i18n>type}"/>
-					</Column>
-					<Column hAlign="End">
-						<Text text="{i18n>isDone}"/>
 					</Column>
 				</columns>
 
@@ -61,10 +58,15 @@
 							<Link
 								text="{name}" href="{link}"/>
 							
-							<Text text="{startedDate}" />
-							<Text text="{finishedDate}" />
+							<Text text="{
+								path: 'startedDate',
+								formatter: '.formatStartEndDate'
+							}" />
+							<Text text="{
+								path: 'finishedDate',
+								formatter: '.formatStartEndDate'
+							}" />
 							<Text text="{type}" />
-							<CheckBox selected="{isDone}" />	
 						</cells>
 					</ColumnListItem>
 				</items>
