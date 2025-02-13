@@ -43,10 +43,10 @@
          <Column>
 				<Text text="{i18n>isDone}"/>
 			</Column>
-         <Column>
+         <Column demandPopin="true" minScreenWidth="600px">
 				<Text text="{i18n>assignedTo}"/>
 			</Column>
-         <Column>
+         <Column demandPopin="true">
 				<Text text="{i18n>actions}"/>
 			</Column>
       </columns>
@@ -57,10 +57,15 @@
 						<cells>
 							<Text text="{name}"/>
                      <CheckBox selected="{isDone}"></CheckBox>
-                     <VBox>
-                        <Text text="{userName}" ></Text>
-                        <Text text="{surname}"></Text>
-                     </VBox>
+                     	<MultiInput enabled="true"
+                           tokens="{
+                              path: 'inWorkBy',
+                              sorter: { path: 'surname' }
+                           }" enableTableAutoPopinMode="true" showValueHelp="false">
+                           <tokens>
+                              <Token key="{id}" text="{= ${surname} +', '+ ${username}}" />
+                           </tokens>
+                        </MultiInput>
                	   <Button
                         icon="sap-icon://action"
                         class="sapUiSmallMargin"

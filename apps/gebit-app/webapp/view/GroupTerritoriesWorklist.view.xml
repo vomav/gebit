@@ -62,9 +62,14 @@
 							<Link
 								text="{name}" href="{link}"/>
 							<Text text="{site}" />	
-							<Text text="{startedDate}" />
-							<Text text="{finishedDate}" />
-							<Text text="{type}" />
+							 <Text text="{
+								path: 'startedDate',
+								formatter: '.formatStartEndDate'
+							}" />
+							<Text text="{
+								path: 'finishedDate',
+								formatter: '.formatStartEndDate'
+							}" />
 							<CheckBox selected="{isDone}" />	
 						</cells>
 						<customData>
