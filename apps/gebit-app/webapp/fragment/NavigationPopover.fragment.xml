@@ -1,0 +1,21 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ResponsivePopover
+		id="myPopover"
+		title="{Name}"
+		class="sapUiContentPadding"
+		placement="Bottom" >
+
+		<content>
+			<VBox>
+				<Link href="#" text="{i18n>home}" />
+				<Link href="#territories" text="{i18n>manageTerritories}" />
+				<Link href="#myTerritories" text="{i18n>myTerritories}" />
+				<Link href="#userAdmin" text="{i18n>myProfile}" />
+				<Link href="#groupTerritories" text="{i18n>groupTerritories}" />
+				<Link href="#sites" text="{i18n>manageAccount}" />
+			</VBox>
+		</content>
+	</ResponsivePopover>
+</core:FragmentDefinition>

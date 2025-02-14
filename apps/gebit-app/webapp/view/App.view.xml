@@ -14,12 +14,12 @@
 				<ToolbarSpacer />
 				<Title text="{i18n>mainTitle}" />
 				<ToolbarSpacer />
-					<Avatar
+					<!-- <Avatar
 							enabled="false"
 							initials="{userAdminModel>name}"
 							displaySize="S"
-							press="onPress"/>
-					<Button id="toolHeaderSandwichIcon" icon="sap-icon://menu2"></Button>
+							press="onPress"/> -->
+					<Button id="toolHeaderSandwichIcon" icon="sap-icon://menu2" press="onSandwichButtonPress"></Button>
 			</tnt:ToolHeader>
 		</tnt:header>
 		<tnt:mainContents>

@@ -37,7 +37,7 @@
 					<ImageContent src="sap-icon://activities" />
 				</TileContent>
 			</GenericTile>
-			<GenericTile header="My User Profile" subheader="" press="navigateToUserAdminApp">
+			<GenericTile header="{i18n>myProfile}" subheader="" press="navigateToUserAdminApp">
 				<layoutData>
 					<f:GridContainerItemLayoutData minRows="2" columns="2" />
 				</layoutData>
@@ -45,7 +45,7 @@
 					<ImageContent src="sap-icon://account" />
 				</TileContent>
 			</GenericTile>
-			<GenericTile header="Group Territories" subheader="Work with group" press="navigateToGroupTerritoriesApp">
+			<GenericTile header="{i18n>groupTerritories}" subheader="Work with group" press="navigateToGroupTerritoriesApp">
 				<layoutData>
 					<f:GridContainerItemLayoutData minRows="2" columns="2" />
 				</layoutData>
@@ -53,7 +53,7 @@
 					<ImageContent src="sap-icon://company-view" />
 				</TileContent>
 			</GenericTile>
-			<GenericTile header="Manage My Account" subheader=""  press="navigateToSitesApp">
+			<GenericTile header="{i18n>manageAccount}" subheader=""  press="navigateToSitesApp">
 				<layoutData>
 					<f:GridContainerItemLayoutData minRows="2" columns="2" />
 				</layoutData>
