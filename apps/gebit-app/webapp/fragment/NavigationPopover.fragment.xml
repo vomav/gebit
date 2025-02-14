@@ -9,7 +9,6 @@
 
 		<content>
 			<VBox>
-				<Link href="#" text="{i18n>home}" />
 				<Link href="#territories" text="{i18n>manageTerritories}" />
 				<Link href="#myTerritories" text="{i18n>myTerritories}" />
 				<Link href="#userAdmin" text="{i18n>myProfile}" />
