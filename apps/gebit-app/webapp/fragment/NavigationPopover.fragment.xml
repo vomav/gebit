@@ -8,13 +8,78 @@
 		placement="Bottom" >
 
 		<content>
-			<VBox>
+			<Table headerText="{i18n>navigation}" alternateRowColors="true" >
+				<columns>
+					<Column width="300px" >
+						<Text text=""></Text>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem press="onNavItemPress" type="Navigation">
+						<cells>
+							<ObjectIdentifier title="{i18n>home}">
+							</ObjectIdentifier>
+						</cells>
+						<customData>
+							<core:CustomData key="nav" value="home"></core:CustomData>
+						</customData>
+					</ColumnListItem>
+					<ColumnListItem press="onNavItemPress" type="Navigation">
+						<cells>
+							<ObjectIdentifier title="{i18n>manageTerritories}">
+							</ObjectIdentifier>
+						</cells>
+						<customData>
+							<core:CustomData key="nav" value="territories"></core:CustomData>
+						</customData>
+					</ColumnListItem>
+					<ColumnListItem press="onNavItemPress" type="Navigation" >
+						<cells>
+							<ObjectIdentifier title="{i18n>myTerritories}" >
+							</ObjectIdentifier>
+						</cells>
+						<customData>
+							<core:CustomData key="nav" value="myTerritories"></core:CustomData>
+						</customData>
+					</ColumnListItem>
+					<ColumnListItem press="onNavItemPress" type="Navigation">
+						<cells>
+							<ObjectIdentifier title="{i18n>myProfile}" >
+							</ObjectIdentifier>
+						</cells>
+						<customData>
+							<core:CustomData key="nav" value="userAdmin"></core:CustomData>
+						</customData>
+					</ColumnListItem>
+					<ColumnListItem press="onNavItemPress" type="Navigation">
+						<cells>
+							<ObjectIdentifier title="{i18n>groupTerritories}" >
+							</ObjectIdentifier>
+						</cells>
+						<customData>
+							<core:CustomData key="nav" value="groupTerritories"></core:CustomData>
+						</customData>
+					</ColumnListItem>
+					<ColumnListItem  press="onNavItemPress" type="Navigation">
+						<cells>
+							<ObjectIdentifier title="{i18n>manageAccount}" >
+							</ObjectIdentifier>
+						</cells>
+						<customData>
+							<core:CustomData key="nav" value="sites"></core:CustomData>
+						</customData>
+					</ColumnListItem>
+				</items>
+			</Table>
+		
+			<!--
 				<Link href="#territories" text="{i18n>manageTerritories}" />
 				<Link href="#myTerritories" text="{i18n>myTerritories}" />
 				<Link href="#userAdmin" text="{i18n>myProfile}" />
 				<Link href="#groupTerritories" text="{i18n>groupTerritories}" />
 				<Link href="#sites" text="{i18n>manageAccount}" />
-			</VBox>
+			-->
+			
 		</content>
 	</ResponsivePopover>
 </core:FragmentDefinition>

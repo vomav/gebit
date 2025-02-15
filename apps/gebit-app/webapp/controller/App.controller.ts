@@ -26,4 +26,8 @@ export default class App extends Controller {
         }
     }
 
+    public onNavItemPress(oEvent: Event) {
+        let navTo = oEvent.getSource().data("nav");
+        (this.getOwnerComponent() as UIComponent).getRouter().navTo(navTo);
+    }
 }
