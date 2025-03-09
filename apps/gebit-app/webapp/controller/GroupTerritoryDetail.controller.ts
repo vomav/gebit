@@ -112,36 +112,37 @@ export default class GroupTerritoryDetail extends Controller {
 		
 		let sKey = oEvent.getParameter("key");
 		let aFilters = [];
-		let aSorters = [] as Sorter[];
 		let oBinding = this.getView()?.byId("groupTerrirtoryParts")?.getBinding("items") as ODataListBinding;
-		let sortByName = new Sorter("name", false);
-		
+		let isNotDone = new Filter([new Filter("isDone", FilterOperator.EQ, null), new Filter("isDone", FilterOperator.EQ, false)], false);
 		switch (sKey) {
 			case "All":
-				aSorters.push(sortByName);
+			case "CloseToMe":
 				break;
 			
 			case "Available":
-				aFilters.push(new Filter("userName", FilterOperator.EQ, null));
-				aSorters.push(sortByName);
+				let inWorkByFilterEqNull = new Filter({'path':'inWorkBy', 'operator': FilterOperator.All, 'variable': 'item', 'condition': new Filter({
+					'path':'item/id',
+					'operator': FilterOperator.EQ,
+					'value1': null
+				})})
+				aFilters.push(new Filter([ inWorkByFilterEqNull, isNotDone], true));
 				break;
 	
-			case "CloseToMe":
-				break;
-
 			case "InProgress": 
-				let isNotDone = new Filter([new Filter("isDone", FilterOperator.EQ, null), new Filter("isDone", FilterOperator.EQ, false)], false);
-				let isAssigned = new Filter([new Filter("userName", FilterOperator.NE, null), isNotDone], true);
-				// aFilters.push(isNotDone);
+				let inWorkByFilter = new Filter({'path':'inWorkBy', 'operator': FilterOperator.Any, 'variable': 'item', 'condition': new Filter({
+					'path':'item/id',
+					'operator': FilterOperator.NE,
+					'value1': null
+				})})
+				let isAssigned = new Filter([inWorkByFilter, isNotDone], true);
 				aFilters.push(isAssigned);
-				aSorters.push(sortByName);
 				break;
 			default:
 				break;
 		}
 
 		oBinding.filter(new Filter(aFilters));
-		oBinding.sort(aSorters);
+		oBinding.sort([new Sorter("name", false)]);
 		
 
 
