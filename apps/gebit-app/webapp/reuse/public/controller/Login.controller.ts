@@ -3,6 +3,8 @@ import Controller from "sap/ui/core/mvc/Controller";
 import AppComponent from "../../../Component";
 import UIComponent from "sap/ui/core/UIComponent";
 import { URLHelper } from "sap/m/library";
+import Event from "sap/ui/base/Event";
+import Input from "sap/m/Input";
 
 /**
  * @namespace ui5.gebit.app.reuse.public.controller
@@ -53,5 +55,12 @@ export default class Login extends Controller {
 
     public toToRegistration(oEvent:any) {
         (this.getOwnerComponent() as UIComponent).getRouter().navTo("registration");
+    }
+
+    public onLiveChange(oEvent: Event) {
+
+        let input = oEvent.getSource() as Input;
+
+        input.setValue(input.getValue().toLowerCase());
     }
 }

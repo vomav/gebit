@@ -33,7 +33,7 @@
 			</form:toolbar>
 			<form:content>
 				<Label text="{i18n>email}" />
-				<Input id="login_loginInput" value="{name}" />
+				<Input id="login_loginInput" value="{name}" liveChange = ".onLiveChange"/>
 				<Label text="{i18n>password}" />
 				<Input type="Password" id="login_passwordInput" value="{surname}"/>
 			</form:content>
