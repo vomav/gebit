@@ -1,12 +1,8 @@
-import MessageBox from "sap/m/MessageBox";
 import Controller from "sap/ui/core/mvc/Controller";
-import AppComponent from "../Component";
 import UIComponent from "sap/ui/core/UIComponent";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
-import Component from "../Component";
 import Control from "sap/ui/core/Control";
 import { ObjectBindingInfo } from "sap/ui/base/ManagedObject";
-import { URLHelper } from "sap/m/library";
 
 /**
  * @namespace ui5.gebit.app.controller
@@ -34,7 +30,7 @@ export default class Home extends Controller {
 		bi.model = "userAdminModel",
 		
 		sap.ui.getCore().byId("container-ui5.gebit.app---app--toolPage")?.bindElement(bi);
-		sap.ui.getCore().byId("container-ui5.gebit.app---app--toolPage")?.data('email', "{userAdminModel>email}")
+		// sap.ui.getCore().byId("container-ui5.gebit.app---app--toolPage")?.data('email', "{userAdminModel>email}")
 		(sap.ui.getCore().byId("container-ui5.gebit.app---app--toolHeaderImage") as Control).setVisible(true);
 		(sap.ui.getCore().byId("container-ui5.gebit.app---app--toolHeaderSandwichIcon-img") as Control)?.setVisible(true);
 		
