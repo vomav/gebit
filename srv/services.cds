@@ -1,6 +1,6 @@
 namespace srv;
 
-using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignments as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping, db.InWorkBy as dbInworkBy } from '../db/database';
+using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignments as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping, db.InWorkBy as dbInworkBy, db.Image as Image } from '../db/database';
 
 service searching {
 
@@ -68,11 +68,14 @@ service searching {
         part.name as name,
         part.coordinates as coordinates,
         part.isBoundaries as isBoundaries,
-        inWorkBy: redirected to InWorkBy on inWorkBy.toParent = $self
+        inWorkBy: redirected to InWorkBy on inWorkBy.toParent = $self,
+        toWorkedPartImage.imageUrl as workedPartImageUrl,
+        toWorkedPartImage.mediaType as workedPartImageMediaType
     } actions {
         action assignPartToMe() returns Boolean;
         action assignPartToUser(userId: String) returns Boolean;
         action cancelPartAssignment() returns Boolean;
+        action uploadImage(file: String, mediaType: String) returns String;
     } ;
 
     entity TenantMappings as projection on dbUserTenantMapping {
@@ -96,9 +99,12 @@ service searching {
     entity InWorkBy as projection on dbInworkBy {
         user.name as username,
         user.surname as surname,
+        user.ID as userId,
         ID as id,
         toParent as toParent
     };
+
+    entity Images as projection on Image;
 }
 
 service admin {

@@ -2,6 +2,7 @@
    xmlns="sap.m"
    xmlns:core="sap.ui.core"
    xmlns:form="sap.ui.layout.form"   
+   xmlns:u="sap.ui.unified"
    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
    
 <IconTabBar
@@ -49,6 +50,12 @@
          <Column demandPopin="true">
 				<Text text="{i18n>actions}"/>
 			</Column>
+         <Column demandPopin="true">
+				<Text text="Upload"/>
+			</Column>
+         <Column demandPopin="true">
+				<Text text="Covered map"/>
+			</Column>
       </columns>
       <items>
          <ColumnListItem
@@ -82,6 +89,31 @@
                               type="XML" />
                         </dependents>
                      </Button>
+                     <u:FileUploader
+                        name="coveredMapImageFileUploader"
+                        uploadUrl="uploadImage"
+                        tooltip="Upload your file to the local server"
+                        uploadComplete="handleUploadComplete"
+                        change="onFileChange"
+                        typeMissmatch="handleTypeMissmatch"
+                        style="Emphasized"
+                        fileType="jpg,png"
+                        buttonOnly="true" 
+
+                        placeholder="Choose a file for Upload...">
+                           <u:parameters>
+                              <u:FileUploaderParameter
+                                 name="Accept-CH"
+                                 value="Viewport-Width"/>
+                              <u:FileUploaderParameter
+                                 name="Accept-CH"
+                                 value="Width"/>
+                              <u:FileUploaderParameter
+                                 name="Accept-CH-Lifetime"
+                                 value="86400"/>
+                           </u:parameters>
+                        </u:FileUploader>
+                        <Image src="{imageUrl}" width="50px" height="50px"></Image>
 						</cells>
 			</ColumnListItem>
       </items>
