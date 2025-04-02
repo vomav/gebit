@@ -27,10 +27,15 @@ export default class Home extends Controller {
 	public homeMatched() {
 		let bi = {} as ObjectBindingInfo;
 		bi.path = "/LoggedInUser",
-		bi.model = "userAdminModel",
+		bi.model = "userAdminModel";
 		
-		sap.ui.getCore().byId("container-ui5.gebit.app---app--toolPage")?.bindElement(bi);
-		// sap.ui.getCore().byId("container-ui5.gebit.app---app--toolPage")?.data('email', "{userAdminModel>email}")
+		let toolPageControl = sap.ui.getCore().byId("container-ui5.gebit.app---app--toolPage") as Control;
+		if(toolPageControl) {
+			toolPageControl?.bindElement(bi);
+			toolPageControl.data('email', "{path:'userAdminModel>email',mode:'OneWay'}")
+		}
+		
+		
 		(sap.ui.getCore().byId("container-ui5.gebit.app---app--toolHeaderImage") as Control).setVisible(true);
 		(sap.ui.getCore().byId("container-ui5.gebit.app---app--toolHeaderSandwichIcon-img") as Control)?.setVisible(true);
 		
