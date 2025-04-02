@@ -3,6 +3,9 @@
         "native_hana_associations" : false
     },
     "cds": {
+        "requires": {
+            "db":"sql"
+        },
         "folders": {
            "db": "db/",
            "srv": "srv/",
