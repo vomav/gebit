@@ -50,7 +50,7 @@ entity PartAssignments : cuid, tenant {
     isDone: Boolean;
     imageUrl: String(512);
     toParent: Association to TerritoryAssignments;
-    toWorkedPartImage: Composition of one Image;
+    toWorkedPartImage: Composition of one Image on toWorkedPartImage.toParent = $self;
 }
 
 entity Image : cuid, tenant {

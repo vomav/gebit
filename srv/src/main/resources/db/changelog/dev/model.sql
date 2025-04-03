@@ -64,7 +64,6 @@ CREATE TABLE db_PartAssignments (
   isDone BOOLEAN,
   imageUrl VARCHAR(512),
   toParent_ID VARCHAR(36),
-  toWorkedPartImage_ID VARCHAR(36),
   PRIMARY KEY(ID)
 ); 
 
@@ -164,13 +163,12 @@ CREATE VIEW srv_searching_PartAssignments AS SELECT
   dbPartAssignmenst_0.isDone,
   dbPartAssignmenst_0.imageUrl,
   dbPartAssignmenst_0.toParent_ID,
-  dbPartAssignmenst_0.toWorkedPartImage_ID,
   part_1.name AS name,
   part_1.coordinates AS coordinates,
   part_1.isBoundaries AS isBoundaries,
   toWorkedPartImage_2.imageUrl AS workedPartImageUrl,
   toWorkedPartImage_2.mediaType AS workedPartImageMediaType
-FROM ((db_PartAssignments AS dbPartAssignmenst_0 LEFT JOIN db_Parts AS part_1 ON dbPartAssignmenst_0.part_ID = part_1.ID) LEFT JOIN db_Image AS toWorkedPartImage_2 ON dbPartAssignmenst_0.toWorkedPartImage_ID = toWorkedPartImage_2.ID); 
+FROM ((db_PartAssignments AS dbPartAssignmenst_0 LEFT JOIN db_Parts AS part_1 ON dbPartAssignmenst_0.part_ID = part_1.ID) LEFT JOIN db_Image AS toWorkedPartImage_2 ON (toWorkedPartImage_2.toParent_ID = dbPartAssignmenst_0.ID)); 
 
 CREATE VIEW srv_searching_TenantMappings AS SELECT
   dbUserTenantMapping_0.user_ID,

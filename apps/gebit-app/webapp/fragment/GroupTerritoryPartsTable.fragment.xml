@@ -41,20 +41,18 @@
          <Column>
 				<Text text="{i18n>name}"/>
 			</Column>
-         <Column>
-				<Text text="{i18n>isDone}"/>
-			</Column>
+
          <Column demandPopin="true" minScreenWidth="600px">
 				<Text text="{i18n>assignedTo}"/>
 			</Column>
          <Column demandPopin="true">
 				<Text text="{i18n>actions}"/>
 			</Column>
-         <Column demandPopin="true">
-				<Text text="Upload"/>
+         <Column demandPopin="true" minScreenWidth="600px">
+				<Text text="{i18n>mapSnapshot}"/>
 			</Column>
-         <Column demandPopin="true">
-				<Text text="Covered map"/>
+         <Column>
+				<Text text="{i18n>isDone}"/>
 			</Column>
       </columns>
       <items>
@@ -63,7 +61,6 @@
 						press="onPressListItem" app:coord="{coordinates}">
 						<cells>
 							<Text text="{name}"/>
-                     <CheckBox selected="{isDone}"></CheckBox>
                      	<MultiInput enabled="true"
                            tokens="{
                               path: 'inWorkBy',
@@ -71,10 +68,12 @@
                            }" 
                            enableTableAutoPopinMode="true" 
                            showValueHelp="false"
-                           tokenUpdate="onUpdateMultiValueUpdate">
+                           tokenUpdate="onUpdateMultiValueUpdate"
+                           editable="false">
                            <tokens>
                               <Token key="{id}" text="{= ${surname} +', '+ ${username}}" />
                            </tokens>
+                           
                         </MultiInput>
                	   <Button
                         icon="sap-icon://action"
@@ -89,6 +88,7 @@
                               type="XML" />
                         </dependents>
                      </Button>
+                     <HBox>
                      <u:FileUploader
                         name="coveredMapImageFileUploader"
                         uploadUrl="uploadImage"
@@ -97,10 +97,11 @@
                         change="onFileChange"
                         typeMissmatch="handleTypeMissmatch"
                         style="Emphasized"
-                        fileType="jpg,png"
-                        buttonOnly="true" 
-
-                        placeholder="Choose a file for Upload...">
+                        fileType="jpg,png,jpeg"
+                        icon="sap-icon://upload"
+                        iconOnly="true"
+                        buttonOnly="true"
+                        class="sapUiTinyMarginEnd">
                            <u:parameters>
                               <u:FileUploaderParameter
                                  name="Accept-CH"
@@ -113,7 +114,13 @@
                                  value="86400"/>
                            </u:parameters>
                         </u:FileUploader>
-                        <Image src="{imageUrl}" width="50px" height="50px"></Image>
+                        <Button id="viewWorkedImageButton" icon="sap-icon://image-viewer" ariaDescribedBy="{i18n>viewWorkedImage}" press="onPressViewWorkedImage" visible="{= ${workedPartImageUrl} !== null}">
+                           <customData>
+                              <core:CustomData key="imageUrl" value="{workedPartImageUrl}"></core:CustomData>
+                           </customData>
+                        </Button>
+                        </HBox>
+                     <CheckBox selected="{isDone}"></CheckBox>
 						</cells>
 			</ColumnListItem>
       </items>

@@ -14,6 +14,9 @@ import MessageToast from "sap/m/MessageToast";
 import Sorter from "sap/ui/model/Sorter";
 import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import Table from "sap/m/Table";
+import Image from "sap/m/Image";
+import Toolbar from "sap/m/Toolbar";
+import ToolbarSpacer from "sap/m/ToolbarSpacer";
 import CustomData from "sap/ui/core/CustomData";
 import ContextBinding from "sap/ui/model/ContextBinding";
 /**
@@ -23,6 +26,7 @@ export default class GroupTerritoryDetail extends Controller {
 
 	usersDialog: Dialog;
 	currentPartsContextBinding: Context;
+	viewMapSnapshotDialog: Dialog;
 	public onInit(): void {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);
@@ -196,7 +200,36 @@ export default class GroupTerritoryDetail extends Controller {
 				MessageBox.error(oError.message);
 			}
 			);
+	}
 
-		
+	public onPressViewWorkedImage(oEvent:Event) {
+		if(this.viewMapSnapshotDialog == undefined) {
+			this.viewMapSnapshotDialog = new Dialog({
+				showHeader: true,
+				customHeader: new Toolbar({
+					content:[
+						new ToolbarSpacer(),
+						new Button({
+							icon: "sap-icon://decline",
+							press: this.closeViewImageDialog.bind(this)
+						})
+					]
+				})
+			});
+		}
+
+		let image = new Image({
+			src:oEvent.getSource().data("imageUrl"),
+			width: window.screen.width - 30 + "px",
+			height: window.screen.height - 30 + "px"
+		});
+
+		this.viewMapSnapshotDialog.removeAllContent();
+		this.viewMapSnapshotDialog.addContent(image);
+		this.viewMapSnapshotDialog.open();
+	}
+
+	public closeViewImageDialog(oEvent: Event) {
+		this.viewMapSnapshotDialog.close();
 	}
 }
