@@ -14,6 +14,9 @@ import MessageToast from "sap/m/MessageToast";
 import Sorter from "sap/ui/model/Sorter";
 import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import Table from "sap/m/Table";
+import Image from "sap/m/Image";
+import Toolbar from "sap/m/Toolbar";
+import ToolbarSpacer from "sap/m/ToolbarSpacer";
 import CustomData from "sap/ui/core/CustomData";
 import ContextBinding from "sap/ui/model/ContextBinding";
 /**
@@ -23,6 +26,7 @@ export default class GroupTerritoryDetail extends Controller {
 
 	usersDialog: Dialog;
 	currentPartsContextBinding: Context;
+	viewMapSnapshotDialog: Dialog;
 	public onInit(): void {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);
@@ -153,29 +157,6 @@ export default class GroupTerritoryDetail extends Controller {
 		// return "&lt;iframe src=&quot;" + escapedLink + "&quot width=&quot;100%&quot; height=&quot;480&quot;&gt;&lt;/iframe&gt;"
 		return "<iframe src=\"" +link+ "\" width=\"100%\" height=\"480\"></iframe>"
 	}
-	// public onCurrentCoordinatesReceived(position:any) {
-	// 	let table = this.getView()?.byId("groupTerrirtoryParts") as Table;
-	// 	let oBinding = table?.getBinding("items") as ODataListBinding;
-		
-	// 	let lat = position.coords.latitude;
-	// 	let long = position.coords.longitude;
-
-	
-	// 	table.getItems().forEach(item => {
-	// 		let coordinates = item.getBindingContext()?.getObject();
-	// 		// '[[8.6870917,49.4063731],[8.6871132,49.4034408],[8.6871239,49.4019538],[8.6872848,49.4004946],[8.6868127,49.4004597],[8.6887654,49.3991261],[8.6895379,49.3992239],[8.6901387,49.3990703],[8.6907395,49.3991122],[8.6917909,49.3996009],[8.6927994,49.3984838],[8.6930998,49.3979252],[8.6938723,49.3975761],[8.694516,49.3970175],[8.6952242,49.396822],[8.6973699,49.3967102],[8.6977132,49.4016955],[8.6969622,49.4042437],[8.6941942,49.4075459],[8.6870917,49.4063731]]'
-
-	// 		// long : 8.5717693
-	// 		// lat : 49.3848141
-			
-	// 		let cd = new CustomData({key:"proximity", value: Math.round(Math.random() * 100)})
-	// 		item.removeCustomData("proximity");
-	// 		item.addCustomData(cd);
-	// 	});
-		
-	// 	oBinding.sort([new Sorter("")]);
-	// 	console.log(lat + " : " + long);
-	// }
 
 	public async onUpdateMultiValueUpdate(oEvent: Event) {
 		let type = oEvent.getParameter("type");
@@ -189,5 +170,66 @@ export default class GroupTerritoryDetail extends Controller {
 				source.refresh();
 			}
 		}
+	}
+
+	public onFileChange(oEvent: Event) {
+		var file = oEvent.getParameters("files").files[0];
+		//Upload image
+		var reader = new FileReader();
+		reader.onload = function (oReaderEvent) {
+			// get an access to the content of the file
+			let content = oReaderEvent.currentTarget.result;
+			this.createFile(file, content, oEvent.getSource().getBindingContext());
+		}.bind(this);
+		reader.readAsDataURL(file);
+	}
+
+	public async createFile(file:any, content:any, bindingContext: Context) {
+		debugger;
+
+			var odataModel = this.getOwnerComponent().getModel();
+		
+			let context = await odataModel.bindContext("srv.searching.uploadImage(...)", bindingContext);
+			context.setParameter("file", content);
+			context.setParameter("mediaType", file.type);
+
+			context.execute().then(function () {
+				MessageToast.show("{i18n>ok}");
+				this.getView()?.getModel().refresh();
+			}.bind(this), function (oError) {
+				MessageBox.error(oError.message);
+			}
+			);
+	}
+
+	public onPressViewWorkedImage(oEvent:Event) {
+		if(this.viewMapSnapshotDialog == undefined) {
+			this.viewMapSnapshotDialog = new Dialog({
+				showHeader: true,
+				customHeader: new Toolbar({
+					content:[
+						new ToolbarSpacer(),
+						new Button({
+							icon: "sap-icon://decline",
+							press: this.closeViewImageDialog.bind(this)
+						})
+					]
+				})
+			});
+		}
+
+		let image = new Image({
+			src:oEvent.getSource().data("imageUrl"),
+			width: window.screen.width - 30 + "px",
+			height: window.screen.height - 30 + "px"
+		});
+
+		this.viewMapSnapshotDialog.removeAllContent();
+		this.viewMapSnapshotDialog.addContent(image);
+		this.viewMapSnapshotDialog.open();
+	}
+
+	public closeViewImageDialog(oEvent: Event) {
+		this.viewMapSnapshotDialog.close();
 	}
 }

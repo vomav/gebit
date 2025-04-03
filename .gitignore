@@ -37,3 +37,6 @@ apps/**/webapp/Component.js
 srv/src/main/resources/static
 docker/db/schema-prod.sql
 srv/src/main/resources/db/changelog/dev/schema.sql
+srv/.dbeaver/credentials-config.json
+srv/.dbeaver/data-sources.json
+srv/.dbeaver/project-settings.json

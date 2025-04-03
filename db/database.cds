@@ -48,12 +48,20 @@ entity PartAssignments : cuid, tenant {
     part: Association to one Parts;
     inWorkBy: Composition of many InWorkBy on inWorkBy.toParent = $self;
     isDone: Boolean;
+    imageUrl: String(512);
     toParent: Association to TerritoryAssignments;
+    toWorkedPartImage: Composition of one Image on toWorkedPartImage.toParent = $self;
+}
+
+entity Image : cuid, tenant {
+    imageUrl: String(512);
+    spacePath: String(512);
+    mediaType: String(64);
+    toParent: Association to one PartAssignments;
 }
 
 entity InWorkBy : cuid {
     user : Association to one Users;
-    test: String(32);
     toParent: Association to one PartAssignments;
 }
 
@@ -65,6 +73,12 @@ entity Users : cuid {
     password: String(128);
     toAllowedTenants: Association to many UserTenantMappings on toAllowedTenants.user=$self;
     refreshToken: String(2048);
+    isActivated: Boolean;
+}
+
+entity UserAccountActivations : cuid {
+    toUser: Association to one Users;
+    activationCode: Integer;
 }
 
 entity UserTenantMappings {
@@ -86,18 +100,4 @@ entity Tenants : cuid {
     virtual myRole: String(32);
     defaultUserTenant: Boolean default true;
     // toAdministrators: Association to many UserTenantMappings on toAdministrators.tenant = $self and toAdministrators.mappingType = 'admin';
-}
-
-entity TestEntity : cuid {
-    testString: String(64);
-    testInt: Integer;
-    subent: Composition of many TestSubEntity on subent.to_Entity=$self;
-}
-
-entity TestSubEntity : cuid {
-    testSubString: String(64);
-    testSubInt: Integer;
-    user: Association to one Users;
-    tenant: Association to one Tenants;
-    to_Entity: Association to one TestEntity;
 }

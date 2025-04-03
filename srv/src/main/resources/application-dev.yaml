@@ -25,6 +25,13 @@ cds:
 jwt.secret.access: ${JWT_ACCESS_SECRET}
 jwt.secret.refresh: ${JWT_REFRESH_SECRET}
 
+aws:
+  accessKeyId:  ${DO_SPACE_KEY_ID}
+  secretAccessKey: "${DO_SPACE_SECRET_KEY}"
+  endpoint: ${DO_SPACE_ENDPOINT}
+  region: ${DO_SPACE_REGION}
+  bucket: ${DO_SPACE_BUCKET}
+
 management:
   endpoint:
     health:
