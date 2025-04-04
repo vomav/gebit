@@ -185,21 +185,19 @@ export default class GroupTerritoryDetail extends Controller {
 	}
 
 	public async createFile(file:any, content:any, bindingContext: Context) {
-		debugger;
+		var odataModel = this.getOwnerComponent().getModel();
+	
+		let context = await odataModel.bindContext("srv.searching.uploadImage(...)", bindingContext);
+		context.setParameter("file", content);
+		context.setParameter("mediaType", file.type);
 
-			var odataModel = this.getOwnerComponent().getModel();
-		
-			let context = await odataModel.bindContext("srv.searching.uploadImage(...)", bindingContext);
-			context.setParameter("file", content);
-			context.setParameter("mediaType", file.type);
-
-			context.execute().then(function () {
-				MessageToast.show("{i18n>ok}");
-				this.getView()?.getModel().refresh();
-			}.bind(this), function (oError) {
-				MessageBox.error(oError.message);
-			}
-			);
+		context.execute().then(function () {
+			MessageToast.show("{i18n>ok}");
+			this.getView()?.getModel().refresh();
+		}.bind(this), function (oError) {
+			MessageBox.error(oError.message);
+		}
+		);
 	}
 
 	public onPressViewWorkedImage(oEvent:Event) {
