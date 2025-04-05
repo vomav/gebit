@@ -78,6 +78,7 @@ public class SecurityConfigDev {
                 .build();
     }
     
+    @Bean
     CorsFilter corsFilter() {
 
         CorsConfiguration config = new CorsConfiguration();

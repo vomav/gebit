@@ -77,7 +77,7 @@ public class SecurityConfig {
                 .build();
     }
     
-    
+    @Bean
     CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();

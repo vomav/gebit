@@ -19,6 +19,7 @@ import Toolbar from "sap/m/Toolbar";
 import ToolbarSpacer from "sap/m/ToolbarSpacer";
 import CustomData from "sap/ui/core/CustomData";
 import ContextBinding from "sap/ui/model/ContextBinding";
+import Carousel from "sap/m/Carousel";
 /**
  * @namespace ui5.gebit.app.controller
  */
@@ -212,18 +213,25 @@ export default class GroupTerritoryDetail extends Controller {
 							press: this.closeViewImageDialog.bind(this)
 						})
 					]
-				})
+				}),
+				content: [
+					new Carousel({
+						id:"mapSnapshotCarousel"
+					})
+				]
 			});
 		}
 
+		let mapSnapshotCarousel = this.viewMapSnapshotDialog.getContent()[0] as Carousel;
+		mapSnapshotCarousel.removeAllPages();
 		let image = new Image({
 			src:oEvent.getSource().data("imageUrl"),
-			width: window.screen.width - 30 + "px",
-			height: window.screen.height - 30 + "px"
+			// width: window.screen.width - 30 + "px",
+			// height: window.screen.height - 30 + "px"
 		});
-
-		this.viewMapSnapshotDialog.removeAllContent();
-		this.viewMapSnapshotDialog.addContent(image);
+		mapSnapshotCarousel.addPage(image);
+		// this.viewMapSnapshotDialog.removeAllContent();
+		// this.viewMapSnapshotDialog.addContent(image);
 		this.viewMapSnapshotDialog.open();
 	}
 
