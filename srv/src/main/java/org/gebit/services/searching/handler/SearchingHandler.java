@@ -112,11 +112,16 @@ public class SearchingHandler implements EventHandler {
 	}
 	
 	@On(event=TerritoriesWithdrawFromUserContext.CDS_NAME)
-	public void onwithdrawFromUser(TerritoriesWithdrawFromUserContext c) {
+	public void onWithdrawFromUser(TerritoriesWithdrawFromUserContext c) {
 		Territories assignment = territoryRepository.runCqn(c.getCqn());
+		TerritoryAssignments territoryAssignments = territoryAssignmentRepository.byTerritoryId(assignment.getId()).orElseThrow(()-> new ServiceException("Assignment is not found"));
 		territoryAssignmentRepository.deleteByTerritoryId(assignment.getId());
+		
 		assignment.setLastTimeWorked(LocalDate.now());
 		territoryRepository.save(assignment);
+		
+		this.storageService.deleteDirectory(territoryAssignments.getTenantDiscriminator() +  "/" + territoryAssignments.getId());
+		
 		c.setResult(true);
 		c.setCompleted();
 	}
@@ -190,9 +195,9 @@ public class SearchingHandler implements EventHandler {
 		Optional<Image> maybeImage = this.imageRepository.byAssignmentId(assignment.getId());
 		
 		maybeImage.ifPresent(p -> this.imageRepository.deleteById(p.getId()));
-		maybeImage.ifPresent(p -> this.storageService.delete(p.getSpacePath()));
+		maybeImage.ifPresent(p -> this.storageService.deleteFile(p.getSpacePath()));
 		
-		String internalSpacePath = this.resolveInternalSpacePath(assignment.getTenantDiscriminator(), assignment.getPartId(), c.getFile());
+		String internalSpacePath = this.resolveInternalSpacePath(assignment.getTenantDiscriminator(), assignment.getToParentId(), assignment.getId(), c.getFile());
 		
 		String externalPathToImage = this.saveImageToSpace(c.getFile(), internalSpacePath, c.getMediaType());
 		
@@ -215,9 +220,9 @@ public class SearchingHandler implements EventHandler {
 
 	}
 	
-	private String resolveInternalSpacePath(String tenantId, String assignmentPartId,String xbaseStr) {
+	private String resolveInternalSpacePath(String tenantId, String assignmentId, String assignmentPartId,String xbaseStr) {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append(tenantId).append("/").append(assignmentPartId).append(".").append(xbaseUtils.resolveExtensionByPropic(xbaseStr));
+		buffer.append(tenantId).append("/").append(assignmentId).append("/").append(assignmentPartId).append(".").append(xbaseUtils.resolveExtensionByPropic(xbaseStr));
 		return buffer.toString();
 	}
 

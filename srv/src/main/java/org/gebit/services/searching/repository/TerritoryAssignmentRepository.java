@@ -42,4 +42,10 @@ public class TerritoryAssignmentRepository {
 	public TerritoryAssignments runCqnSingleSelect(CqnSelect select) {
 		return ps.run(select).single(TerritoryAssignments.class);
 	}
+
+	public Optional<TerritoryAssignments> byTerritoryId(String id) {
+		Select<?> delete = Select.from(TerritoryAssignments_.class).where(p -> p.toTerritory_ID().eq(id));
+		Optional<TerritoryAssignments> maybeTerritoryAssignments = ps.run(delete).first(TerritoryAssignments.class);
+		return maybeTerritoryAssignments;
+	}
 }
