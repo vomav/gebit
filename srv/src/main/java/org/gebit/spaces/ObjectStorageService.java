@@ -3,6 +3,8 @@ package org.gebit.spaces;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,8 +18,14 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Configuration;
 import software.amazon.awssdk.services.s3.S3Utilities;
+import software.amazon.awssdk.services.s3.model.Delete;
+import software.amazon.awssdk.services.s3.model.DeleteObjectsRequest;
 import software.amazon.awssdk.services.s3.model.GetUrlRequest;
+import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
+import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
+import software.amazon.awssdk.services.s3.model.ObjectIdentifier;
+import software.amazon.awssdk.services.s3.model.S3Object;
 
 @Component
 public class ObjectStorageService {
@@ -74,8 +82,42 @@ public class ObjectStorageService {
 	}
 	
 	
-	public void delete(String filePath) {
+	public void deleteFile(String filePath) {
 		s3Client.deleteObject(req -> req.bucket(this.bucket).key(filePath));
+	}
+	
+	public void deleteDirectory(String prefix) {
+		 String continuationToken = null;
+
+	        do {
+	            ListObjectsV2Request listRequest = ListObjectsV2Request.builder()
+	                    .bucket(this.bucket)
+	                    .prefix(prefix)
+	                    .continuationToken(continuationToken)
+	                    .build();
+
+	            ListObjectsV2Response listResponse = s3Client.listObjectsV2(listRequest);
+
+	            List<ObjectIdentifier> toDelete = new ArrayList<>();
+
+	            for (S3Object s3Object : listResponse.contents()) {
+	                System.out.println("Deleting: " + s3Object.key());
+	                toDelete.add(ObjectIdentifier.builder().key(s3Object.key()).build());
+	            }
+
+	            if (!toDelete.isEmpty()) {
+	                DeleteObjectsRequest deleteRequest = DeleteObjectsRequest.builder()
+	                        .bucket(this.bucket)
+	                        .delete(Delete.builder().objects(toDelete).build())
+	                        .build();
+
+	                s3Client.deleteObjects(deleteRequest);
+	            }
+
+	            continuationToken = listResponse.nextContinuationToken();
+
+	        } while (continuationToken != null);
+	    
 	}
 	
 	private URI buildEndpointConfiguration() {
