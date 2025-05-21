@@ -10,6 +10,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+  
   nginx:
     image: nginx:latest  # Use plain nginx, not trajano/nginx-letsencrypt
     container_name: nginx
@@ -20,8 +21,6 @@ services:
       - ./nginx/config:/etc/nginx/conf.d:ro  # Nginx configuration
       - ./nginx/certs:/etc/nginx/certs:ro
     restart: unless-stopped
-
-
 
   localstack:
     container_name: "s3"
@@ -46,6 +45,7 @@ services:
     container_name: gebit-app
     depends_on:
       - "db"
+      - "localstack"
     image: gebit_app:latest
     ports: [ '8080:8080' ]
     environment:
