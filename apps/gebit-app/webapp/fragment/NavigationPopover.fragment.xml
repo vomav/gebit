@@ -69,6 +69,12 @@
 							<core:CustomData key="nav" value="sites"></core:CustomData>
 						</customData>
 					</ColumnListItem>
+					<ColumnListItem  press="onLogoutPress" type="Active">
+						<cells>
+							<ObjectIdentifier title="{i18n>logout}" >
+							</ObjectIdentifier>
+						</cells>
+					</ColumnListItem>
 				</items>
 			</Table>
 		

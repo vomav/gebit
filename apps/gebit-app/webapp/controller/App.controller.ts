@@ -30,4 +30,10 @@ export default class App extends Controller {
         let navTo = oEvent.getSource().data("nav");
         (this.getOwnerComponent() as UIComponent).getRouter().navTo(navTo);
     }
+
+    public onLogoutPress(oEvent: Event) {
+        localStorage.removeItem("gebitAccessToken");
+        (this.getOwnerComponent() as UIComponent).getRouter().navTo("welcome");
+        window.location.reload();
+    }
 }
