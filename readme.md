@@ -116,7 +116,17 @@ PG_PORT=${db.PORT}
 JWT_ACCESS_SECRET=dGVzdHhzYWRzZHNkc2Fkc2Rzc2Zkc2FmZHN0ZXN0eHNhZHNkc2RzYWRzZHNzZmRzYWZkcw==
 JWT_REFRESH_SECRET=dGVzdHhzYWRzZHNkc2Fkc2Rzc2Zkc2FmZHN0ZXN0eHNhZHNkc2RzYWRzZHNzZmRzYWZkcw==
 SPRING_PROFILES_ACTIVE=cloud
+```
 
+## Start gebit in local docker container
+```
+cd docker/localhost
+```
 
+```
+docker compose build
+```
 
+```
+docker compose -f docker-compose.yml up -d
 ```
