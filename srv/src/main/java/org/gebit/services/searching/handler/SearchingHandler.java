@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.codec.binary.Base64;
+
 import org.gebit.gen.db.Image;
 import org.gebit.gen.db.InWorkBy;
 import org.gebit.gen.db.PartAssignments;
@@ -30,7 +31,7 @@ import org.gebit.services.searching.repository.ImageRepository;
 import org.gebit.services.searching.repository.PartAssignmentsRepository;
 import org.gebit.services.searching.repository.TerritoryAssignmentRepository;
 import org.gebit.services.searching.repository.TerritoryRepository;
-import org.gebit.spaces.ObjectStorageService;
+import org.gebit.spaces.ObjectStorage;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.CQL;
@@ -54,12 +55,18 @@ public class SearchingHandler implements EventHandler {
 	private TerritoryAssignmentRepository territoryAssignmentRepository;
 	private UserInfo userInfo;
 	private PartAssignmentsRepository partsAssignmentsRepository;
-	private ObjectStorageService storageService;
+	private ObjectStorage storageService;
 	private XBaseUtils xbaseUtils;
 	private ImageRepository imageRepository;
 
 
-	public SearchingHandler(TerritoryRepository territoryRepository, TerritoryAssignmentRepository territoryAssignmentRepository, UserInfo userInfo, PartAssignmentsRepository partsAssignmentsRepository, ObjectStorageService storageService, XBaseUtils xbaseUtils, ImageRepository imageRepository) {
+	public SearchingHandler(TerritoryRepository territoryRepository, 
+			TerritoryAssignmentRepository territoryAssignmentRepository, 
+			UserInfo userInfo, 
+			PartAssignmentsRepository partsAssignmentsRepository, 
+			ObjectStorage storageService, 
+			XBaseUtils xbaseUtils, 
+			ImageRepository imageRepository) {
 		super();
 		this.territoryRepository = territoryRepository;
 		this.territoryAssignmentRepository=territoryAssignmentRepository;
@@ -68,6 +75,7 @@ public class SearchingHandler implements EventHandler {
 		this.storageService = storageService;
 		this.xbaseUtils = xbaseUtils;
 		this.imageRepository = imageRepository;
+		
 		
     }
 
@@ -159,9 +167,12 @@ public class SearchingHandler implements EventHandler {
 		}
 		
 		
+	
+		
 		this.partsAssignmentsRepository.save(pa);
 		c.setResult(true);
 		c.setCompleted();
+		
 	}
 	
 	@On(event=PartAssignmentsCancelPartAssignmentContext.CDS_NAME)

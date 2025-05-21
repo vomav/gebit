@@ -21,6 +21,26 @@ services:
       - ./nginx/certs:/etc/nginx/certs:ro
     restart: unless-stopped
 
+
+
+  localstack:
+    container_name: "s3"
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3 # we only need s3 bucket
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data # we need this to make our volume work
+      - DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=testkey
+      - AWS_SECRET_ACCESS_KEY=testsecret
+      # - GATEWAY_LISTEN=0.0.0.0:4566
+    volumes:
+      # - "~/localstack:/var/lib/localstack" # we mount our local my_localstack_init folder into tmp/localstack folder in container
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./localstack:/docker-entrypoint-initaws.d" 
+
   gebit-app:
     build: ../../
     container_name: gebit-app
@@ -38,3 +58,8 @@ services:
       JWT_REFRESH_SECRET: dGVzdHhzYWRzZHNkc2Fkc2Rzc2Zkc2FmZHN0ZXN0eHNhZHNkc2RzYWRzZHNzZmRzYWZkcw==
       SPRING_PROFILES_ACTIVE: cloud
       SERVER_ADDRESS: 0.0.0.0
+      DO_SPACE_BUCKET: mapsimages
+      DO_SPACE_ENDPOINT: http://s3:4566
+      DO_SPACE_KEY_ID: testkey
+      DO_SPACE_SECRET_KEY: testsecret
+      DO_SPACE_REGION: eu-west-1

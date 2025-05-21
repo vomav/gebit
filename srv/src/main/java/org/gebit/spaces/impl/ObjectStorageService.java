@@ -1,4 +1,4 @@
-package org.gebit.spaces;
+package org.gebit.spaces.impl;
 
 import java.io.IOException;
 import java.net.URI;
@@ -6,7 +6,11 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gebit.spaces.ObjectStorage;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Condition;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.services.ServiceException;
@@ -14,21 +18,26 @@ import com.sap.cds.services.ServiceException;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.http.auth.spi.internal.scheme.DefaultAuthSchemeOption.BuilderImpl;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Configuration;
 import software.amazon.awssdk.services.s3.S3Utilities;
+import software.amazon.awssdk.services.s3.model.BucketCannedACL;
 import software.amazon.awssdk.services.s3.model.Delete;
 import software.amazon.awssdk.services.s3.model.DeleteObjectsRequest;
+import software.amazon.awssdk.services.s3.model.GetBucketLocationRequest;
+import software.amazon.awssdk.services.s3.model.GetBucketLocationResponse;
 import software.amazon.awssdk.services.s3.model.GetUrlRequest;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
+import software.amazon.awssdk.services.s3.model.NoSuchBucketException;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.ObjectIdentifier;
 import software.amazon.awssdk.services.s3.model.S3Object;
 
 @Component
-public class ObjectStorageService {
+public class ObjectStorageService implements ObjectStorage {
 	
 	private S3Client s3Client;
 	private String endpoint;
@@ -58,9 +67,27 @@ public class ObjectStorageService {
                         .pathStyleAccessEnabled(true) // Required for DigitalOcean Spaces
                         .build())
                 .build();
+		
+		 
+		checkBucketAndCreateIfNotAvailable();
 	}
 	
+	public void checkBucketAndCreateIfNotAvailable() {
+		
+		try {
+			GetBucketLocationRequest locationRequest = GetBucketLocationRequest.builder()
+	                .bucket(this.bucket)
+	                .build();
+			s3Client.getBucketLocation(locationRequest);		
+		}catch (NoSuchBucketException e) {
+			s3Client.createBucket((c)->{
+				c.bucket(this.bucket);
+				c.acl(BucketCannedACL.PUBLIC_READ_WRITE);
+			});
+		}
+	}
 	
+	@Override
 	public String save(byte[] bytesArray, String filePath, String contentType) throws IOException {
 		
 		s3Client.putObject(request -> 
@@ -82,10 +109,12 @@ public class ObjectStorageService {
 	}
 	
 	
+	@Override
 	public void deleteFile(String filePath) {
 		s3Client.deleteObject(req -> req.bucket(this.bucket).key(filePath));
 	}
 	
+	@Override
 	public void deleteDirectory(String prefix) {
 		 String continuationToken = null;
 
@@ -127,4 +156,15 @@ public class ObjectStorageService {
 			throw new ServiceException("AWS endpoint is not configured");
 		}
 	}
+	
+}
+
+class ObjectStoreConditional implements Condition {
+
+	@Override
+	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+		 Boolean enabled = context.getEnvironment().containsProperty("DO_SPACE_ENDPOINT");
+		 return enabled;
+	}
+	
 }

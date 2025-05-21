@@ -31,3 +31,7 @@ start db locally
 ```
 docker container run -d --rm -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=gebit_dev --name db postgres:alpine
 ```
+```
+docker run -d --name s3 localstack/localstack -p 4566:4566 -e SERVICES=s3 -e DEBUG=1 -e DATA_DIR=/tmp/localstack/data -e DEFAULT_REGION=eu-west-1 -e AWS_ACCESS_KEY_ID=testkey -e AWS_SECRET_ACCESS_KEY=testsecret -e GATEWAY_LISTEN=0.0.0.0:4566 -v "/var/run/docker.sock:/var/run/docker.sock" -v "./localstack:/docker-entrypoint-initaws.d"
+```
+

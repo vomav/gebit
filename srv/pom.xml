@@ -129,6 +129,7 @@
 		    <groupId>commons-codec</groupId>
 		    <artifactId>commons-codec</artifactId>
 		</dependency>
+		
 	</dependencies>
 
 	<build>
@@ -150,6 +151,7 @@
 						</goals>
 						<configuration>
 							<classifier>exec</classifier>
+							<mainClass>org.gebit.Application</mainClass>
 						</configuration>
 					</execution>
 				</executions>
