@@ -15,11 +15,12 @@ export default class Login extends Controller {
 	}
 
     public login(oEvent:any) {
-        let login = this.getView()?.byId("login_loginInput")?.getProperty("value");
-        let password = this.getView()?.byId("login_passwordInput")?.getProperty("value");
+        
+        let login = this.getView()?.byId("login_loginInput");
+        let password = this.getView()?.byId("login_passwordInput");
         let data = {
-            "login":login,
-            "password":password
+            "login":login.getProperty("value"),
+            "password":password.getProperty("value")
         };
         
         let that = this;
@@ -34,22 +35,25 @@ export default class Login extends Controller {
             success: function(data:any) {
                 localStorage.removeItem('gebitAccessToken');
                 localStorage.setItem('gebitAccessToken', data.accessToken);
-                
+
                 that.getView()?.setBusy(true);
                 setTimeout(()=> {
-                    // (that.getOwnerComponent() as UIComponent).getRouter().navTo("home");
                     URLHelper.redirect("#");
                     that.getView()?.setBusy(false);
-
                     window.location.reload();
                 }, 1500);
                 
-            },
+            }.bind(this),
             error: function(err) {
-                console.log(err.status);
-                console.log(err.statusText);
+                if(err.status == 424) {
+                    URLHelper.redirect("#/welcome/activate/tenant/" + err.responseJSON.tenant + "/user/" + err.responseJSON.userId);
+                } else if(err.status == 401) {
+                    MessageBox.error(this.getView().getModel("i18n").getProperty("invalidCredentials"));
+                    this.getView()?.byId("login_passwordInput")?.setValue("");
+                }
+                
 
-            }
+            }.bind(this)
         });
     }
 

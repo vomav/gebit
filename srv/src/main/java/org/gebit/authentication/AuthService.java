@@ -4,12 +4,16 @@ import java.util.List;
 
 import org.gebit.authentication.dto.JwtRequest;
 import org.gebit.authentication.dto.JwtResponse;
+import org.gebit.authentication.exceptions.UserNotVerifiedException;
+import org.gebit.authentication.exceptions.WrongPasswordException;
 import org.gebit.common.user.repository.UserRepository;
 import org.gebit.gen.db.UserTenantMappings;
 import org.gebit.gen.db.Users;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.sap.cds.services.ServiceException;
 
 import io.jsonwebtoken.Claims;
 import jakarta.security.auth.message.AuthException;
@@ -46,7 +50,12 @@ public class AuthService {
 
     public JwtResponse login(JwtRequest authRequest) throws AuthException {
         final Users user = userRepository.findUserByEmail(authRequest.getLogin())
-                .orElseThrow(() -> new AuthException("User is not found"));
+                .orElseThrow(() -> new AuthException("user.isnot.found"));
+        
+        if(user.getIsActivated() == Boolean.FALSE) {
+        	throw new UserNotVerifiedException(user.getCurrentTenantId(), user.getId());
+        }
+        
         if (encoder.matches(authRequest.getPassword(), user.getPassword())) {
         	List<UserTenantMappings> permissions = userRepository.getUserPermission(user);
             final String accessToken = jwtProvider.generateAccessToken(user,permissions);
@@ -55,7 +64,7 @@ public class AuthService {
             userRepository.updateUser(user);
             return new JwtResponse(accessToken, refreshToken);
         } else {
-            throw new AuthException("Wrong password");
+            throw new WrongPasswordException(authRequest.getLogin());
         }
     }
 

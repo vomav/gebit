@@ -32,6 +32,16 @@ aws:
   region: ${DO_SPACE_REGION}
   bucket: ${DO_SPACE_BUCKET}
 
+email:
+  enabled: true
+  brevo:
+    api:
+      url: ${BREVO_URL}
+      key: ${BREVO_KEY}
+    sender:
+      name: ${EMAIL_SENDER}
+      email: ${EMAIL}
+
 management:
   endpoint:
     health:

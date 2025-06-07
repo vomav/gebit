@@ -111,6 +111,16 @@
 					"name": "register",
 					"pattern": "welcome/register",
 					"target": "register"
+				},
+				{
+					"name": "activate",
+					"pattern": "welcome/activate/tenant/{tenantId}/user/{userId}",
+					"target": "activate"
+				},
+				{
+					"name": "forgotPassword",
+					"pattern": "welcome/forgotPassword",
+					"target": "forgotPassword"
 				}
 			],
 			"targets": {
@@ -133,6 +143,16 @@
 					"type": "View",
 					"id": "welcome",
 					"name": "Welcome"
+				},
+				"activate": {
+					"type": "View",
+					"id": "activate",
+					"name": "Activate"
+				},
+				"forgotPassword": {
+					"type": "View",
+					"id": "forgotPassword",
+					"name": "ForgotPassword"
 				}
 			}
 		}

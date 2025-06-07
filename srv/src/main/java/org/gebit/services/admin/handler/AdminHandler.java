@@ -12,10 +12,13 @@ import org.gebit.gen.db.UserTenantMappings_;
 import org.gebit.gen.db.Users;
 import org.gebit.gen.srv.admin.Admin_;
 import org.gebit.gen.srv.admin.CreateSiteContext;
+import org.gebit.gen.srv.admin.LoggedInUser;
+import org.gebit.gen.srv.admin.LoggedInUserChangePasswordContext;
 import org.gebit.gen.srv.admin.LoggedInUser_;
 import org.gebit.gen.srv.admin.TenantsAddUserByEmailContext;
 import org.gebit.gen.srv.admin.TenantsRemoveSiteContext;
 import org.gebit.services.admin.repository.TenantsRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.CQL;
@@ -30,6 +33,7 @@ import com.sap.cds.services.handler.EventHandler;
 import com.sap.cds.services.handler.annotations.Before;
 import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
+import com.sap.cds.services.persistence.PersistenceService;
 import com.sap.cds.services.request.UserInfo;
 
 @Component
@@ -39,12 +43,14 @@ public class AdminHandler implements EventHandler {
 	private UserInfo userInfo;
 	private UserRepository userRepository;
 	private TenantsRepository tenantRepository;
+	private PasswordEncoder encoder;
 	
 	
-	public AdminHandler(UserInfo userInfo, TenantsRepository tenantRepository, UserRepository userRepository) {
+	public AdminHandler(UserInfo userInfo, TenantsRepository tenantRepository, UserRepository userRepository, PasswordEncoder encoder) {
 		this.userInfo = userInfo;
 		this.tenantRepository = tenantRepository;
 		this.userRepository = userRepository;
+		this.encoder = encoder;
 	}
 	
 	
@@ -114,6 +120,26 @@ public class AdminHandler implements EventHandler {
 		context.setCompleted();
 	}
 	
+	@On(event=LoggedInUserChangePasswordContext.CDS_NAME)
+	public void onChangePassword(LoggedInUserChangePasswordContext context) {
+		String userId = userInfo.getAdditionalAttribute(USER_ID).toString();
+		
+		Users user = this.userRepository.byId(userId);
+		
+		if(!encoder.matches(context.getOldPassword(),user.getPassword())) {
+			throw new ServiceException("passwords.not.matching");
+		}
+		
+		
+		user.setPreviousPassword(user.getPassword());
+		user.setPassword(encoder.encode(context.getNewPassword()));
+		
+		this.userRepository.updateUser(user);
+		
+		context.setResult(true);
+		context.setCompleted();
+	}
+
 	
 }
 

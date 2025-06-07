@@ -27,10 +27,23 @@
 			columnsM="1"
 			singleContainerFullSize="false" >
 			<form:content>
+				<core:Title text="{i18n>personalInformationLabel}" />
 				<Label text="{i18n>name}" />
 				<Input value="{userAdminModel>name}"></Input>
 				<Label text="{i18n>surname}" />
 				<Input value="{userAdminModel>surname}" />
+				<core:Title text="" />
+				<Toolbar ariaLabelledBy="{i18n>changePassword}">
+					<Title  text="{i18n>changePassword}"/>
+					<ToolbarSpacer />
+					<Button id="changePasswordButton" text="{i18n>changePasswordButton}" press="changePassword" enabled="false"/>
+				</Toolbar>
+				<Label text="{i18n>oldPassword}" />
+				<Input type="Password" id="oldPassword"  />
+				<Label text="{i18n>newPassword}" />
+				<Input type="Password" id="newPassword" liveChange="liveChangeConfirmNewPassword" />
+				<Label text="{i18n>confirmNewPasswordLabel}" />
+				<Input type="Password" id="confirmNewPassword" liveChange="liveChangeConfirmNewPassword" />
 			</form:content>
 		</form:SimpleForm>
 		

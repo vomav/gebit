@@ -21,7 +21,6 @@ export default class MyTerritoryDetail extends Controller {
 
 	public matched(context:string) {
 		(this.getView() as any).bindElement("/TerritoryAssignments("+context+")");
-		
 	}
 
 	public onActionButtonPress(oEvent:Event) {

@@ -4,7 +4,6 @@ import AppComponent from "../Component";
 import UIComponent from "sap/ui/core/UIComponent";
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 import View from "sap/ui/core/mvc/View";
-import { URLHelper } from "sap/m/library";
 /**
  * @namespace ui5.gebit.app.reuse.public.controller
  */
@@ -35,16 +34,12 @@ export default class Register extends Controller {
 		context.setParameter("surname", this.getView()?.byId("surnameInput")?.getProperty("value"));
 		context.setParameter("password", this.getView()?.byId("passwordInput")?.getProperty("value"));
 
-		context.execute().then(function () {
-			MessageBox.success("Ok");
-		this.getOwnerComponent().getRouter().navTo("login");
-		}.bind(this), function (oError) {
-			MessageBox.error(oError.message);
-		}
-	);
+		context.execute().then(async function () {
+				let res = await context.requestObject()
+				this.getOwnerComponent().getRouter().navTo("activate", {"tenantId": res.tenant, "userId": res.id});
+			}.bind(this), function (oError) {
+				MessageBox.error(oError.message);
+			}
+		);
 	}
-
-	public toToLogin(oEvent:any) {
-		URLHelper.redirect("#login");
-    }
 }

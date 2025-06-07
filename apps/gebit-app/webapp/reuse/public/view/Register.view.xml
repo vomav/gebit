@@ -54,7 +54,8 @@
 				<Input id="passwordInput" type="Password" value="{password}"/>
 			</form:content>
 		</form:SimpleForm>
-		<Button type="Success" text="Register" press="registerUser" width="100%"/>
+		<Button type="Success" text="{i18n>registerButton}" press="registerUser" width="100%"/>
+		
 	</VBox>
 </f:content>
 		</f:DynamicPage>

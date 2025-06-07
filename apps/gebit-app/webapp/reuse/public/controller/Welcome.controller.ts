@@ -56,4 +56,8 @@ export default class Welcome extends Controller {
     public toRegister(oEvent:any) {
 		((this.getOwnerComponent() as UIComponent)).getRouter().navTo("register");
     }
+
+    public toForgotPassword(oEvent:any) {
+		((this.getOwnerComponent() as UIComponent)).getRouter().navTo("forgotPassword");
+    }
 }

@@ -91,6 +91,7 @@ CREATE TABLE db_Users (
   surname VARCHAR(128),
   currentTenant_ID VARCHAR(36),
   password VARCHAR(128),
+  previousPassword VARCHAR(128),
   refreshToken VARCHAR(2048),
   isActivated BOOLEAN,
   PRIMARY KEY(ID)
@@ -225,6 +226,7 @@ CREATE VIEW srv_admin_LoggedInUser AS SELECT
   dbUser_0.name,
   dbUser_0.surname,
   dbUser_0.currentTenant_ID,
+  dbUser_0.previousPassword,
   dbUser_0.refreshToken,
   dbUser_0.isActivated
 FROM db_Users AS dbUser_0; 

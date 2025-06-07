@@ -4,7 +4,9 @@ import org.gebit.authentication.AuthService;
 import org.gebit.authentication.dto.JwtRequest;
 import org.gebit.authentication.dto.JwtRequestRefresh;
 import org.gebit.authentication.dto.JwtResponse;
+import org.gebit.authentication.exceptions.UserNotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,6 +67,12 @@ public class AuthController {
         final JwtResponse token = authService.refresh(request.getRefreshToken());
         return ResponseEntity.ok(token);
     }
+    
+    
+//    @ExceptionHandler(UserNotFoundException.class)
+//    void onUserNotFoundException() {
+//    	
+//    }
 
 }
 

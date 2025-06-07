@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="ui5.gebit.app.reuse.public.controller.Login"
+	controllerName="ui5.gebit.app.reuse.public.controller.Activate"
 	displayBlock="true"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
@@ -28,18 +28,15 @@
 			singleContainerFullSize="false" >
 			<form:toolbar>
 				<Toolbar>
-					<Title text="{i18n>login}"/>
+					<Title text="{i18n>activate}"/>
 				</Toolbar>
 			</form:toolbar>
 			<form:content>
-				<Label text="{i18n>email}" />
-				<Input id="login_loginInput" value="{name}" liveChange = ".onLiveChange"/>
-				<Label text="{i18n>password}" />
-				<Input type="Password" id="login_passwordInput" value="{surname}"/>
+				<Label text="{i18n>otp}" />
+				<Input type="Text" id="activate_otp" value="{passcode}"/>
 			</form:content>
 		</form:SimpleForm>
-		<Button type="Success" text="{i18n>loginLabel}" press="login" width="100%"/>
-		<Button type="Attention" text="{i18n>forgotPasswordLabel}" press="login" width="100%"/>
+		<Button type="Success" text="{i18n>activateLabel}" press="activate" width="100%"/>
 		</VBox>
 	</f:content>
 		</f:DynamicPage>

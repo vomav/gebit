@@ -71,6 +71,7 @@ entity Users : cuid {
     surname: String(128);
     currentTenant: Association to one Tenants;
     password: String(128);
+    previousPassword: String(128);
     toAllowedTenants: Association to many UserTenantMappings on toAllowedTenants.user=$self;
     refreshToken: String(2048);
     isActivated: Boolean;

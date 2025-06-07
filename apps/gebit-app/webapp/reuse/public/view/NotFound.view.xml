@@ -61,8 +61,8 @@
 				<OverflowToolbar>
 
 					<ToolbarSpacer/>
-					<Button type="Accept" text="Login" press="toToLogin"/>
-					<Button type="Accept" text="Register" press="registerUser"/>
+					<Button type="Accept" text="{i18n>loginLabel}" press="toToLogin"/>
+					<Button type="Accept" text="{i18n>registerButton}" press="registerUser"/>
 				</OverflowToolbar>
 			</f:footer>
 		</f:DynamicPage>

@@ -9,8 +9,8 @@
 		<VBox class="sapUiSmallMargin">
 				<IllustratedMessage enableVerticalResponsiveness="false" illustrationType="sapIllus-SearchEarth" title="Welcome" description=" ">
 					<additionalContent>
-						<Button text="Login" width="100%" press="toLogin" />
-						<Button text="Register" width="100%" press="toRegister" />
+						<Button text="{i18n>loginLabel}" width="100%" press="toLogin" />
+						<Button text="{i18n>registerButton}" width="100%" press="toRegister" />
 					</additionalContent>
 				</IllustratedMessage>
 		</VBox>

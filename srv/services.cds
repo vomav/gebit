@@ -129,7 +129,8 @@ service admin {
     } excluding {
         password,
         myTerritories
-    };
+    } actions {
+        action changePassword(oldPassword:String, newPassword:String) returns Boolean;    };
     
     entity UserTenantMappings as projection on dbUserTenantMapping 
     {
@@ -155,4 +156,5 @@ service registration {
     action register(email:String not null, name:String not null, surname: String not null, password:String not null) returns RegistredUser;
 
     action resetPassword(email:String) returns Boolean;
+    action activateAccount(userId:UUID, activationCode:String) returns Boolean;
 }
