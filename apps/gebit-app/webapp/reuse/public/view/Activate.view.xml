@@ -6,38 +6,46 @@
     xmlns:form="sap.ui.layout.form"
 			xmlns:f="sap.f">
 
-			<f:DynamicPage preserveHeaderStateOnScroll="true" showFooter="true" fitContent="true">
+	<f:DynamicPage preserveHeaderStateOnScroll="true" showFooter="true" fitContent="true">
 
-			<f:content> 
-	<VBox class="sapUiSmallMargin">
-		<form:SimpleForm
-			editable="true"
-			layout="ResponsiveGridLayout"
-			labelSpanXL="4"
-			labelSpanL="3"
-			labelSpanM="4"
-			labelSpanS="12"
-			adjustLabelSpan="false"
-			emptySpanXL="0"
-			emptySpanL="4"
-			emptySpanM="0"
-			emptySpanS="0"
-			columnsXL="2"
-			columnsL="1"
-			columnsM="1"
-			singleContainerFullSize="false" >
-			<form:toolbar>
-				<Toolbar>
-					<Title text="{i18n>activate}"/>
-				</Toolbar>
-			</form:toolbar>
-			<form:content>
-				<Label text="{i18n>otp}" />
-				<Input type="Text" id="activate_otp" value="{passcode}"/>
-			</form:content>
-		</form:SimpleForm>
-		<Button type="Success" text="{i18n>activateLabel}" press="activate" width="100%"/>
-		</VBox>
-	</f:content>
-		</f:DynamicPage>
+	<f:content> 
+			<VBox class="sapUiSmallMargin">
+				<form:SimpleForm
+					editable="true"
+					layout="ResponsiveGridLayout"
+					labelSpanXL="4"
+					labelSpanL="3"
+					labelSpanM="4"
+					labelSpanS="12"
+					adjustLabelSpan="false"
+					emptySpanXL="0"
+					emptySpanL="4"
+					emptySpanM="0"
+					emptySpanS="0"
+					columnsXL="2"
+					columnsL="1"
+					columnsM="1"
+					singleContainerFullSize="false" >
+					<form:toolbar>
+						<Toolbar>
+							<Title text="{i18n>activate}"/>
+						</Toolbar>
+					</form:toolbar>
+					<form:content>
+						<Label text="{i18n>otp}" />
+						<Input type="Text" id="activate_otp" value="{passcode}"/>
+					</form:content>
+				</form:SimpleForm>
+						<MessageStrip
+				text="{i18n>otpInformation}"
+				type="Information"
+				showIcon="true"
+				>
+			</MessageStrip>
+				<Button type="Success" text="{i18n>activateLabel}" press="activate" width="100%"/>
+							
+			</VBox>
+		</f:content>
+
+	</f:DynamicPage>
 </mvc:View>

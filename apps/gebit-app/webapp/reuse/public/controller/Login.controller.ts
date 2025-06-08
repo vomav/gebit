@@ -67,4 +67,7 @@ export default class Login extends Controller {
 
         input.setValue(input.getValue().toLowerCase());
     }
+    public toForgotPassword(oEvent:any) {
+		((this.getOwnerComponent() as UIComponent)).getRouter().navTo("forgotPassword");
+    }
 }

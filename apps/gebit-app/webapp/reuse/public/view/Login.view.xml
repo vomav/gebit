@@ -39,7 +39,7 @@
 			</form:content>
 		</form:SimpleForm>
 		<Button type="Success" text="{i18n>loginLabel}" press="login" width="100%"/>
-		<Button type="Attention" text="{i18n>forgotPasswordLabel}" press="login" width="100%"/>
+		<Button type="Attention" text="{i18n>forgotPasswordLabel}" press="toForgotPassword" width="100%"/>
 		</VBox>
 	</f:content>
 		</f:DynamicPage>
