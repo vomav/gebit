@@ -4,9 +4,9 @@
 	"sap.app": {
 		"id": "ui5.gebit.app.reuse.public",
 		"type": "application",
-		"i18n": "reuse/public/i18n/i18n.properties",
-		"title": "JW Gebit",
-		"description": "JW Gebit",
+		"i18n": "../../i18n/i18n.properties",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
 		"applicationVersion": {
 			"version": "1.0.0"
 		},
