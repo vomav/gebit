@@ -14,7 +14,7 @@ public class EmailService {
 
 	private static final String TEMP_PASSWORD_HTML_BODY_TEMPLATE = "<html><body><h1>Your Temporary Password is %s</h1></body></html>";
 	
-	private static final String TEMP_PASSWORD_SUBJECT = "You One Time Password";
+	private static final String TEMP_PASSWORD_SUBJECT = "You One Temporary Password";
 	
 	
 	private EmailClient emailClient;
