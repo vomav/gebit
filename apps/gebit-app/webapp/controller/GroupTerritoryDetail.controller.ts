@@ -56,54 +56,54 @@ export default class GroupTerritoryDetail extends Controller {
 		let model = (this.getView()?.getModel() as ODataModel);
 		let seletctedContext = oEvent.getSource().getBindingContext() as Context;
 		let inWorkByCountBefore = seletctedContext.getObject().inWorkBy.length;
-		await seletctedContext.requestRefresh();
-		let inWorkByCountAfter = seletctedContext.getObject().inWorkBy.length;
-		let assignedToUser;
-		if(inWorkByCountAfter > 0) {
-			assignedToUser = seletctedContext.getObject().inWorkBy[0]
-		}
-
-		if(inWorkByCountBefore == 0  && inWorkByCountAfter > 0) {
-			let i18nText = this.getView()?.getModel("i18n")?.getProperty("partIsAlreadyTakenDialogText");
-			i18nText = i18nText.replace("{0}", assignedToUser.surname);
-			i18nText = i18nText.replace("{1}", assignedToUser.username);
-			MessageBox.confirm(i18nText, {
-				title: "Confirm",
-				onClose: async function (action) {
-					if (action === MessageBox.Action.OK) {
-						if (this.currentPartsContextBinding) {
-							let context = await model.bindContext("srv.searching.assignPartToMe(...)", this.currentPartsContextBinding);
-							context.execute().then(function () {
-								MessageToast.show("{i18n>ok}");
-								this.getView()?.getModel().refresh();
-							}.bind(this), function (oError) {
-								MessageBox.error(oError.message);
+		if(inWorkByCountBefore == 0) {
+			await seletctedContext.requestRefresh();
+		
+			if(seletctedContext.getObject().inWorkBy.length > 0) {
+				let assignedToUser = seletctedContext.getObject().inWorkBy[0];
+				let i18nText = this.getView()?.getModel("i18n")?.getProperty("partIsAlreadyTakenDialogText");
+				i18nText = i18nText.replace("{0}", assignedToUser.surname);
+				i18nText = i18nText.replace("{1}", assignedToUser.username);
+				MessageBox.confirm(i18nText, {
+					title: "Confirm",
+					onClose: async function (action) {
+						if (action === MessageBox.Action.OK) {
+							if (this.currentPartsContextBinding) {
+								let context = await model.bindContext("srv.searching.assignPartToMe(...)", this.currentPartsContextBinding);
+								context.execute().then(function () {
+									MessageToast.show("{i18n>ok}");
+									this.getView()?.getModel().refresh();
+								}.bind(this), function (oError) {
+									MessageBox.error(oError.message);
+								}
+								);
 							}
-							);
+						} else {
+							this.getView()?.getModel().refresh();
 						}
-					} else {
-						this.getView()?.getModel().refresh();
-					}
-				}.bind(this), 
-				styleClass: "",
-				actions: [ MessageBox.Action.OK, MessageBox.Action.CANCEL ],
-				emphasizedAction: MessageBox.Action.OK,
-				initialFocus:  MessageBox.Action.CANCEL
-			});
+					}.bind(this), 
+					styleClass: "",
+					actions: [ MessageBox.Action.OK, MessageBox.Action.CANCEL ],
+					emphasizedAction: MessageBox.Action.OK,
+					initialFocus:  MessageBox.Action.CANCEL
+				});
 
-			return;
+				return;
+			}
+
 		}
 
 		if (this.currentPartsContextBinding) {
 			let context = await model.bindContext("srv.searching.assignPartToMe(...)", this.currentPartsContextBinding);
 			context.execute().then(function () {
-				MessageToast.show("{i18n>ok}");
+				MessageToast.show("OK");
 				this.getView()?.getModel().refresh();
 			}.bind(this), function (oError) {
 				MessageBox.error(oError.message);
 			}
 			);
 		}
+		
 	}
 
 	public assignPartToUser(oEvent: Event) {
@@ -122,7 +122,7 @@ export default class GroupTerritoryDetail extends Controller {
 		let model = (this.getView()?.getModel() as ODataModel);
 		let context = await model.bindContext("srv.searching.cancelPartAssignment(...)", this.currentPartsContextBinding);
 		context.execute().then(function () {
-			MessageToast.show("{i18n>ok}");
+			MessageToast.show("OK");
 			this.getView()?.getModel().refresh();
 		}.bind(this), function (oError) {
 			MessageBox.error(oError.message);
@@ -137,7 +137,7 @@ export default class GroupTerritoryDetail extends Controller {
 			let context = await model.bindContext("srv.searching.assignPartToUser(...)", this.currentPartsContextBinding);
 			context.setParameter("userId", userId);
 			context.execute().then(function () {
-				MessageToast.show("{i18n>ok}");
+				MessageToast.show("OK");
 				this.getView()?.getModel().refresh();
 			}.bind(this), function (oError) {
 				MessageBox.error(oError.message);
