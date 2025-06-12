@@ -13,12 +13,9 @@ import Button from "sap/m/Button";
 import MessageToast from "sap/m/MessageToast";
 import Sorter from "sap/ui/model/Sorter";
 import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
-import Table from "sap/m/Table";
 import Image from "sap/m/Image";
 import Toolbar from "sap/m/Toolbar";
 import ToolbarSpacer from "sap/m/ToolbarSpacer";
-import CustomData from "sap/ui/core/CustomData";
-import ContextBinding from "sap/ui/model/ContextBinding";
 import Carousel from "sap/m/Carousel";
 /**
  * @namespace ui5.gebit.app.controller
@@ -57,6 +54,46 @@ export default class GroupTerritoryDetail extends Controller {
 
 	public async assignPartToMe(oEvent: Event) {
 		let model = (this.getView()?.getModel() as ODataModel);
+		let seletctedContext = oEvent.getSource().getBindingContext() as Context;
+		let inWorkByCountBefore = seletctedContext.getObject().inWorkBy.length;
+		await seletctedContext.requestRefresh();
+		let inWorkByCountAfter = seletctedContext.getObject().inWorkBy.length;
+		let assignedToUser;
+		if(inWorkByCountAfter > 0) {
+			assignedToUser = seletctedContext.getObject().inWorkBy[0]
+		}
+
+		if(inWorkByCountBefore == 0  && inWorkByCountAfter > 0) {
+			let i18nText = this.getView()?.getModel("i18n")?.getProperty("partIsAlreadyTakenDialogText");
+			i18nText = i18nText.replace("{0}", assignedToUser.surname);
+			i18nText = i18nText.replace("{1}", assignedToUser.username);
+			MessageBox.confirm(i18nText, {
+				title: "Confirm",
+				onClose: async function (action) {
+					if (action === MessageBox.Action.OK) {
+						if (this.currentPartsContextBinding) {
+							let context = await model.bindContext("srv.searching.assignPartToMe(...)", this.currentPartsContextBinding);
+							context.execute().then(function () {
+								MessageToast.show("{i18n>ok}");
+								this.getView()?.getModel().refresh();
+							}.bind(this), function (oError) {
+								MessageBox.error(oError.message);
+							}
+							);
+						}
+					} else {
+						this.getView()?.getModel().refresh();
+					}
+				}.bind(this), 
+				styleClass: "",
+				actions: [ MessageBox.Action.OK, MessageBox.Action.CANCEL ],
+				emphasizedAction: MessageBox.Action.OK,
+				initialFocus:  MessageBox.Action.CANCEL
+			});
+
+			return;
+		}
+
 		if (this.currentPartsContextBinding) {
 			let context = await model.bindContext("srv.searching.assignPartToMe(...)", this.currentPartsContextBinding);
 			context.execute().then(function () {
@@ -151,12 +188,6 @@ export default class GroupTerritoryDetail extends Controller {
 		
 
 
-	}
-
-	public formatLinkToEmbedHtml(link:string) {
-		let escapedLink = link.replace("&", "&amp;")
-		// return "&lt;iframe src=&quot;" + escapedLink + "&quot width=&quot;100%&quot; height=&quot;480&quot;&gt;&lt;/iframe&gt;"
-		return "<iframe src=\"" +link+ "\" width=\"100%\" height=\"480\"></iframe>"
 	}
 
 	public async onUpdateMultiValueUpdate(oEvent: Event) {
