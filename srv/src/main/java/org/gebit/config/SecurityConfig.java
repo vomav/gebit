@@ -82,7 +82,7 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(Arrays.asList("OData-Version", "OData-maxversion"));
         config.setAllowedOriginPatterns(Arrays.asList("*"));
         config.setExposedHeaders(Arrays.asList("OData-Version", "OData-maxversion"));
