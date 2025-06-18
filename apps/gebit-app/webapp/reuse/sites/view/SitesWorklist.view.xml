@@ -15,7 +15,7 @@
 
 		<semantic:content>
 		<VBox> 
-			<MessageStrip text="Please relogin after adding Account"></MessageStrip>
+			<MessageStrip text="{i18n>reloginAfterAddingAccount}"></MessageStrip>
 			<Table
 				id="sitesWorklist"
 				width="auto"
