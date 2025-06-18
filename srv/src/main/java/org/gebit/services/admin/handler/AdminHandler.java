@@ -61,11 +61,6 @@ public class AdminHandler implements EventHandler {
 		c.setCqn(CQL.copy(c.getCqn(), m));
 	}
 	
-	@Before(entity = org.gebit.gen.srv.admin.UserTenantMappings_.CDS_NAME, event = CqnService.EVENT_READ)
-	public void onBeforeTenantMappingsRead(CdsReadEventContext c) {
-		System.out.println("onBeforeTenantMappingsRead");
-		System.out.println(c.getCqn());
-	}
 	
 	@On(event=TenantsAddUserByEmailContext.CDS_NAME)
 	public void addUserToTenant(TenantsAddUserByEmailContext c) {
@@ -85,6 +80,7 @@ public class AdminHandler implements EventHandler {
 	
 	@On(event=CreateSiteContext.CDS_NAME)
 	public void onCreateTenant(CreateSiteContext c) {
+		
 		Users user = this.userRepository.byId(this.userInfo.getAdditionalAttribute(USER_ID).toString());
 		String tenantId = UUID.randomUUID().toString();
 		
@@ -104,8 +100,12 @@ public class AdminHandler implements EventHandler {
 		mapping.setUserId(user.getId());
 		this.userRepository.upsertUserTenantMapping(mapping);
 		
+//		String var = "foo";
+//		c.getParameterInfo().getHeaders().put(var, "blah");
+		
 		c.setResult(true);
 		c.setCompleted();
+		
 	}
 	
 	

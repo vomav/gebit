@@ -14,7 +14,8 @@
 		</semantic:titleHeading>
 
 		<semantic:content>
-
+		<VBox> 
+			<MessageStrip text="Please relogin after adding Account"></MessageStrip>
 			<Table
 				id="sitesWorklist"
 				width="auto"
@@ -45,9 +46,9 @@
 					<Column hAlign="End">
 						<Text text="{i18n>description}"/>
 					</Column>
-					<Column hAlign="End">
+					<!-- <Column hAlign="End">
 						<Text text="{i18n>myRole}"/>
-					</Column>
+					</Column> -->
 					<Column hAlign="End">
 						<Text text="{i18n>createdBy}"/>
 					</Column>
@@ -60,7 +61,7 @@
 						<cells>
 							<Text text="{name}" />
 							<Text text="{description}" />
-							<Text text="{myRole}" />
+							<!-- <Text text="{myRole}" /> -->
 							<VBox>
 								<Text text="{createdByName}" />
 								<Text text="{createdBySurname}" />
@@ -69,7 +70,7 @@
 					</ColumnListItem>
 				</items>
 			</Table>
-
+		</VBox>
 		</semantic:content>
 
 		<semantic:sendEmailAction>

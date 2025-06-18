@@ -81,7 +81,8 @@ export default class SiteDetails extends Controller {
 		
 	}
 
-	public closeAddUserToSiteDialog(oEvent: Event) {
+	public async closeAddUserToSiteDialog(oEvent: Event) {
+		debugger;
 		this.getView()?.getModel("uiModel").setProperty("/sites/createMapping", {});
 		this.addUserToSiteDialog.close();
 	}

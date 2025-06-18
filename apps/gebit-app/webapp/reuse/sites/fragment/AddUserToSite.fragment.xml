@@ -27,7 +27,7 @@
 			singleContainerFullSize="false" >
 			<form:content>
 				<Label text="{i18n>email}" />
-				<Input value="{uiModel>/sites/createMapping/email}"></Input>
+				<Input type="Email" value="{uiModel>/sites/createMapping/email}"></Input>
 				<Label text="{i18n>role}" />
 				<Select selectedItemId="display" selectedKey="{uiModel>/sites/createMapping/mappingType}">
 					<core:Item key=" " text="{i18n>select}" />
@@ -46,7 +46,7 @@
             press="addUserToSiteByEmail"/>
       </beginButton>
 	  <endButton>
-              <Button
+        <Button
             text="{i18n>close}"
             press="closeAddUserToSiteDialog"/>
       </endButton>

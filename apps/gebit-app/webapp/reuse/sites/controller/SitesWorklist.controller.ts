@@ -143,4 +143,8 @@ export default class SitesWorklist extends Controller {
 			this.oAddSiteDialog.close();
 		});
 	}
+
+	public onCancelCreateSite(oEvent: Event) {
+		this.oAddSiteDialog.close();
+	}
 }

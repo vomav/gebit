@@ -271,7 +271,6 @@ export default class GroupTerritoryDetail extends Controller {
 	}
 
 	public formatLinkToEmbedHtml(link:string) {
-
 		return "<iframe src=\"" +link+ "\" width=\"100%\" height=\"480\"></iframe>"
 	}
 }

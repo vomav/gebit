@@ -140,7 +140,7 @@ service admin {
         user.email as email,
     };
 
-    action createSite(name:String, description:String) returns Boolean;
+    action createSite(name:String @mandatory, description:String @mandatory) returns Boolean;
 }
 
 
