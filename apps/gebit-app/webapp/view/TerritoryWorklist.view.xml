@@ -24,8 +24,8 @@
 				noDataText="{i18n>noData}"
 				growing="true"
 				growingScrollToLoad="true"
-				updateFinished=".onUpdateFinished"
-
+				selectionChange="onSelectionChange"
+				mode="SingleSelectLeft"
 				>
 
 				<headerToolbar>
@@ -37,15 +37,22 @@
 						</SearchField>
 
 						<Button
-							id="addUserButton"
+							id="addTerritoryButton"
 							icon="sap-icon://add"
-							tooltip="{i18n>createButtonText}"
 							press="openCreateDialog">
 							<layoutData>
 								<OverflowToolbarLayoutData priority="NeverOverflow"/>
 							</layoutData>
 						</Button>
-				
+						<Button
+							id="deleteTerritoryButton"
+							icon="sap-icon://delete"
+							press="onDelete"
+							enabled="false">
+							<layoutData>
+								<OverflowToolbarLayoutData priority="NeverOverflow"/>
+							</layoutData>
+						</Button>
 					</Toolbar>
 				</headerToolbar>
 
@@ -59,7 +66,6 @@
 					<Column demandPopin="true" minScreenWidth="600px">
 						<Text text="{i18n>siteId}" />
 					</Column>
-
 					<Column hAlign="End" demandPopin="true" minScreenWidth="600px">
 						<Text text="{i18n>lastTimeWorked}"/>
 					</Column>

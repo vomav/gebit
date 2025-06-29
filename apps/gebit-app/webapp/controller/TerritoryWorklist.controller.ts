@@ -11,6 +11,8 @@ import Event from "sap/ui/base/Event";
 import ColumnListItem from "sap/m/ColumnListItem";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 import {Formatter} from "./FormatterUtils"
+import ODataModel from "sap/ui/model/odata/v4/ODataModel";
+import MessageBox from "sap/m/MessageBox";
 /**
  * @namespace ui5.gebit.app.controller
  */           
@@ -18,6 +20,7 @@ export default class TerritoryWorklist extends Controller {
 
 	createDialog:Dialog;
 	isModelInitialized:Boolean;
+	selectedTerritoryBindingContext:any;
 	public onInit() : void {
 		const view = this.getView() as View
 		if (view) {
@@ -119,6 +122,36 @@ export default class TerritoryWorklist extends Controller {
 
 		(this.getView()?.getModel("uiModel") as JSONModel).setProperty("/create/kml/territory", territory);
 	}
+
+	public onSelectionChange(oEvent:Event) {
+
+		this.byId("deleteTerritoryButton").setEnabled(oEvent.getParameter("listItem").getBindingContext() != null);	
+	}
+
+	public async onDelete(oEvent:Event) {
+		debugger;
+		let oList = (this.byId("territoriesTable") as Table);
+		let oSelectedContext = oList.getSelectedContexts()[0];
+		let model = this.getView()?.getModel() as ODataModel;
+		let i18nText = this.getView()?.getModel("i18n")?.getProperty("confirmDeleteTerritoryText");
+		MessageBox.confirm(i18nText, {
+			title: "Confirm",
+			onClose: async function (action) {
+				if (action === MessageBox.Action.OK) {
+
+						await model.delete(oSelectedContext.getPath());
+
+				} else {
+					this.getView()?.getModel().refresh();
+				}
+			}.bind(this), 
+			styleClass: "",
+			actions: [ MessageBox.Action.OK, MessageBox.Action.CANCEL ],
+			emphasizedAction: MessageBox.Action.OK,
+			initialFocus:  MessageBox.Action.CANCEL
+		});
+		
+	}
 }
 
 class KmlParser {
@@ -183,4 +216,5 @@ class KmlParser {
 	public formatStartEndDate(value:string) {
 		return Formatter.formatDateColumn(value);
 	}
+	
 }
