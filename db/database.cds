@@ -4,7 +4,7 @@ using { cuid } from '@sap/cds/common';
 
 aspect tenant {
     tenantDiscriminator: UUID;
-    toAllowedUsers: Association to many UserTenantMappings on toAllowedUsers.tenant.ID = tenantDiscriminator and (toAllowedUsers.mappingType='user' or toAllowedUsers.mappingType='admin');
+    toAllowedUsers: Association to many UserTenantMappings on toAllowedUsers.tenant.ID = tenantDiscriminator and (toAllowedUsers.mappingType='display' or toAllowedUsers.mappingType='admin');
     toAllowedAdmins: Association to many UserTenantMappings on toAllowedAdmins.tenant.ID = tenantDiscriminator and toAllowedAdmins.mappingType='admin';
     toTenant: Association to one Tenants on toTenant.ID = $self.tenantDiscriminator;
 }
