@@ -71,10 +71,11 @@
                            tokenUpdate="onUpdateMultiValueUpdate"
                            editable="false">
                            <tokens>
-                              <Token key="{id}" text="{= ${surname} +', '+ ${username}}" />
+                              <Token key="{id}" text="{= !${freestyleName} ? ${surname} +', '+ ${username} : ${freestyleName} }" />
                            </tokens>
                            
                         </MultiInput>
+                        
                	   <Button
                         icon="sap-icon://action"
                         class="sapUiSmallMargin"

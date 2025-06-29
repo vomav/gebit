@@ -25,6 +25,7 @@ export default class GroupTerritoryDetail extends Controller {
 	usersDialog: Dialog;
 	currentPartsContextBinding: Context;
 	viewMapSnapshotDialog: Dialog;
+	addFreestyleName: Dialog
 	public onInit(): void {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);
@@ -118,6 +119,20 @@ export default class GroupTerritoryDetail extends Controller {
 		}
 	}
 
+
+	
+	public assignUnregisteredUser(oEvent: Event) {
+		let that = this;
+		if (this.addFreestyleName == null) {
+			this.loadFragment({ name: "ui5.gebit.app.fragment.AssignPartToFreestyleUser", addToDependents: true }).then(function (dialog: any) {
+				that.addFreestyleName = dialog as Dialog;
+				that.addFreestyleName.open();
+			}.bind(this));
+		} else {
+			that.addFreestyleName.open();
+		}
+	}
+
 	public async cancelPartAssignment(oEvent: Event) {
 		let model = (this.getView()?.getModel() as ODataModel);
 		let context = await model.bindContext("srv.searching.cancelPartAssignment(...)", this.currentPartsContextBinding);
@@ -128,6 +143,34 @@ export default class GroupTerritoryDetail extends Controller {
 			MessageBox.error(oError.message);
 		}
 		);
+	}
+
+	public async onAddUnregisteredUser(oEvent: Event) {
+		let freestyleName = this.addFreestyleName.getContent()[0].getValue();
+		if (this.currentPartsContextBinding) {
+			let model = (this.getView()?.getModel() as ODataModel);
+			let context = await model.bindContext("srv.searching.assignToUnregistredUser(...)", this.currentPartsContextBinding);
+			context.setParameter("name", freestyleName);
+			context.execute().then(function () {
+				MessageToast.show("OK");
+				this.getView()?.getModel().refresh();
+				this.addFreestyleName.getContent()[0].setValue(""); // Clear the input field
+				this.addFreestyleName.close(); // Close the dialog
+			}.bind(this), function (oError) {
+				MessageBox.error(oError.message);
+				this.addFreestyleName.getContent()[0].setValue(""); // Clear the input field
+				this.addFreestyleName.close(); // Close the dialog
+
+			}.bind(this)
+			);
+		}
+	}
+
+	public closeAddUregisteredUserDialog(oEvent: Event) {
+		if (this.addFreestyleName) {
+			this.addFreestyleName.getContent()[0].setValue(""); // Clear the input field
+			this.addFreestyleName.close();	
+		}
 	}
 
 	public async onSelectUser(oEvent: Event) {

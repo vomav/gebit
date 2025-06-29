@@ -16,6 +16,10 @@
 		icon="sap-icon://group"
 		press="assignPartToUser" />
 	<Button
+		text="{i18n>assignUnregisteredUser}"
+		icon="sap-icon://add-contact"
+		press="assignUnregisteredUser" />
+	<Button
 		text="{i18n>reset}"
 		icon="sap-icon://reset"
 		press="cancelPartAssignment" />

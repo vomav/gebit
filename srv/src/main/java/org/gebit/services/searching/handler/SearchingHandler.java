@@ -19,6 +19,7 @@ import org.gebit.gen.db.Territories;
 import org.gebit.gen.db.TerritoryAssignments;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToMeContext;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToUserContext;
+import org.gebit.gen.srv.searching.PartAssignmentsAssignToUnregistredUserContext;
 import org.gebit.gen.srv.searching.PartAssignmentsCancelPartAssignmentContext;
 import org.gebit.gen.srv.searching.PartAssignmentsUploadImageContext;
 import org.gebit.gen.srv.searching.Searching_;
@@ -144,6 +145,29 @@ public class SearchingHandler implements EventHandler {
 		inWorkBy.setToParentId(pa.getId());
 		
 		inWorkBy.setUserId(c.getUserId());
+		if(pa.getInWorkBy() == null) {
+			pa.setInWorkBy(List.of(inWorkBy));
+		} else {
+			pa.getInWorkBy().add(inWorkBy);
+		}
+		
+		
+		this.partsAssignmentsRepository.save(pa);
+		
+		c.setResult(true);
+		c.setCompleted();
+	}
+	
+	@On(event=PartAssignmentsAssignToUnregistredUserContext.CDS_NAME)
+	public void assignPartToUser(PartAssignmentsAssignToUnregistredUserContext c) {
+		CqnSelect select = c.getCqn();
+		PartAssignments pa =  this.partsAssignmentsRepository.runCqnSingleSelect(select, c.getModel());
+		
+		InWorkBy inWorkBy = InWorkBy.create();
+		inWorkBy.setId(UUID.randomUUID().toString());
+		inWorkBy.setToParentId(pa.getId());
+		
+		inWorkBy.setFreestyleName(c.getName());
 		if(pa.getInWorkBy() == null) {
 			pa.setInWorkBy(List.of(inWorkBy));
 		} else {
