@@ -76,6 +76,7 @@ service searching {
         action assignPartToUser(userId: String) returns Boolean;
         action cancelPartAssignment() returns Boolean;
         action uploadImage(file: String, mediaType: String) returns String;
+        action assignToUnregistredUser(name: String) returns Boolean;
     } ;
 
     entity TenantMappings as projection on dbUserTenantMapping {
@@ -101,7 +102,8 @@ service searching {
         user.surname as surname,
         user.ID as userId,
         ID as id,
-        toParent as toParent
+        toParent as toParent,
+        freestyleName as freestyleName
     };
 
     entity Images as projection on Image;

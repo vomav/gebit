@@ -80,6 +80,7 @@ CREATE TABLE db_Image (
 CREATE TABLE db_InWorkBy (
   ID VARCHAR(36) NOT NULL,
   user_ID VARCHAR(36),
+  freestyleName VARCHAR(128),
   toParent_ID VARCHAR(36),
   PRIMARY KEY(ID)
 ); 
@@ -197,7 +198,8 @@ CREATE VIEW srv_searching_InWorkBy AS SELECT
   user_1.surname AS surname,
   user_1.ID AS userId,
   dbInworkBy_0.ID AS id,
-  dbInworkBy_0.toParent_ID AS toParent_ID
+  dbInworkBy_0.toParent_ID AS toParent_ID,
+  dbInworkBy_0.freestyleName AS freestyleName
 FROM (db_InWorkBy AS dbInworkBy_0 LEFT JOIN db_Users AS user_1 ON dbInworkBy_0.user_ID = user_1.ID); 
 
 CREATE VIEW srv_searching_Images AS SELECT

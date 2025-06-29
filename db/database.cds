@@ -62,6 +62,7 @@ entity Image : cuid, tenant {
 
 entity InWorkBy : cuid {
     user : Association to one Users;
+    freestyleName: String(128);
     toParent: Association to one PartAssignments;
 }
 
