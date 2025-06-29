@@ -25,7 +25,7 @@ COMMENT ON TABLE db_PartAssignments IS NULL;
 COMMENT ON TABLE db_Image IS NULL;
 
 
-ALTER TABLE db_InWorkBy ADD freestyleName NVARCHAR(128);
+ALTER TABLE db_InWorkBy ADD freestyleName VARCHAR(128);
 
 
 COMMENT ON TABLE db_InWorkBy IS NULL;

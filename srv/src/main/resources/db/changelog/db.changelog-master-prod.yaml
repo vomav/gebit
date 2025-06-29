@@ -7,7 +7,7 @@ databaseChangeLog:
             dbms: postgresql
             path: db/changelog/v1/model.sql
   - changeSet:
-      id: "1"
+      id: "2"
       author: I065534
       changes:
         - sqlFile:
