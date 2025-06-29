@@ -5,7 +5,7 @@
    	<SelectDialog
 		id="selectUserToAssignTerritory"
 		title="{i18n>users}"
-		items="{toAssigedUsersToThisAccount}"
+		items="{toAllowedAdmins}"
 		search=".onValueHelpSearch"
 		confirm=".onSelectUser"
 		cancel=".onValueHelpClose">
