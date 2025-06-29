@@ -1,6 +1,5 @@
 #!/bin/zsh
 
-cd ../
 # Pull the latest code from the Git repository
 git pull
 
