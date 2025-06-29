@@ -42,8 +42,7 @@ public class TerritoryRepository {
 				}
 			
 		};
-		
-		Territories territory = ps.run(CQL.copy(cqnSelect, m)).single(Territories.class);
+		Territories territory = ps.run(CQL.copy(cqnSelect, m)).first(Territories.class).orElseThrow();
 		return this.byId(territory.getId()).get();
 	}
 	
