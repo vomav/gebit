@@ -100,9 +100,6 @@ public class AdminHandler implements EventHandler {
 		mapping.setUserId(user.getId());
 		this.userRepository.upsertUserTenantMapping(mapping);
 		
-//		String var = "foo";
-//		c.getParameterInfo().getHeaders().put(var, "blah");
-		
 		c.setResult(true);
 		c.setCompleted();
 		
