@@ -138,7 +138,18 @@ public class SearchingHandler implements EventHandler {
 	public void assignPartToUser(PartAssignmentsAssignPartToUserContext c) {
 		CqnSelect select = c.getCqn();
 		PartAssignments pa =  this.partsAssignmentsRepository.runCqnSingleSelect(select, c.getModel());
-		// pa.setInWorkById(userId);
+		
+		InWorkBy inWorkBy = InWorkBy.create();
+		inWorkBy.setId(UUID.randomUUID().toString());
+		inWorkBy.setToParentId(pa.getId());
+		
+		inWorkBy.setUserId(c.getUserId());
+		if(pa.getInWorkBy() == null) {
+			pa.setInWorkBy(List.of(inWorkBy));
+		} else {
+			pa.getInWorkBy().add(inWorkBy);
+		}
+		
 		
 		this.partsAssignmentsRepository.save(pa);
 		
