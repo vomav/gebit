@@ -105,19 +105,6 @@ context cds_spatial // cds.spatial
 https://cap.cloud.sap/docs/java/working-with-cql/query-api#copying-modifying-cql-statements
 
 
-
-
-```
-PG_HOST=${db.HOSTNAME}
-PG_USERNAME=${db.USERNAME}
-PG_PASSWORD=${db.PASSWORD}
-PG_DB=${db.DATABASE}
-PG_PORT=${db.PORT}
-JWT_ACCESS_SECRET=dGVzdHhzYWRzZHNkc2Fkc2Rzc2Zkc2FmZHN0ZXN0eHNhZHNkc2RzYWRzZHNzZmRzYWZkcw==
-JWT_REFRESH_SECRET=dGVzdHhzYWRzZHNkc2Fkc2Rzc2Zkc2FmZHN0ZXN0eHNhZHNkc2RzYWRzZHNzZmRzYWZkcw==
-SPRING_PROFILES_ACTIVE=cloud
-```
-
 ## Start gebit in local docker container
 ```
 cd docker/localhost
