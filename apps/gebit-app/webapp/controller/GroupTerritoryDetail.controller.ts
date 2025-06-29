@@ -273,4 +273,10 @@ export default class GroupTerritoryDetail extends Controller {
 	public formatLinkToEmbedHtml(link:string) {
 		return "<iframe src=\"" +link+ "\" width=\"100%\" height=\"480\"></iframe>"
 	}
+
+	public onValueHelpSearch(oEvent: Event) {
+		let filter = new sap.ui.model.Filter([new Filter("name", FilterOperator.Contains, oEvent.getParameter("value")),
+			new Filter("surname", FilterOperator.Contains, oEvent.getParameter("value"))], false);
+		this.usersDialog.getBinding("items").filter(filter);
+	}
 }
