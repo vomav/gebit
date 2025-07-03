@@ -117,3 +117,8 @@ docker compose build
 ```
 docker compose -f docker-compose.yml up -d
 ```
+
+
+```
+cds deploy --profile pg --dry --delta-from srv/src/main/resources/db/changelog/v1/model.csn --out srv/src/main/resources/db/changelog/v2/model.sql
+```

@@ -44,6 +44,10 @@ entity TerritoryAssignments : cuid, tenant {
     assignedTo: Association to one Users;
 }
 
+entity PublicTerritoryAssignments : cuid {
+    toTerritoryAssignment: Association to one TerritoryAssignments;
+}
+
 entity PartAssignments : cuid, tenant {
     part: Association to one Parts;
     inWorkBy: Composition of many InWorkBy on inWorkBy.toParent = $self;

@@ -12,6 +12,7 @@
 		},
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
+
 		"applicationVersion": {
 			"version": "1.0.0"
 		},
@@ -38,6 +39,12 @@
 			"desktop": true,
 			"tablet": true,
 			"phone": true
+		},
+		"icons": {
+			"icon": "icon.png",
+			"favIcon": "favicon.ico",
+			"phone": "icon.png",
+			"tablet": "icon.png"
 		}
 	},
 	"sap.ui5": {
