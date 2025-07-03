@@ -1,0 +1,28 @@
+<mvc:View xmlns:core="sap.ui.core"
+	controllerName="ui5.gebit.app.controller.VideoTutorial"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form">
+
+ 
+	<Page showHeader="false">
+		<VBox class="sapUiBigMargin" gap="5rem">
+			
+		<Panel stickyHeader="true"  headerText="{i18n>howToCreateTerritoryAndExportKml}">
+			<core:HTML class="sapUiSmall" content="&lt;iframe width=&quot;100%&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/cqvWudR6cq0?si=oQi8AqoCWypznHI3&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; referrerpolicy=&quot;strict-origin-when-cross-origin&quot; allowfullscreen&gt;&lt;/iframe&gt;" />
+		 </Panel>
+		
+		<Panel stickyHeader="true"  headerText="{i18n>howToCreateTerritoryAndImportKml}">
+			<core:HTML class="sapUiSmall" content="&lt;iframe width=&quot;100%&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/-k3M21z4Utg?si=LBOo9wNX2Tlxdghj&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; referrerpolicy=&quot;strict-origin-when-cross-origin&quot; allowfullscreen&gt;&lt;/iframe&gt;" />
+		 </Panel>
+		<Panel stickyHeader="true"  headerText="{i18n>howToWorkInPrivateMode}">
+			<core:HTML class="sapUiSmall" content="&lt;iframe max-width=&quot;560px&quot; width=&quot;100%&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/qGIzRkK7q-k?si=ZjKciiXnN6gxQWf9&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; referrerpolicy=&quot;strict-origin-when-cross-origin&quot; allowfullscreen&gt;&lt;/iframe&gt;" />
+		 </Panel>
+		<Panel stickyHeader="true"  headerText="{i18n>howToWorkInGroupMode}">
+			<core:HTML class="sapUiSmall" content="&lt;iframe width=&quot;100%&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/2R4zuZwbYgM?si=con8F8DTbuHeSPRV&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; referrerpolicy=&quot;strict-origin-when-cross-origin&quot; allowfullscreen&gt;&lt;/iframe&gt;" />
+		 </Panel>
+</VBox>
+	</Page>
+</mvc:View>

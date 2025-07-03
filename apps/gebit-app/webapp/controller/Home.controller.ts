@@ -65,4 +65,8 @@ export default class Home extends Controller {
 	public navigateToUserAdminApp(oEven:any) {
 		(this.getOwnerComponent() as UIComponent).getRouter().navTo("userAdmin");
 	}
+
+	public navigateToVideoTutorialApp(oEven:any) {
+		(this.getOwnerComponent() as UIComponent).getRouter().navTo("videoTutorial");
+	}
 }

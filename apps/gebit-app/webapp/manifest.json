@@ -190,6 +190,11 @@
 					"name": "userAdmin",
 					"pattern": "userAdmin",
 					"target": "userAdmin"
+				},
+				{
+					"name": "videoTutorial",
+					"pattern": "videoTutorial",
+					"target": "videoTutorial"
 				}
 			],
 			"targets": {
@@ -242,6 +247,11 @@
 					"type": "View",
 					"id": "userAdmin",
 					"name": "UserAdmin"
+				},
+				"videoTutorial": {
+					"type": "View",
+					"id": "videoTutorial",
+					"name": "VideoTutorial"
 				}
 			}
 		}

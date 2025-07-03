@@ -61,6 +61,14 @@
 					<ImageContent src="sap-icon://action-settings" />
 				</TileContent>
 			</GenericTile>
+			<GenericTile header="{i18n>videoTutorial}" subheader=""  press="navigateToVideoTutorialApp">
+				<layoutData>
+					<f:GridContainerItemLayoutData minRows="2" columns="2" />
+				</layoutData>
+				<TileContent>
+					<ImageContent src="sap-icon://attachment-video" />
+				</TileContent>
+			</GenericTile>
 			
 		</f:GridContainer>
 	</Page>
