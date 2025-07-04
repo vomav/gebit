@@ -1,6 +1,6 @@
 namespace srv;
 
-using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignments as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping, db.InWorkBy as dbInworkBy, db.Image as Image } from '../db/database';
+using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignments as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping, db.InWorkBy as dbInworkBy, db.Image as Image, db.PublicTerritoryAssignments as dbPublicTerritoryAssignments } from '../db/database';
 
 service searching {
 
@@ -159,4 +159,40 @@ service registration {
 
     action resetPassword(email:String) returns Boolean;
     action activateAccount(userId:UUID, activationCode:String) returns Boolean;
+}
+
+service publicSearching {
+    entity PublicTerritoryAssignments as select from dbPublicTerritoryAssignments {
+        *,
+        toTerritoryAssignment.isDone as isDone,
+        toTerritoryAssignment.assignedTo as assignedTo,
+        toTerritoryAssignment.type as type,
+        toTerritoryAssignment.startedDate as startedDate,
+        toTerritoryAssignment.finishedDate as finishedDate,
+        toTerritoryAssignment.toTerritory.name as name,
+        toTerritoryAssignment.toTerritory.link as link,
+        toTerritoryAssignment.toPartAssignments: redirected to PartAssignments
+    }
+    
+    entity PartAssignments as select from dbPartAssignmenst {
+        *,
+        part.name as name,
+        part.coordinates as coordinates,
+        part.isBoundaries as isBoundaries,
+        inWorkBy: redirected to InWorkBy on inWorkBy.toParent = $self,
+        toWorkedPartImage.imageUrl as workedPartImageUrl,
+        toWorkedPartImage.mediaType as workedPartImageMediaType
+    } actions {
+        action assignPartToMe() returns Boolean;
+        action cancelMyAssignment() returns Boolean;
+    } ;
+
+        entity InWorkBy as projection on dbInworkBy {
+        user.name as username,
+        user.surname as surname,
+        user.ID as userId,
+        ID as id,
+        toParent as toParent,
+        freestyleName as freestyleName
+    };
 }
