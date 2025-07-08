@@ -42,9 +42,13 @@ entity TerritoryAssignments : cuid, tenant {
         Public;
     };
     assignedTo: Association to one Users;
+    assignedToUnregisteredUser: String(128);
+    toUnregisetredUserTerritoryAssignments: Composition of one UnregisteredUserTerritoryAssignment on toUnregisetredUserTerritoryAssignments.toTerritoryAssignment = $self;
 }
 
-entity PublicTerritoryAssignments : cuid {
+entity UnregisteredUserTerritoryAssignment : cuid {
+    unregisteredUser: String(128);
+    unregisteredUserEmail: String(128);
     toTerritoryAssignment: Association to one TerritoryAssignments;
 }
 

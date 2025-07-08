@@ -17,12 +17,14 @@ import org.gebit.gen.db.InWorkBy;
 import org.gebit.gen.db.PartAssignments;
 import org.gebit.gen.db.Territories;
 import org.gebit.gen.db.TerritoryAssignments;
+import org.gebit.gen.db.UnregisteredUserTerritoryAssignment;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToMeContext;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToUserContext;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignToUnregistredUserContext;
 import org.gebit.gen.srv.searching.PartAssignmentsCancelPartAssignmentContext;
 import org.gebit.gen.srv.searching.PartAssignmentsUploadImageContext;
 import org.gebit.gen.srv.searching.Searching_;
+import org.gebit.gen.srv.searching.TerritoriesAssignToUnregisteredUserContext;
 import org.gebit.gen.srv.searching.TerritoriesAssignToUserContext;
 import org.gebit.gen.srv.searching.TerritoriesTrasferToAnotherSiteContext;
 import org.gebit.gen.srv.searching.TerritoriesWithdrawFromUserContext;
@@ -254,6 +256,38 @@ public class SearchingHandler implements EventHandler {
 	}
 	
 
+	@On(event = TerritoriesAssignToUnregisteredUserContext.CDS_NAME)
+	public void assignTerritoryToUnregisteredUser(TerritoriesAssignToUnregisteredUserContext context) {
+		Territories territory = this.territoryRepository.runCqn(context.getCqn());
+		
+		TerritoryAssignments assignment = TerritoryAssignments.create();
+		UnregisteredUserTerritoryAssignment unregisteredUserTerrAssignment = UnregisteredUserTerritoryAssignment.create();
+		
+		unregisteredUserTerrAssignment.setUnregisteredUser(context.getUsername());
+		unregisteredUserTerrAssignment.setUnregisteredUserEmail(context.getEmail());
+		
+		assignment.setToUnregisetredUserTerritoryAssignments(unregisteredUserTerrAssignment);
+		assignment.setToTerritory(territory);
+		assignment.setIsDone(false);
+		assignment.setStartedDate(Instant.now());
+		assignment.setType("Personal");
+		assignment.setToPartAssignments(new ArrayList<>());
+		assignment.setTenantDiscriminator(territory.getTenantDiscriminator());
+		
+		territory.getToParts().forEach(part -> {
+			PartAssignments partAssignment = PartAssignments.create();
+			partAssignment.setPartId(part.getId());
+			partAssignment.setTenantDiscriminator(assignment.getTenantDiscriminator());
+
+			assignment.getToPartAssignments().add(partAssignment);
+		});
+		
+		territoryAssignmentRepository.save(assignment);
+		context.setResult(true);
+		context.setCompleted();
+		
+	}
+	
 	private String saveImageToSpace(String xBaseStr, String internalSpacePath, String mimeType) {
 		
 		byte[] image = Base64.decodeBase64(xbaseUtils.resolveXbasePayload(xBaseStr));

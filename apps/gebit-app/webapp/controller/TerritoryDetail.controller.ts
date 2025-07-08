@@ -5,11 +5,10 @@ import Event from "sap/ui/base/Event";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 import Dialog from "sap/m/Dialog";
-import Filter from "sap/ui/model/Filter";
-import FilterOperator from "sap/ui/model/FilterOperator";
 import MessageBox from "sap/m/MessageBox";
 import MessageToast from "sap/m/MessageToast";
 import Context from "sap/ui/model/odata/v4/Context";
+import Input from "sap/m/Input";
 /**
  * @namespace ui5.gebit.app.controller
  */           
@@ -17,6 +16,7 @@ export default class TerritoryDetail extends Controller {
 
 	assigTerritoryToUserDialog:Dialog;
 	trasferTerritoryToAnotherSiteDialog:Dialog;
+	assigTerritoryToUnregisteredUserDialog:Dialog;
 	public onInit() : void {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);
@@ -77,6 +77,7 @@ export default class TerritoryDetail extends Controller {
 			that.assigTerritoryToUserDialog.open();
 		}
 	}
+
 	public onValueHelpClose (oEvent:Event) {
 		(this.getView()?.getModel("uiModel") as JSONModel).setProperty("/territory/assignTerritoryToUser", { 
 			input : "",
@@ -154,4 +155,42 @@ export default class TerritoryDetail extends Controller {
 		);
 	}
 
+	public async onOpenDialogAssignTerritoryToUnassignedUserPress (oEvent:Event) {
+		let oView = this.getView();
+		let that = this;
+		if (!this.assigTerritoryToUnregisteredUserDialog) {
+			this.loadFragment({name:"ui5.gebit.app.fragment.AssignTerritoryToUnregisteredUser", addToDependents: true}).then(function(dialog:any){
+				that.assigTerritoryToUnregisteredUserDialog = dialog as Dialog;
+				oView?.addDependent(that.assigTerritoryToUnregisteredUserDialog);
+				that.assigTerritoryToUnregisteredUserDialog.open();
+				return that.assigTerritoryToUnregisteredUserDialog;
+			});
+		} else {
+			that.assigTerritoryToUnregisteredUserDialog.open();
+		}
+	}
+
+	public async onCloseDialogAssignTerritoryToUnassignedUserPress (oEvent:Event) {
+		this.assigTerritoryToUnregisteredUserDialog.close();
+	}
+
+	public async onAssignUnregisteredUser(oEvent:Event) {
+		let username = (this.getView()?.byId("territoryAssignUnregisterUsername") as Input).getValue();
+		let email = (this.getView()?.byId("territoryAssignUnregisterEmail") as Input).getValue();;
+		let model = (this.getView()?.getModel() as ODataModel);
+		let detailPageContext = this.getView()?.getBindingContext() as Context;
+		let context = await model.bindContext("srv.searching.assignToUnregisteredUser(...)", detailPageContext);
+		context.setParameter("username", username);
+		context.setParameter("email", email);
+
+		context.execute().then(function () {
+				MessageToast.show("{i18n>ok}");
+				this.getView()?.getModel().refresh();
+				this.assigTerritoryToUnregisteredUserDialog.close();
+			}.bind(this), function (oError) {
+				MessageBox.error(oError.message);
+				this.assigTerritoryToUnregisteredUserDialog.close();
+			}
+		);
+	}
 }

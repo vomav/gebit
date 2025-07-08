@@ -17,6 +17,7 @@
 					<m:Button text="{i18n>done}" type="Emphasized" press="onDisplayMode" visible="{uiModel>/ui/editMode}"/>
 					<m:Button text="{i18n>withdraw}" type="Emphasized" press="onWithdraw" visible="{= !${uiModel>/ui/editMode}}"/>
 					<m:Button text="{i18n>assignToUser}" type="Emphasized" press="onOpenDialogAssignTerritoryToUserPress" visible="{= !${uiModel>/ui/editMode}}"/>
+					<m:Button text="{i18n>assignToUnregisteredUser}" type="Emphasized" press="onOpenDialogAssignTerritoryToUnassignedUserPress" visible="{= !${uiModel>/ui/editMode}}"/>
 					<m:Button text="{i18n>transferToAnotherSite}" type="Emphasized" press="onPressTransferToAnotherSiteButton" visible="{= !${uiModel>/ui/editMode}}"/>
 					<m:Button type="Transparent" text="Delete" press="onDeleteTerritory" visible="{= !${isReady}}" />
 				</actions>
@@ -79,8 +80,12 @@
 								<m:Link href="{link}" text="{name}"/>
 								<m:Label text="{i18n>isReady}" />
 								<m:Switch state="{isReady}" enabled="false"/>
-								<m:Label text="{i18n>assignedTo}"/>
+								<m:Label text="{i18n>assignedTo}" />
 								<m:Text text="{assignedToName} {assignedToSurname} " />
+								<m:Label text="{i18n>assignedToUnregisteredUser}" />
+								<m:Text text="{assignedUnregisteredUser}" />
+								<m:Label text="{i18n>publicLink}" />
+								<m:Link text="{assignedUnregisteredUserAssignmentId}" />
 								<m:Label text="{i18n>lastTimeWorked}" />
 								<m:Text text="{lastTimeWorked}"/>
 							</form:content>

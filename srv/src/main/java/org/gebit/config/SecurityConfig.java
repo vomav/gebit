@@ -68,7 +68,8 @@ public class SecurityConfig {
                                         "/*",
                                         "/favicon.ico",
                                         "/model/uiModel.json",
-                                        "/actuator/**"
+                                        "/actuator/**",
+                                        "/odata/v4/srv.publicSearching/**"
                                 ).permitAll()
                                 .requestMatchers(CorsUtils:: isPreFlightRequest).permitAll()
                                 .anyRequest().authenticated()	
