@@ -248,7 +248,7 @@ export default class GroupTerritoryDetail extends Controller {
 	}
 
 	public onFileChange(oEvent: Event) {
-		var file = oEvent.getParameters("files").files[0];
+		var file = oEvent.getParameters().files[0];
 		//Upload image
 		var reader = new FileReader();
 		reader.onload = function (oReaderEvent) {
