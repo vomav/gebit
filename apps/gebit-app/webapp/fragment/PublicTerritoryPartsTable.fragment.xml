@@ -67,7 +67,7 @@
                            enableMultiLineMode="true"
                            >
                            <tokens>
-                              <Token key="{id}" text="{= ${publicService>freestyleName} }" />
+                              <Token key="{id}" text="{= !${publicService>freestyleName} ? ${publicService>surname} +', '+ ${publicService>username} : ${publicService>freestyleName} }" />
                            </tokens>
                         </MultiInput>
                      <CheckBox selected="{publicService>isDone}"></CheckBox>
