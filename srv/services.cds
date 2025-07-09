@@ -1,6 +1,6 @@
 namespace srv;
 
-using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignments as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping, db.InWorkBy as dbInworkBy, db.Image as Image } from '../db/database';
+using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignments as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping, db.InWorkBy as dbInworkBy, db.Image as Image, db.UnregisteredUserTerritoryAssignment as dbUnregisteredUserTerritoryAssignment } from '../db/database';
 
 service searching {
 
@@ -8,7 +8,7 @@ service searching {
     @(restrict: [
      { grant: '*',
        where: '$user.adminIn = tenantDiscriminator' } ])  
-    as select from dbTerritory mixin{
+    as select from dbTerritory mixin {
         toTerritoryAssignment: Association to one TerritoryAssignments on toTerritoryAssignment.toTerritory = $self;
         toAssigedUsersToThisAccount: Association to many TenantMappings on toAssigedUsersToThisAccount.siteId = $self.siteId;
     }
@@ -19,12 +19,17 @@ service searching {
         toTenant.name as siteName,
         toTenant.description as siteDescription,
         toTenant.ID as siteId,
-        toAssigedUsersToThisAccount
+        toAssigedUsersToThisAccount,
+        toTerritoryAssignment.unregisteredUser as assignedUnregisteredUser,
+        toTerritoryAssignment.unregisteredUserEmail as assignedUnregisteredUserEmail,
+        toTerritoryAssignment.unregisteredUserAssignmentId as assignedUnregisteredUserAssignmentId
     } actions {
        action assignToUser(userId:String) returns Boolean;
        action withdrawFromUser() returns Boolean;
        action trasferToAnotherSite(siteId:String) returns Boolean;
+       action assignToUnregisteredUser(username:String @mandatory, email:String) returns Boolean;
     } ;
+
     entity Parts @(restrict: [
      { grant: '*',
        where: '$user.adminIn = tenantDiscriminator' } ]) 
@@ -39,7 +44,23 @@ service searching {
       *,
       toTerritory.name as name,
       toTerritory.link as link,
-      toPartAssignments: redirected to PartAssignments
+      toPartAssignments: redirected to PartAssignments,
+      toUnregisetredUserTerritoryAssignments: redirected to UnregisteredUserTerritoryAssugnment on toUnregisetredUserTerritoryAssignments.toTerritoryAssignment = $self,
+      toUnregisetredUserTerritoryAssignments.unregisteredUser as unregisteredUser,
+      toUnregisetredUserTerritoryAssignments.unregisteredUserEmail as unregisteredUserEmail,
+      toUnregisetredUserTerritoryAssignments.ID as unregisteredUserAssignmentId
+    };
+
+    entity UnregisteredUserTerritoryAssugnment as projection on dbUnregisteredUserTerritoryAssignment {
+        *,
+        toTerritoryAssignment.isDone as isDone,
+        toTerritoryAssignment.assignedTo as assignedTo,
+        toTerritoryAssignment.type as type,
+        toTerritoryAssignment.startedDate as startedDate,
+        toTerritoryAssignment.finishedDate as finishedDate,
+        toTerritoryAssignment.toTerritory.name as name,
+        toTerritoryAssignment.toTerritory.link as link,
+        toTerritoryAssignment.toPartAssignments: redirected to PartAssignments
     };
 
     @cds.redirection.target: false
@@ -159,4 +180,40 @@ service registration {
 
     action resetPassword(email:String) returns Boolean;
     action activateAccount(userId:UUID, activationCode:String) returns Boolean;
+}
+
+service publicSearching {
+    entity PublicTerritoryAssignments as select from dbUnregisteredUserTerritoryAssignment {
+        *,
+        toTerritoryAssignment.isDone as isDone,
+        toTerritoryAssignment.assignedTo as assignedTo,
+        toTerritoryAssignment.type as type,
+        toTerritoryAssignment.startedDate as startedDate,
+        toTerritoryAssignment.finishedDate as finishedDate,
+        toTerritoryAssignment.toTerritory.name as name,
+        toTerritoryAssignment.toTerritory.link as link,
+        toTerritoryAssignment.toPartAssignments: redirected to PartAssignments on toPartAssignments.toParent = toTerritoryAssignment,
+    }
+    
+    entity PartAssignments as select from dbPartAssignmenst {
+        *,
+        part.name as name,
+        part.coordinates as coordinates,
+        part.isBoundaries as isBoundaries,
+        inWorkBy: redirected to InWorkBy on inWorkBy.toParent = $self,
+        toWorkedPartImage.imageUrl as workedPartImageUrl,
+        toWorkedPartImage.mediaType as workedPartImageMediaType
+    } actions {
+        action assignPartToMe() returns Boolean;
+        action cancelMyAssignment() returns Boolean;
+    }
+
+    entity InWorkBy as projection on dbInworkBy {
+        user.name as username,
+        user.surname as surname,
+        user.ID as userId,
+        ID as id,
+        toParent as toParent,
+        freestyleName as freestyleName
+    }
 }

@@ -11,6 +11,7 @@ import com.sap.cds.ql.Delete;
 import com.sap.cds.ql.Expand;
 import com.sap.cds.ql.Insert;
 import com.sap.cds.ql.Select;
+import com.sap.cds.ql.Upsert;
 import com.sap.cds.ql.cqn.CqnSelect;
 import com.sap.cds.services.persistence.PersistenceService;
 
@@ -30,8 +31,8 @@ public class TerritoryAssignmentRepository {
 	}
 	
 	public void save(TerritoryAssignments assignment) {
-		Insert insert = Insert.into(TerritoryAssignments_.class).entry(assignment);
-		ps.run(insert);
+		Upsert upsert = Upsert.into(TerritoryAssignments_.class).entry(assignment);
+		ps.run(upsert);
 	}
 	
 	public void deleteByTerritoryId(String id) {

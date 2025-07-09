@@ -1,0 +1,19 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core">
+<ActionSheet id="publicMyPartAactionSheet"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	title="{i18n>chooseAction}"
+	showCancelButton="true"
+	placement="Bottom">
+	<Button
+		text="{i18n>assignUnregisteredUser}"
+		icon="sap-icon://add-contact"
+		press="assignUnregisteredUser" />
+	<Button
+		text="{i18n>reset}"
+		icon="sap-icon://reset"
+		press="cancelPartAssignment" />
+</ActionSheet>
+</core:FragmentDefinition>

@@ -1,0 +1,80 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core"
+   xmlns:form="sap.ui.layout.form"   
+   xmlns:u="sap.ui.unified"
+   xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+   
+<IconTabBar
+		select=".onFilterSelect">
+
+<items>
+			<IconTabFilter
+				showAll="true"
+				text="{i18n>All}"
+				key="All" />
+			<IconTabSeparator />
+			<IconTabFilter
+				icon="sap-icon://in-progress"
+				iconColor="Neutral"
+				text="{i18n>inProgress}"
+				key="InProgress" />
+			<IconTabFilter
+				icon="sap-icon://check-availability"
+				iconColor="Positive"
+				text="{i18n>available}"
+				key="Available" />
+
+</items>
+		<content>
+   <Table id="groupTerrirtoryParts" items="{
+         model: 'publicService',
+         path:'toPartAssignments',
+         parameters : {
+            operationMode : 'Client'
+         },
+         sorter:[{
+               path: 'name',
+               descending: false
+            }]
+      }"> 
+      <columns>
+         <Column>
+				<Text text="{i18n>name}"/>
+			</Column>
+
+         <Column demandPopin="true" minScreenWidth="600px">
+				<Text text="{i18n>assignedTo}"/>
+			</Column>
+         <Column>
+				<Text text="{i18n>isDone}"/>
+			</Column>
+      </columns>
+      <items>
+         <ColumnListItem
+						type="Inactive"
+						press="onPressListItem" app:coord="{publicService>coordinates}">
+						<cells>
+							<Text text="{publicService>name}"/>
+                     	<MultiInput enabled="true"
+                           tokens="{
+                              path: 'publicService>inWorkBy'
+                           }" 
+                           showValueHelp="false"
+                           tokenUpdate="onUpdateMultiValueUpdate"
+                           change="onSubmitToken"
+                           showSuggestion="false"
+                           enableMultiLineMode="true"
+                           >
+                           <tokens>
+                              <Token key="{id}" text="{= ${publicService>freestyleName} }" />
+                           </tokens>
+                        </MultiInput>
+                     <CheckBox selected="{publicService>isDone}"></CheckBox>
+						</cells>
+			</ColumnListItem>
+      </items>
+   </Table>
+</content>
+	</IconTabBar>
+</core:FragmentDefinition>

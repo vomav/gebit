@@ -17,12 +17,14 @@ import org.gebit.gen.db.InWorkBy;
 import org.gebit.gen.db.PartAssignments;
 import org.gebit.gen.db.Territories;
 import org.gebit.gen.db.TerritoryAssignments;
+import org.gebit.gen.db.UnregisteredUserTerritoryAssignment;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToMeContext;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignPartToUserContext;
 import org.gebit.gen.srv.searching.PartAssignmentsAssignToUnregistredUserContext;
 import org.gebit.gen.srv.searching.PartAssignmentsCancelPartAssignmentContext;
 import org.gebit.gen.srv.searching.PartAssignmentsUploadImageContext;
 import org.gebit.gen.srv.searching.Searching_;
+import org.gebit.gen.srv.searching.TerritoriesAssignToUnregisteredUserContext;
 import org.gebit.gen.srv.searching.TerritoriesAssignToUserContext;
 import org.gebit.gen.srv.searching.TerritoriesTrasferToAnotherSiteContext;
 import org.gebit.gen.srv.searching.TerritoriesWithdrawFromUserContext;
@@ -80,32 +82,6 @@ public class SearchingHandler implements EventHandler {
 		
     }
 
-	@On(event=TerritoriesAssignToUserContext.CDS_NAME)
-	public void onRegister(TerritoriesAssignToUserContext context) {
-		Territories territory = this.territoryRepository.runCqn(context.getCqn());
-		
-		TerritoryAssignments assignment = TerritoryAssignments.create();
-		assignment.setAssignedToId(context.getUserId());
-		assignment.setToTerritory(territory);
-		assignment.setIsDone(false);
-		assignment.setStartedDate(Instant.now());
-		assignment.setType("Personal");
-		assignment.setToPartAssignments(new ArrayList<>());
-		assignment.setTenantDiscriminator(territory.getTenantDiscriminator());
-		
-		territory.getToParts().forEach(part -> {
-			PartAssignments partAssignment = PartAssignments.create();
-			partAssignment.setPartId(part.getId());
-			partAssignment.setTenantDiscriminator(assignment.getTenantDiscriminator());
-
-			assignment.getToPartAssignments().add(partAssignment);
-		});
-		
-		territoryAssignmentRepository.save(assignment);
-		context.setResult(true);
-		context.setCompleted();
-	}
-	
 	@Before(event = CqnService.EVENT_READ, entity = TerritoryAssignments_.CDS_NAME)
 	public void onBeforeReadMyTerritories(CdsReadEventContext c) {
 		CqnSelect select = c.getCqn();
@@ -119,6 +95,59 @@ public class SearchingHandler implements EventHandler {
 		c.setCqn(CQL.copy(select,m));
 		
 	}
+	
+	@On(event=TerritoriesAssignToUserContext.CDS_NAME)
+	public void onRegister(TerritoriesAssignToUserContext context) {
+		Territories territory = this.territoryRepository.runCqn(context.getCqn());
+		
+		TerritoryAssignments assignment = territoryAssignmentRepository.byTerritoryId(territory.getId()).orElseGet(() -> this.buildTerritoryAssignment(territory));
+		assignment.setAssignedToId(context.getUserId());
+		
+		territoryAssignmentRepository.save(assignment);
+		context.setResult(true);
+		context.setCompleted();
+	}
+	
+	@On(event = TerritoriesAssignToUnregisteredUserContext.CDS_NAME)
+	public void assignTerritoryToUnregisteredUser(TerritoriesAssignToUnregisteredUserContext context) {
+		Territories territory = this.territoryRepository.runCqn(context.getCqn());
+		
+		TerritoryAssignments assignment = territoryAssignmentRepository.byTerritoryId(territory.getId()).orElseGet(() -> this.buildTerritoryAssignment(territory));
+		
+		UnregisteredUserTerritoryAssignment unregisteredUserTerrAssignment = UnregisteredUserTerritoryAssignment.create();
+		
+		unregisteredUserTerrAssignment.setUnregisteredUser(context.getUsername());
+		unregisteredUserTerrAssignment.setUnregisteredUserEmail(context.getEmail());
+		unregisteredUserTerrAssignment.setId(UUID.randomUUID().toString());
+		
+		assignment.setToUnregisetredUserTerritoryAssignments(unregisteredUserTerrAssignment);
+
+		territoryAssignmentRepository.save(assignment);
+		context.setResult(true);
+		context.setCompleted();
+		
+	}
+	
+	private TerritoryAssignments buildTerritoryAssignment(Territories territory) {
+		TerritoryAssignments createdAssignment = TerritoryAssignments.create(UUID.randomUUID().toString());
+		createdAssignment.setToTerritory(territory);
+		createdAssignment.setIsDone(false);
+		createdAssignment.setStartedDate(Instant.now());
+		createdAssignment.setType("Personal");
+		createdAssignment.setToPartAssignments(new ArrayList<>());
+		createdAssignment.setTenantDiscriminator(territory.getTenantDiscriminator());
+		
+		territory.getToParts().forEach(part -> {
+			PartAssignments partAssignment = PartAssignments.create(UUID.randomUUID().toString());
+			partAssignment.setPartId(part.getId());
+			partAssignment.setTenantDiscriminator(createdAssignment.getTenantDiscriminator());
+
+			createdAssignment.getToPartAssignments().add(partAssignment);
+		});
+		
+		return createdAssignment;
+	}
+
 	
 	@On(event=TerritoriesWithdrawFromUserContext.CDS_NAME)
 	public void onWithdrawFromUser(TerritoriesWithdrawFromUserContext c) {
@@ -253,7 +282,7 @@ public class SearchingHandler implements EventHandler {
 		c.setCompleted();
 	}
 	
-
+	
 	private String saveImageToSpace(String xBaseStr, String internalSpacePath, String mimeType) {
 		
 		byte[] image = Base64.decodeBase64(xbaseUtils.resolveXbasePayload(xBaseStr));

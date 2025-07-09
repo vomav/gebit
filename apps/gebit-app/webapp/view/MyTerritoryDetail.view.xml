@@ -5,7 +5,7 @@
 	xmlns:form="sap.ui.layout.form"
 	controllerName="ui5.gebit.app.controller.MyTerritoryDetail"
 	height="100%">
-	<ObjectPageLayout enableLazyLoading="false" upperCaseAnchorBar="false">
+	<ObjectPageLayout enableLazyLoading="false" upperCaseAnchorBar="false" useIconTabBar="false">
 		<headerTitle>
 			<ObjectPageDynamicHeaderTitle>
 				<expandedHeading>

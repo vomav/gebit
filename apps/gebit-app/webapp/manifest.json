@@ -12,6 +12,7 @@
 		},
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
+
 		"applicationVersion": {
 			"version": "1.0.0"
 		},
@@ -29,6 +30,13 @@
 				"settings": {
 					"odataVersion": "4.0"
 				}
+			},
+			"publicService": {
+				"uri": "/odata/v4/srv.publicSearching/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "4.0"
+				}
 			}
 		}
 	},
@@ -38,6 +46,12 @@
 			"desktop": true,
 			"tablet": true,
 			"phone": true
+		},
+		"icons": {
+			"icon": "icon.png",
+			"favIcon": "favicon.ico",
+			"phone": "icon.png",
+			"tablet": "icon.png"
 		}
 	},
 	"sap.ui5": {
@@ -104,6 +118,17 @@
 			},
 			"userAdminModel": {
 				"dataSource": "userAdminModel",
+				"preload": false,
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"autoExpandSelect": true,
+					"earlyRequests": false,
+					"operationMode": "Server",
+					"groupId": "$direct"
+				}
+			},
+			"publicService": {
+				"dataSource": "publicService",
 				"preload": false,
 				"type": "sap.ui.model.odata.v4.ODataModel",
 				"settings": {
@@ -195,6 +220,11 @@
 					"name": "videoTutorial",
 					"pattern": "videoTutorial",
 					"target": "videoTutorial"
+				},
+				{
+					"name": "publicSearching",
+					"pattern": "publicSearching/{id}",
+					"target": "publicSearching"
 				}
 			],
 			"targets": {
@@ -252,6 +282,11 @@
 					"type": "View",
 					"id": "videoTutorial",
 					"name": "VideoTutorial"
+				},
+				"publicSearching": {
+					"type": "View",
+					"id": "publicSearching",
+					"name": "PublicTerritory"
 				}
 			}
 		}
