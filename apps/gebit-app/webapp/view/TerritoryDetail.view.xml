@@ -85,7 +85,7 @@
 								<m:Label text="{i18n>assignedToUnregisteredUser}" />
 								<m:Text text="{assignedUnregisteredUser}" />
 								<m:Label text="{i18n>publicLink}" />
-								<m:Link text="{assignedUnregisteredUserAssignmentId}" />
+								<m:Link text="{i18n>link}" href="{path:'assignedUnregisteredUserAssignmentId', formatter:'.formatPublicTerritoryLink'}" />
 								<m:Label text="{i18n>lastTimeWorked}" />
 								<m:Text text="{lastTimeWorked}"/>
 							</form:content>

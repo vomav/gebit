@@ -1,6 +1,7 @@
 <core:FragmentDefinition
    xmlns="sap.m"
    xmlns:core="sap.ui.core"
+   xmlns:u="sap.ui.unified"
    xmlns:form="sap.ui.layout.form">
    
    <Table items="{
@@ -13,11 +14,11 @@
          <Column>
 				<Text text="{i18n>name}"/>
 			</Column>
-         <Column>
-				<Text text="{i18n>isDone}"/>
+         <Column demandPopin="true" minScreenWidth="600px">
+				<Text text="{i18n>mapSnapshot}"/>
 			</Column>
          <Column>
-				<Text text="{i18n>actions}"/>
+				<Text text="{i18n>isDone}"/>
 			</Column>
       </columns>
       <items>
@@ -26,6 +27,38 @@
 						press="onPressListItem">
 						<cells>
 							<Text text="{name}"/>
+                     <HBox>
+                     <u:FileUploader
+                        name="coveredMapImageFileUploader"
+                        uploadUrl="uploadImage"
+                        tooltip="Upload your file to the local server"
+                        uploadComplete="handleUploadComplete"
+                        change="onFileChange"
+                        typeMissmatch="handleTypeMissmatch"
+                        style="Emphasized"
+                        fileType="jpg,png,jpeg"
+                        icon="sap-icon://upload"
+                        iconOnly="true"
+                        buttonOnly="true"
+                        class="sapUiTinyMarginEnd">
+                           <u:parameters>
+                              <u:FileUploaderParameter
+                                 name="Accept-CH"
+                                 value="Viewport-Width"/>
+                              <u:FileUploaderParameter
+                                 name="Accept-CH"
+                                 value="Width"/>
+                              <u:FileUploaderParameter
+                                 name="Accept-CH-Lifetime"
+                                 value="86400"/>
+                           </u:parameters>
+                        </u:FileUploader>
+                     <Button id="viewWorkedImageButton" icon="sap-icon://image-viewer" ariaDescribedBy="{i18n>viewWorkedImage}" press="onPressViewWorkedImage" visible="{= ${workedPartImageUrl} !== null}">
+                           <customData>
+                              <core:CustomData key="imageUrl" value="{workedPartImageUrl}"></core:CustomData>
+                           </customData>
+                        </Button>
+                        </HBox>
                      <CheckBox selected="{isDone}"></CheckBox>
 						</cells>
 			</ColumnListItem>

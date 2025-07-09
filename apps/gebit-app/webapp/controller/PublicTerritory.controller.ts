@@ -35,7 +35,7 @@ export default class PublicTerritory extends Controller {
 	}
 
 	public formatLinkToEmbedHtml(link:string) {
-		return "<iframe src=\"" +link+ "\" width=\"100%\" height=\"480\"></iframe>"
+		return "<iframe src=\"" +link+ "\" width=\"100%\" height=\"500\"></iframe>"
 	}
 
 	public async onUpdateMultiValueUpdate(oEvent: MultiInput$TokenUpdateEvent) {

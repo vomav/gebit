@@ -5,17 +5,28 @@
 	xmlns:form="sap.ui.layout.form"
 	controllerName="ui5.gebit.app.controller.PublicTerritory"
 	height="100%">
-	<ObjectPageLayout enableLazyLoading="false" upperCaseAnchorBar="false">
+	<ObjectPageLayout enableLazyLoading="false" useIconTabBar="true" upperCaseAnchorBar="false" showHeaderContent="true" alwaysShowContentHeader="false" >
 		<headerTitle>
 			<ObjectPageDynamicHeaderTitle>
 				<expandedHeading>
 					<!-- <m:Title text="{name}" wrapping="true"/> -->
 					<m:Link  text="{publicService>name}" href="{publicService>link}"/>
 				</expandedHeading>
-
+				<snappedHeading>
+					<m:Link  text="{publicService>name}" href="{publicService>link}"/>
+				</snappedHeading>
 			</ObjectPageDynamicHeaderTitle>
 		</headerTitle>
-
+		<headerContent>
+		<ObjectPageHeaderContent>
+			<content>
+				<layout:VerticalLayout>
+					<m:ObjectStatus title="{i18n>inWorkSince}" text="{publicService>startedDate}"/>
+					<m:ObjectStatus title="{i18n>type}" text="{publicService>type}"/>
+				</layout:VerticalLayout>
+			</content>
+		</ObjectPageHeaderContent>
+		</headerContent>
 		<sections>
 			<ObjectPageSection titleUppercase="false" title="{i18n>parts}">
 				<subSections>

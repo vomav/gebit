@@ -193,4 +193,8 @@ export default class TerritoryDetail extends Controller {
 			}
 		);
 	}
+
+	public formatPublicTerritoryLink(value:string) {
+		return `${window.location.origin}/#/publicSearching/${value}`;
+	}
 }
