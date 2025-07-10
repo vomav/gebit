@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import com.sap.cds.ql.CQL;
 import com.sap.cds.ql.Delete;
 import com.sap.cds.ql.Expand;
-import com.sap.cds.ql.Insert;
 import com.sap.cds.ql.Select;
 import com.sap.cds.ql.Upsert;
 import com.sap.cds.ql.cqn.CqnSelect;

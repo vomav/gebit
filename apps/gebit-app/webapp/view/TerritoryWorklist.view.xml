@@ -15,6 +15,32 @@
 		</semantic:titleHeading>
 
 		<semantic:content>
+
+	<IconTabBar	tabDensityMode="Compact" stretchContentHeight="true" select="onFilterSelect">
+		<items>
+			<IconTabFilter
+				showAll="true"
+				text="All"
+				key="all" />
+			<IconTabSeparator />
+			<IconTabFilter
+				icon="sap-icon://addresses"
+				iconColor="Positive"
+				text="Available"
+				key="Available" />
+			<IconTabFilter
+				icon="sap-icon://kpi-managing-my-area"
+				iconColor="Critical"
+				text="Assigned"
+				key="Assigned" />
+
+			<IconTabFilter
+				icon="sap-icon://lateness"
+				iconColor="Negative"
+				text="Rarely Worked"
+				key="RarelyWorked" />
+		</items>
+		<content>
 			<Table
 				id="territoriesTable"
 				width="auto"
@@ -32,7 +58,8 @@
 					<Toolbar>
 						<ToolbarSpacer />
 						<SearchField
-							search=".onSearch"
+							id="territorySearchField"
+							search="onSearch"
 							width="auto">
 						</SearchField>
 
@@ -78,13 +105,16 @@
 						<cells>
 							<Link
 								text="{name}" href="{link}"/>
-							<Text text="{assignedToName} {assignedToSurname} " />
+							<!-- <Text text="{= ${assignedUnregisteredUser} == undefined ? ${assignedUnregisteredUser} : ${assignedToName} ${assignedToSurname} }" /> -->
+							<Text text="{= !!${assignedUnregisteredUser} ? ${assignedUnregisteredUser} : ${assignedToName} + ' ' + ${assignedToSurname}}" />
 							<Text text="{siteName}" />
 							<Text text="{lastTimeWorked}" />
 						</cells>
 					</ColumnListItem>
 				</items>
 			</Table>
+		</content>
+	</IconTabBar>
 		</semantic:content>
 
 		<semantic:sendEmailAction>

@@ -13,6 +13,12 @@ import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 import {Formatter} from "./FormatterUtils"
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 import MessageBox from "sap/m/MessageBox";
+import SearchField from "sap/m/SearchField";
+import Filter from "sap/ui/model/Filter";
+import FilterOperatorUtil from "sap/ui/mdc/condition/FilterOperatorUtil";
+import FilterType from "sap/ui/model/FilterType";
+import FilterOperator from "sap/ui/model/FilterOperator";
+import Sorter from "sap/ui/model/Sorter";
 /**
  * @namespace ui5.gebit.app.controller
  */           
@@ -118,7 +124,6 @@ export default class TerritoryWorklist extends Controller {
 		let kmlParser = new KmlParser(xml);
 
 		let territory = kmlParser.getTerritoryCreateObj();
-		console.log(territory);
 
 		(this.getView()?.getModel("uiModel") as JSONModel).setProperty("/create/kml/territory", territory);
 	}
@@ -152,7 +157,69 @@ export default class TerritoryWorklist extends Controller {
 		});
 		
 	}
-}
+
+	public onSearch(oEvent: Event) {
+		let table = this.getView().byId("territoriesTable") as Table;
+		let binding = table.getBinding("items") as ODataListBinding;
+		var sQuery = oEvent.getParameter("query");
+
+		let aFilter = [];
+		if (sQuery) {
+			aFilter.push(new Filter("name", FilterOperator.Contains, sQuery));
+			aFilter.push(new Filter("assignedToName", FilterOperator.Contains, sQuery));
+			aFilter.push(new Filter("assignedToSurname", FilterOperator.Contains, sQuery));
+			aFilter.push(new Filter("siteName", FilterOperator.Contains, sQuery));
+			aFilter.push(new Filter("siteDescription", FilterOperator.Contains, sQuery));
+			aFilter.push(new Filter("assignedUnregisteredUser", FilterOperator.Contains, sQuery));
+			aFilter.push(new Filter("assignedUnregisteredUserEmail", FilterOperator.Contains, sQuery));
+			aFilter.push(new Filter("siteName", FilterOperator.Contains, sQuery));
+
+		}
+
+		let filterAggregate = new Filter(aFilter);
+		binding.filter(filterAggregate);
+
+	}
+
+	public async onFilterSelect (oEvent:Event) {
+		
+		let sKey = oEvent.getParameter("key");
+		let aFilters = [];
+		let oBinding = this.getView()?.byId("territoriesTable")?.getBinding("items") as ODataListBinding;
+		switch (sKey) {
+			case "All":
+			case "CloseToMe":
+				break;
+			
+			case "Available":
+				aFilters.push(new Filter("assignedToName", FilterOperator.EQ, null));
+				aFilters.push(new Filter("assignedToSurname", FilterOperator.EQ, null));
+				aFilters.push(new Filter("assignedUnregisteredUser", FilterOperator.EQ, null));
+				aFilters.push(new Filter("assignedUnregisteredUserEmail", FilterOperator.EQ, null));
+				oBinding.filter(new Filter(aFilters, true), FilterType.Application);
+				return;
+	
+			case "Assigned": 
+				aFilters.push(new Filter("assignedToName", FilterOperator.NE, null));
+				aFilters.push(new Filter("assignedToSurname", FilterOperator.NE, null));
+				aFilters.push(new Filter("assignedUnregisteredUser", FilterOperator.NE, null));
+				aFilters.push(new Filter("assignedUnregisteredUserEmail", FilterOperator.NE, null));
+				oBinding.filter(new Filter(aFilters, false), FilterType.Application);
+				return;
+	
+			case "RarelyWorked": 
+				oBinding.sort([new Sorter("lastTimeWorked", true)]);
+				return;
+			default:
+				break;
+		}
+
+		oBinding.filter(new Filter(aFilters, true), FilterType.Application);
+		// oBinding.sort([new Sorter("name", false)]);
+		
+	}
+
+	}
 
 class KmlParser {
 	xmlDoc: XMLDocument;
@@ -216,5 +283,4 @@ class KmlParser {
 	public formatStartEndDate(value:string) {
 		return Formatter.formatDateColumn(value);
 	}
-	
 }
