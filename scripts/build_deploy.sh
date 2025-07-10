@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+# reset residual changes
+git reset --hard
+
 # Pull the latest code from the Git repository
 git pull
 
