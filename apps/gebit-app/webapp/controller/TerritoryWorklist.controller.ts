@@ -208,14 +208,13 @@ export default class TerritoryWorklist extends Controller {
 				return;
 	
 			case "RarelyWorked": 
-				oBinding.sort([new Sorter("lastTimeWorked", true)]);
+				oBinding.sort([new Sorter("lastTimeWorked", false)]);
 				return;
 			default:
 				break;
 		}
 
 		oBinding.filter(new Filter(aFilters, true), FilterType.Application);
-		// oBinding.sort([new Sorter("name", false)]);
 		
 	}
 
