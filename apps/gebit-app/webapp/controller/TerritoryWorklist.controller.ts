@@ -208,7 +208,7 @@ export default class TerritoryWorklist extends Controller {
 				return;
 	
 			case "RarelyWorked": 
-				oBinding.sort([new Sorter("lastTimeWorked", false)]);
+				oBinding.sort([new Sorter("lastTimeWorked", true)]);
 				return;
 			default:
 				break;
