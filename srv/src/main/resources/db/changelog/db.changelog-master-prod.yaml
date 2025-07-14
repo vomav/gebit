@@ -20,3 +20,10 @@ databaseChangeLog:
         - sqlFile:
             dbms: postgresql
             path: db/changelog/v3/model.sql
+  - changeSet:
+      id: "4"
+      author: I065534
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            path: db/changelog/v4/model.sql
