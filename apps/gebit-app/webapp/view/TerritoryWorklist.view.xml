@@ -83,19 +83,19 @@
 				</headerToolbar>
 
 				<columns>
-					<Column>
+					<Column width="16rem">
 						<Text text="{i18n>title}"/>
 					</Column>
-					<Column>
+					<Column width="6rem">
 						<Text text="{i18n>status}"/>
 					</Column>
-					<Column demandPopin="true" minScreenWidth="600px">
+					<Column demandPopin="true" minScreenWidth="600px" width="auto">
 						<Text text="{i18n>assignedTo}" />
 					</Column>
-					<Column demandPopin="true" minScreenWidth="600px">
+					<Column demandPopin="true" minScreenWidth="600px" width="10rem">
 						<Text text="{i18n>siteId}" />
 					</Column>
-					<Column hAlign="End" demandPopin="true" minScreenWidth="600px">
+					<Column hAlign="End" demandPopin="true" minScreenWidth="600px" width="auto">
 						<Text text="{i18n>lastTimeWorked}"/>
 					</Column>
 				</columns>
