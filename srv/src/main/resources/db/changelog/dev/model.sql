@@ -349,6 +349,7 @@ CREATE VIEW srv_searching_Territories AS SELECT
   toTenant_1.ID AS siteId,
   toTerritoryAssignment_2.unregisteredUser AS assignedUnregisteredUser,
   toTerritoryAssignment_2.unregisteredUserEmail AS assignedUnregisteredUserEmail,
-  toTerritoryAssignment_2.unregisteredUserAssignmentId AS assignedUnregisteredUserAssignmentId
+  toTerritoryAssignment_2.unregisteredUserAssignmentId AS assignedUnregisteredUserAssignmentId,
+  toTerritoryAssignment_2.ID AS toTerritoryAssignmentId
 FROM (((db_Territories AS dbTerritory_0 LEFT JOIN db_Tenants AS toTenant_1 ON toTenant_1.ID = dbTerritory_0.tenantDiscriminator) LEFT JOIN srv_searching_TerritoryAssignments AS toTerritoryAssignment_2 ON (toTerritoryAssignment_2.toTerritory_ID = dbTerritory_0.ID)) LEFT JOIN db_Users AS assignedTo_3 ON toTerritoryAssignment_2.assignedTo_ID = assignedTo_3.ID); 
 

@@ -22,7 +22,8 @@ service searching {
         toAssigedUsersToThisAccount,
         toTerritoryAssignment.unregisteredUser as assignedUnregisteredUser,
         toTerritoryAssignment.unregisteredUserEmail as assignedUnregisteredUserEmail,
-        toTerritoryAssignment.unregisteredUserAssignmentId as assignedUnregisteredUserAssignmentId
+        toTerritoryAssignment.unregisteredUserAssignmentId as assignedUnregisteredUserAssignmentId,
+        toTerritoryAssignment.ID as toTerritoryAssignmentId
     } actions {
        action assignToUser(userId:String) returns Boolean;
        action withdrawFromUser() returns Boolean;
