@@ -19,6 +19,8 @@ import FilterOperatorUtil from "sap/ui/mdc/condition/FilterOperatorUtil";
 import FilterType from "sap/ui/model/FilterType";
 import FilterOperator from "sap/ui/model/FilterOperator";
 import Sorter from "sap/ui/model/Sorter";
+import TerritoryFilterContainer from "./utils/FilterContainer";
+import ViewSettingsItem from "sap/m/ViewSettingsItem";
 /**
  * @namespace ui5.gebit.app.controller
  */           
@@ -27,6 +29,8 @@ export default class TerritoryWorklist extends Controller {
 	createDialog:Dialog;
 	isModelInitialized:Boolean;
 	selectedTerritoryBindingContext:any;
+	filterContainer: TerritoryFilterContainer = new TerritoryFilterContainer(this);
+	sortDialog: Dialog;
 	public onInit() : void {
 		const view = this.getView() as View
 		if (view) {
@@ -35,6 +39,7 @@ export default class TerritoryWorklist extends Controller {
 
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);
+		
 	}
 
 
@@ -129,7 +134,6 @@ export default class TerritoryWorklist extends Controller {
 	}
 
 	public onSelectionChange(oEvent:Event) {
-
 		this.byId("deleteTerritoryButton").setEnabled(oEvent.getParameter("listItem").getBindingContext() != null);	
 	}
 
@@ -160,64 +164,63 @@ export default class TerritoryWorklist extends Controller {
 
 	public onSearch(oEvent: Event) {
 		let table = this.getView().byId("territoriesTable") as Table;
-		let binding = table.getBinding("items") as ODataListBinding;
+		let oBinding = table.getBinding("items") as ODataListBinding;
 		var sQuery = oEvent.getParameter("query");
-
-		let aFilter = [];
-		if (sQuery) {
-			aFilter.push(new Filter("name", FilterOperator.Contains, sQuery));
-			aFilter.push(new Filter("assignedToName", FilterOperator.Contains, sQuery));
-			aFilter.push(new Filter("assignedToSurname", FilterOperator.Contains, sQuery));
-			aFilter.push(new Filter("siteName", FilterOperator.Contains, sQuery));
-			aFilter.push(new Filter("siteDescription", FilterOperator.Contains, sQuery));
-			aFilter.push(new Filter("assignedUnregisteredUser", FilterOperator.Contains, sQuery));
-			aFilter.push(new Filter("assignedUnregisteredUserEmail", FilterOperator.Contains, sQuery));
-			aFilter.push(new Filter("siteName", FilterOperator.Contains, sQuery));
-
-		}
-
-		let filterAggregate = new Filter(aFilter);
-		binding.filter(filterAggregate);
+		this.filterContainer.addSearchFilter(sQuery);
+		let filterAggregate = this.filterContainer.getResultingFilters();
+		oBinding.filter(filterAggregate);
 
 	}
 
 	public async onFilterSelect (oEvent:Event) {
 		
 		let sKey = oEvent.getParameter("key");
-		let aFilters = [];
 		let oBinding = this.getView()?.byId("territoriesTable")?.getBinding("items") as ODataListBinding;
-		switch (sKey) {
-			case "All":
-			case "CloseToMe":
-				break;
-			
-			case "Available":
-				aFilters.push(new Filter("assignedToName", FilterOperator.EQ, null));
-				aFilters.push(new Filter("assignedToSurname", FilterOperator.EQ, null));
-				aFilters.push(new Filter("assignedUnregisteredUser", FilterOperator.EQ, null));
-				aFilters.push(new Filter("assignedUnregisteredUserEmail", FilterOperator.EQ, null));
-				oBinding.filter(new Filter(aFilters, true), FilterType.Application);
-				return;
-	
-			case "Assigned": 
-				aFilters.push(new Filter("assignedToName", FilterOperator.NE, null));
-				aFilters.push(new Filter("assignedToSurname", FilterOperator.NE, null));
-				aFilters.push(new Filter("assignedUnregisteredUser", FilterOperator.NE, null));
-				aFilters.push(new Filter("assignedUnregisteredUserEmail", FilterOperator.NE, null));
-				oBinding.filter(new Filter(aFilters, false), FilterType.Application);
-				return;
-	
-			case "RarelyWorked": 
-				oBinding.sort([new Sorter("lastTimeWorked", true)]);
-				return;
-			default:
-				break;
-		}
+		
+		// oBinding.filter(new Filter(aFilters, false), FilterType.Application);
+		this.filterContainer.addIconTabFilter(sKey);
+		let filterAggregate = this.filterContainer.getResultingFilters();
+		
+		
+		if(sKey === "All") 
+			(this.getView()?.byId("territorySearchField") as SearchField).setValue();
 
-		oBinding.filter(new Filter(aFilters, true), FilterType.Application);
+		// if(sKey === "RarelyWorked") {
+		// 	oBinding.filter(filterAggregate).sort([new Sorter("lastTimeWorked", false)]);
+		// } else {
+		// 	oBinding.filter(filterAggregate);
+		// }
+			oBinding.filter(filterAggregate);
 		
 	}
 
+
+	public handleSortButtonPressed(oEvent: Event) {
+		let that = this;
+		if(this.sortDialog == null) {
+			this.loadFragment({name:"ui5.gebit.app.fragment.TerritorySortDialog", addToDependents: true}).then(function(dialog:any){
+				that.createDialog = dialog as Dialog;
+				that.createDialog.open();
+			}.bind(this));
+		} else {
+			// (this.getView()?.getModel("uiModel") as JSONModel).setProperty("/create/kml/isXmlParsed", false);
+			// (this.getView()?.getModel("uiModel") as JSONModel).setProperty("/create/kml/territory", {});
+			that.createDialog.open();
+
+		}
+		
+	}
+	public createSortDialogClose() {
+		this.sortDialog.close();
+	}
+
+	public handleSortDialogConfirm(oEvent: Event) {
+		let viewSettingsItem = oEvent.getParameter("sortItem") as ViewSettingsItem;
+		let isDescending = oEvent.getParameter("sortDescending") as boolean;
+		let oBinding = this.getView()?.byId("territoriesTable")?.getBinding("items") as ODataListBinding;
+		viewSettingsItem.getKey();
+		oBinding.sort([new Sorter(viewSettingsItem.getKey(), isDescending)]);
+	}
 	}
 
 class KmlParser {

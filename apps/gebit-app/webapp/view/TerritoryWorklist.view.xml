@@ -3,6 +3,7 @@
 	controllerName="ui5.gebit.app.controller.TerritoryWorklist"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
+		xmlns:core="sap.ui.core"
 	xmlns:semantic="sap.f.semantic">
 
 	<semantic:SemanticPage
@@ -21,7 +22,7 @@
 			<IconTabFilter
 				showAll="true"
 				text="All"
-				key="all" />
+				key="All" />
 			<IconTabSeparator />
 			<IconTabFilter
 				icon="sap-icon://addresses"
@@ -33,12 +34,6 @@
 				iconColor="Critical"
 				text="Assigned"
 				key="Assigned" />
-
-			<IconTabFilter
-				icon="sap-icon://lateness"
-				iconColor="Negative"
-				text="Rarely Worked"
-				key="RarelyWorked" />
 		</items>
 		<content>
 			<Table
@@ -57,6 +52,10 @@
 				<headerToolbar>
 					<Toolbar>
 						<ToolbarSpacer />
+						<Button
+							tooltip="{i18n>sort}"
+							icon="sap-icon://sort"
+							press="handleSortButtonPressed"/>
 						<SearchField
 							id="territorySearchField"
 							search="onSearch"
@@ -87,6 +86,9 @@
 					<Column>
 						<Text text="{i18n>title}"/>
 					</Column>
+					<Column>
+						<Text text="{i18n>status}"/>
+					</Column>
 					<Column demandPopin="true" minScreenWidth="600px">
 						<Text text="{i18n>assignedTo}" />
 					</Column>
@@ -106,6 +108,14 @@
 							<Link
 								text="{name}" href="{link}"/>
 							<!-- <Text text="{= ${assignedUnregisteredUser} == undefined ? ${assignedUnregisteredUser} : ${assignedToName} ${assignedToSurname} }" /> -->
+							<core:Icon
+								src="{= ${isReady} ? 'sap-icon://message-success' : 'sap-icon://cancel-maintenance' }"
+								class="size1"
+								color="#031E48" >
+								<core:layoutData>
+									<FlexItemData growFactor="1" />
+								</core:layoutData>
+							</core:Icon>
 							<Text text="{= !!${assignedUnregisteredUser} ? ${assignedUnregisteredUser} : ${assignedToName} + ' ' + ${assignedToSurname}}" />
 							<Text text="{siteName}" />
 							<Text text="{lastTimeWorked}" />
