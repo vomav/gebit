@@ -221,6 +221,9 @@ export default class TerritoryWorklist extends Controller {
 		viewSettingsItem.getKey();
 		oBinding.sort([new Sorter(viewSettingsItem.getKey(), isDescending)]);
 	}
+	public formatIconByReadiness(value) {
+		return value ? "sap-icon://complete" : "sap-icon://cancel-maintenance";
+	}
 	}
 
 class KmlParser {
@@ -285,4 +288,6 @@ class KmlParser {
 	public formatStartEndDate(value:string) {
 		return Formatter.formatDateColumn(value);
 	}
+
+
 }

@@ -23,10 +23,13 @@ export default class TerritoryFilterContainer {
                 this.iconTabFilter = null;
                 break;
 			case "Available":
-                this.iconTabFilter =new Filter( [new Filter("toTerritoryAssignmentId", FilterOperator.EQ, null), new Filter("assignedUnregisteredUserAssignmentId", FilterOperator.EQ, null)], true);
+                this.iconTabFilter =new Filter( [new Filter("toTerritoryAssignmentId", FilterOperator.EQ, null), new Filter("assignedUnregisteredUserAssignmentId", FilterOperator.EQ, null), new Filter("isReady", FilterOperator.EQ, true)], true);
                 break;
 			case "Assigned": 
                 this.iconTabFilter =new Filter( [new Filter("toTerritoryAssignmentId", FilterOperator.NE, null), new Filter("assignedUnregisteredUserAssignmentId", FilterOperator.NE, null)], false);
+				break;
+			case "NotReady": 
+                this.iconTabFilter =new Filter("isReady", FilterOperator.EQ, false);
 				break;
 			default:
 				break;

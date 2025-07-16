@@ -27,13 +27,18 @@
 			<IconTabFilter
 				icon="sap-icon://addresses"
 				iconColor="Positive"
-				text="Available"
+				text="{i18n>available}"
 				key="Available" />
 			<IconTabFilter
 				icon="sap-icon://kpi-managing-my-area"
 				iconColor="Critical"
-				text="Assigned"
+				text="{i18n>assigned}"
 				key="Assigned" />
+			<IconTabFilter
+				icon="sap-icon://cancel-maintenance"
+				iconColor="Negative"
+				text="{i18n>notReady}"
+				key="NotReady" />
 		</items>
 		<content>
 			<Table
@@ -87,7 +92,7 @@
 						<Text text="{i18n>title}"/>
 					</Column>
 					<Column width="6rem">
-						<Text text="{i18n>status}"/>
+						<Text text="{i18n>isReady}"/>
 					</Column>
 					<Column demandPopin="true" minScreenWidth="600px" width="auto">
 						<Text text="{i18n>assignedTo}" />
@@ -109,9 +114,8 @@
 								text="{name}" href="{link}"/>
 							<!-- <Text text="{= ${assignedUnregisteredUser} == undefined ? ${assignedUnregisteredUser} : ${assignedToName} ${assignedToSurname} }" /> -->
 							<core:Icon
-								src="{= ${isReady} ? 'sap-icon://message-success' : 'sap-icon://cancel-maintenance' }"
-								class="size1"
-								color="#031E48" >
+								src="{ path:'isReady', formatter:'.formatIconByReadiness', targetType:'sap.ui.model.odata.type.Boolean' }"
+								>
 								<core:layoutData>
 									<FlexItemData growFactor="1" />
 								</core:layoutData>
