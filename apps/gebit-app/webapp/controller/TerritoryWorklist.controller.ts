@@ -224,6 +224,9 @@ export default class TerritoryWorklist extends Controller {
 	public formatIconByReadiness(value) {
 		return value ? "sap-icon://complete" : "sap-icon://cancel-maintenance";
 	}
+	public formatIconColor(value) {
+		return value ? "Positive" : "Negative";
+	}
 	}
 
 class KmlParser {

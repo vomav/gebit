@@ -114,8 +114,7 @@
 								text="{name}" href="{link}"/>
 							<!-- <Text text="{= ${assignedUnregisteredUser} == undefined ? ${assignedUnregisteredUser} : ${assignedToName} ${assignedToSurname} }" /> -->
 							<core:Icon
-								src="{ path:'isReady', formatter:'.formatIconByReadiness', targetType:'sap.ui.model.odata.type.Boolean' }"
-								>
+								src="{ path:'isReady', formatter:'.formatIconByReadiness', targetType:'sap.ui.model.odata.type.Boolean' }" color="{ path:'isReady', formatter:'.formatIconColor', targetType:'sap.ui.model.odata.type.Boolean' }">
 								<core:layoutData>
 									<FlexItemData growFactor="1" />
 								</core:layoutData>
