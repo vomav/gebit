@@ -1,7 +1,6 @@
 import UIComponent from "sap/ui/core/UIComponent";
 import Device from "sap/ui/Device";
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
-import { Model$RequestFailedEvent } from "sap/ui/model/Model";
 
 
 /**
