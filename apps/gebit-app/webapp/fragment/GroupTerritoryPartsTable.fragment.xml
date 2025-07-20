@@ -45,7 +45,7 @@
          <Column demandPopin="true" minScreenWidth="600px">
 				<Text text="{i18n>assignedTo}"/>
 			</Column>
-         <Column demandPopin="true" width="6rem">
+         <Column demandPopin="true">
 				<Text text="{i18n>actions}"/>
 			</Column>
          <Column demandPopin="true" minScreenWidth="600px" width="8rem">
@@ -66,15 +66,14 @@
                               path: 'inWorkBy',
                               sorter: { path: 'surname' }
                            }" 
-   
                            enableTableAutoPopinMode="true" 
                            showValueHelp="false"
                            tokenUpdate="onUpdateMultiValueUpdate"
-                           editable="true">
+                           change="onSubmitToken"
+                           editable="false">
                            <tokens>
                               <Token key="{id}" text="{= !${freestyleName} ? ${surname} +', '+ ${username} : ${freestyleName} }" />
                            </tokens>
-                           
                         </MultiInput>
                         
                	   <Button

@@ -322,4 +322,12 @@ export default class GroupTerritoryDetail extends Controller {
 			new Filter("surname", FilterOperator.Contains, oEvent.getParameter("value"))], false);
 		this.usersDialog.getBinding("items").filter(filter);
 	}
+
+	// public onSubmitMultiInputToken(oEvent:Event) {
+	// 	debugger;
+	// }
+
+	// public onSubmitToken(oEvent: Event) {
+	// 	debugger;
+	// }
 }
