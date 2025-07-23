@@ -45,9 +45,9 @@
          <Column demandPopin="true" minScreenWidth="600px">
 				<Text text="{i18n>assignedTo}"/>
 			</Column>
-         <Column demandPopin="true">
+         <!-- <Column demandPopin="true">
 				<Text text="{i18n>actions}"/>
-			</Column>
+			</Column> -->
          <Column demandPopin="true" minScreenWidth="600px" width="8rem">
 				<Text text="{i18n>mapSnapshot}"/>
 			</Column>
@@ -66,17 +66,24 @@
                               path: 'inWorkBy',
                               sorter: { path: 'surname' }
                            }" 
+                           suggestionItems="{
+                              path: 'toAllowedUsers',
+                              sorter: { path: 'name' }
+                           }"
                            enableTableAutoPopinMode="true" 
                            showValueHelp="false"
                            tokenUpdate="onUpdateMultiValueUpdate"
-                           change="onSubmitToken"
-                           editable="false">
+                           change="onUnregisteredUserAssignment"
+                           enableSuggestionsHighlighting="true"
+                           editable="true">
                            <tokens>
                               <Token key="{id}" text="{= !${freestyleName} ? ${surname} +', '+ ${username} : ${freestyleName} }" />
                            </tokens>
+                           <core:Item key="{user_ID}" text="{surname} {name}" />
+                           
                         </MultiInput>
                         
-               	   <Button
+               	   <!-- <Button
                         icon="sap-icon://action"
                         class="sapUiSmallMargin"
                         press="onActionButtonPress"
@@ -88,7 +95,7 @@
                               fragmentName="ui5.gebit.app.fragment.MyPartsActionsheet"
                               type="XML" />
                         </dependents>
-                     </Button>
+                     </Button> -->
                      <HBox>
                      <u:FileUploader
                         name="coveredMapImageFileUploader"
