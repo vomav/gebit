@@ -17,6 +17,7 @@ import Image from "sap/m/Image";
 import Toolbar from "sap/m/Toolbar";
 import ToolbarSpacer from "sap/m/ToolbarSpacer";
 import Carousel from "sap/m/Carousel";
+import ContextBinding from "sap/ui/model/ContextBinding";
 /**
  * @namespace ui5.gebit.app.controller
  */
@@ -245,7 +246,27 @@ export default class GroupTerritoryDetail extends Controller {
 				source.refresh();
 			}
 		}
-	}
+
+		if(type === "added") {
+			let model = (this.getView()?.getModel() as ODataModel);
+
+			let addedTokens = oEvent.getParameter("addedTokens") as [];
+			for(let token of addedTokens) {
+				let context = await model.bindContext("srv.searching.assignPartToUser(...)", oEvent.getSource().getBindingContext());
+				context.setParameter("userId", token.getKey());
+
+
+				context.execute().then(function () {
+					MessageToast.show("OK");
+					this.getView()?.getModel().refresh();
+				}.bind(this), function (oError) {
+					MessageBox.error(oError.message);
+			});
+
+
+			}
+		}
+ 	}
 
 	public onFileChange(oEvent: Event) {
 		var file = oEvent.getParameters().files[0];
@@ -327,7 +348,34 @@ export default class GroupTerritoryDetail extends Controller {
 	// 	debugger;
 	// }
 
-	// public onSubmitToken(oEvent: Event) {
-	// 	debugger;
-	// }
+	public onUnregisteredUserAssignment(oEvent: Event) {
+		let freestyleName = oEvent.getParameter("newValue") as string;
+		let model = (this.getView()?.getModel() as ODataModel);
+		let bindingContext = oEvent.getSource().getBindingContext() as Context;
+		let context = model.bindContext("srv.searching.assignToUnregistredUser(...)", bindingContext);
+		context.setParameter("name", freestyleName);
+
+			// 	context.execute().then(function () {
+			// 	MessageToast.show("OK");
+			// 	this.getView()?.getModel().refresh();
+			// 	this.addFreestyleName.getContent()[0].setValue(""); // Clear the input field
+			// 	this.addFreestyleName.close(); // Close the dialog
+			// }.bind(this), function (oError) {
+			// 	MessageBox.error(oError.message);
+			// 	this.addFreestyleName.getContent()[0].setValue(""); // Clear the input field
+			// 	this.addFreestyleName.close(); // Close the dialog
+
+			// }.bind(this)
+		let that = this;
+
+		let res = context.execute().then(res => {
+			oEvent.getSource().setValue(""); // Clear the input field
+			model.refresh();
+		}).catch(error => {
+			MessageBox.error(error.message);
+			oEvent.getSource().setValue(""); // Clear the input field // Clear the input field
+
+		})
+		
+	}
 }
