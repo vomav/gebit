@@ -61,7 +61,7 @@
 						press="onPressListItem" app:coord="{coordinates}">
 						<cells>
 							<Text text="{name}"/>
-                     	<MultiInput enabled="true"
+                     	<!-- <MultiInput enabled="true"
                            tokens="{
                               path: 'inWorkBy',
                               sorter: { path: 'surname' }
@@ -74,7 +74,14 @@
                            <tokens>
                               <Token key="{id}" text="{= !${freestyleName} ? ${surname} +', '+ ${username} : ${freestyleName} }" />
                            </tokens>
-                        </MultiInput>
+                        </MultiInput> -->
+
+                     <Tokenizer width="100%" editable="false" tokens="{
+                              path: 'inWorkBy',
+                              sorter: { path: 'surname' }
+                           }">
+                        <Token key="{id}" text="{= !${freestyleName} ? ${surname} +', '+ ${username} : ${freestyleName} }" />
+                     </Tokenizer>
                         
                	   <Button
                         icon="sap-icon://edit"
