@@ -17,6 +17,9 @@ import Image from "sap/m/Image";
 import Toolbar from "sap/m/Toolbar";
 import ToolbarSpacer from "sap/m/ToolbarSpacer";
 import Carousel from "sap/m/Carousel";
+import Token from "sap/m/Token";
+import { Tokenizer$TokenDeleteEvent } from "sap/m/Tokenizer";
+import { Input$ChangeEvent, Input$SuggestionItemSelectEvent } from "sap/ui/webc/main/Input";
 /**
  * @namespace ui5.gebit.app.controller
  */
@@ -25,7 +28,8 @@ export default class GroupTerritoryDetail extends Controller {
 	usersDialog: Dialog;
 	currentPartsContextBinding: Context;
 	viewMapSnapshotDialog: Dialog;
-	addFreestyleName: Dialog
+	addFreestyleName: Dialog;
+	editTerritoryPatchDialog: Dialog;
 	public onInit(): void {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);
@@ -43,14 +47,83 @@ export default class GroupTerritoryDetail extends Controller {
 
 	}
 
-	public onActionButtonPress(oEvent: Event) {
+	// public onActionButtonPress(oEvent: Event) {
+	// 	let oButton = oEvent.getSource() as Button;
+	// 	this.currentPartsContextBinding = oButton.getBindingContext() ? oButton.getBindingContext():null;
+	// 	let i18nModel = this.getView()?.getModel("i18n");
+	// 	let actionSheet = oButton.getDependents()[0] as ActionSheet;
+	// 	actionSheet?.setModel(i18nModel, "i18n");
+	// 	actionSheet.openBy(oButton);
+	// }
+
+	public async onActionButtonPress(oEvent: Event) {
 		let oButton = oEvent.getSource() as Button;
 		this.currentPartsContextBinding = oButton.getBindingContext() ? oButton.getBindingContext():null;
-		let i18nModel = this.getView()?.getModel("i18n");
-		let actionSheet = oButton.getDependents()[0] as ActionSheet;
-		actionSheet?.setModel(i18nModel, "i18n");
-		actionSheet.openBy(oButton);
+		if (this.editTerritoryPatchDialog == null) {
+			await this.loadFragment({ name: "ui5.gebit.app.fragment.EditTerritoryPatchLoggedIn", addToDependents: true }).then(function (dialog: any) {
+				this.editTerritoryPatchDialog = dialog as Dialog;
+			}.bind(this));
+		} 
 
+		this.editTerritoryPatchDialog.setBindingContext(oButton.getBindingContext());
+		this.editTerritoryPatchDialog.open();
+	}
+
+	public async onPatchAssignmentTokenDelete(oEvent:Tokenizer$TokenDeleteEvent) {
+		let currentBidingContext = oEvent.getSource().getParent().getBindingContext();
+		let removedTokens = oEvent.getParameter("tokens") as Array<Token>;
+
+		for(const removedToken of removedTokens) {
+			let removedObject = removedToken.getBindingContext().getObject();
+			let oModel = this.getView().getModel() as ODataModel;
+			await oModel.delete("/InWorkBy(" + removedObject.id + ")");
+			if(currentBidingContext) {
+				this.getView()?.getModel().refresh();
+			}
+		}
+
+		
+	}
+
+	public async onSuggestedAssignedUserSelected(oEvent:Input$SuggestionItemSelectEvent) {
+		let oModel = this.getView()?.getModel();
+		let context = await oModel.bindContext("srv.searching.assignPartToUser(...)", oEvent.getSource().getBindingContext());
+		context.setParameter("userId", oEvent.getParameter("selectedItem").getKey());
+
+		context.execute().then(function () {
+			MessageToast.show("OK");
+			this.getView()?.getModel().refresh();
+			oEvent.getSource().setValue("");
+		}.bind(this), function (oError) {
+			MessageBox.error(oError.message);
+		});
+
+	}
+
+	public async onAssignedUserChangeEvent(oEvent: Input$ChangeEvent) {
+		let input = oEvent.getSource();
+		if(input.getSelectedItem()) {
+			return;
+		}
+		
+		let freestyleName = oEvent.getParameter("newValue");
+		let model = (this.getView()?.getModel() as ODataModel);
+		let context = await model.bindContext("srv.searching.assignToUnregistredUser(...)", this.currentPartsContextBinding);
+		context.setParameter("name", freestyleName);
+		context.execute().then(function () {
+			MessageToast.show("OK");
+			this.getView()?.getModel().refresh();
+			input.setValue("");
+		}.bind(this), function (oError) {
+			MessageBox.error(oError.message);
+		}.bind(this)
+		);
+		
+
+	}
+
+	public onCloseEditTerritoryPatchDialog(oEvent: Event) {
+		this.editTerritoryPatchDialog.close();
 	}
 
 	public async assignPartToMe(oEvent: Event) {
