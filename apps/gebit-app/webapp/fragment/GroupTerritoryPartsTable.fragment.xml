@@ -46,7 +46,7 @@
 				<Text text="{i18n>assignedTo}"/>
 			</Column>
          <Column demandPopin="true">
-				<Text text="{i18n>actions}"/>
+				<Text text="{i18n>edit}"/>
 			</Column>
          <Column demandPopin="true" minScreenWidth="600px" width="8rem">
 				<Text text="{i18n>mapSnapshot}"/>
@@ -77,8 +77,7 @@
                         </MultiInput>
                         
                	   <Button
-                        icon="sap-icon://action"
-                        class="sapUiSmallMargin"
+                        icon="sap-icon://edit"
                         press="onActionButtonPress"
                         type="Transparent"
                         ariaHasPopup="Menu" >
