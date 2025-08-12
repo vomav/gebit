@@ -27,7 +27,7 @@
 
 </items>
 		<content>
-   <Table id="groupTerrirtoryParts" items="{
+   <Table id="publicTerrirtoryParts" items="{
          model: 'publicService',
          path:'toPartAssignments',
          parameters : {
@@ -58,13 +58,13 @@
 							<Text text="{publicService>name}"/>
                      	<MultiInput enabled="true"
                            tokens="{
-                              path: 'publicService>inWorkBy'
+                              path: 'publicService>inWorkBy',
+                              templateShareable: true
                            }" 
                            showValueHelp="false"
                            tokenUpdate="onUpdateMultiValueUpdate"
                            change="onSubmitToken"
                            showSuggestion="false"
-                           enableMultiLineMode="true"
                            >
                            <tokens>
                               <Token key="{id}" text="{= !${publicService>freestyleName} ? ${publicService>surname} +', '+ ${publicService>username} : ${publicService>freestyleName} }" />

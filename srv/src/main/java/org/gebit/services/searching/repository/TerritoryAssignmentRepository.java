@@ -44,8 +44,9 @@ public class TerritoryAssignmentRepository {
 	}
 
 	public Optional<TerritoryAssignments> byTerritoryId(String id) {
-		Select<?> delete = Select.from(TerritoryAssignments_.class).where(p -> p.toTerritory_ID().eq(id));
-		Optional<TerritoryAssignments> maybeTerritoryAssignments = ps.run(delete).first(TerritoryAssignments.class);
+		Expand<?> toParts = CQL.to("toPartAssignments").expand(CQL.star());
+		Select<?> select = Select.from(TerritoryAssignments_.class).columns(CQL.star(),toParts).where(p -> p.toTerritory_ID().eq(id));
+		Optional<TerritoryAssignments> maybeTerritoryAssignments = ps.run(select).first(TerritoryAssignments.class);
 		return maybeTerritoryAssignments;
 	}
 }

@@ -1,7 +1,12 @@
 package org.gebit.services.searching.repository;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import org.gebit.gen.db.Parts;
+import org.gebit.gen.db.Parts_;
 import org.gebit.gen.db.Territories;
 import org.gebit.gen.db.Territories_;
 import org.springframework.stereotype.Component;
@@ -9,10 +14,12 @@ import org.springframework.stereotype.Component;
 import com.sap.cds.ql.CQL;
 import com.sap.cds.ql.Expand;
 import com.sap.cds.ql.Select;
+import com.sap.cds.ql.Update;
 import com.sap.cds.ql.Upsert;
 import com.sap.cds.ql.cqn.CqnExpand;
 import com.sap.cds.ql.cqn.CqnSelect;
 import com.sap.cds.ql.cqn.CqnSelectListItem;
+import com.sap.cds.ql.cqn.CqnUpdate;
 import com.sap.cds.ql.cqn.Modifier;
 import com.sap.cds.services.persistence.PersistenceService;
 
@@ -50,6 +57,16 @@ public class TerritoryRepository {
 		Upsert upsert = Upsert.into(Territories_.class).entry(territory);
 		ps.run(upsert);
 	}
+	
+
+//	public void updatePartsCount(List<UpdatePartsCountRecord> updateCountRecords) {
+//
+//		updateCountRecords.forEach(updateCount -> {
+//			this.ps.run(Update.entity(Parts_.class).entry(Map.of(Parts.COUNT, updateCount.count())).where(p -> p.ID().eq(updateCount.id())));
+//		});
+//		
+//		
+//	}
 
 	
 }

@@ -88,6 +88,8 @@
 								<m:Link text="{i18n>link}" href="{path:'assignedUnregisteredUserAssignmentId', formatter:'.formatPublicTerritoryLink'}" />
 								<m:Label text="{i18n>lastTimeWorked}" />
 								<m:Text text="{lastTimeWorked}"/>
+								<m:Label text="{i18n>count}" />
+								<m:Text text="{totalCount}"/>
 							</form:content>
 						</form:SimpleForm>
 					</ObjectPageSubSection>

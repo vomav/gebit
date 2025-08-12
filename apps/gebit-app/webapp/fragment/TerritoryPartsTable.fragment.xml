@@ -13,6 +13,9 @@
          <Column>
 				<Text text="{i18n>name}"/>
 			</Column>
+         <Column>
+				<Text text="{i18n>count}"/>
+			</Column>
       </columns>
       <items>
          <ColumnListItem
@@ -20,6 +23,7 @@
 						press="onPressListItem">
 						<cells>
 							<Text text="{name}"/>
+                     <Text text="{count}"/>
 						</cells>
 			</ColumnListItem>
       </items>

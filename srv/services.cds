@@ -49,7 +49,8 @@ service searching {
       toUnregisetredUserTerritoryAssignments: redirected to UnregisteredUserTerritoryAssugnment on toUnregisetredUserTerritoryAssignments.toTerritoryAssignment = $self,
       toUnregisetredUserTerritoryAssignments.unregisteredUser as unregisteredUser,
       toUnregisetredUserTerritoryAssignments.unregisteredUserEmail as unregisteredUserEmail,
-      toUnregisetredUserTerritoryAssignments.ID as unregisteredUserAssignmentId
+      toUnregisetredUserTerritoryAssignments.ID as unregisteredUserAssignmentId,
+      toTerritory.totalCount as prevTotalCount @readonly,
     };
 
     entity UnregisteredUserTerritoryAssugnment as projection on dbUnregisteredUserTerritoryAssignment {
@@ -73,7 +74,8 @@ service searching {
       *,
       toTerritory.name as name,
       toTerritory.link as link,
-      toPartAssignments: redirected to PartAssignments
+      toPartAssignments: redirected to PartAssignments,
+      toTerritory.totalCount as prevTotalCount @readonly,
     } where type = 'Public' and toTerritory.isReady = true ;
 
 
@@ -92,7 +94,8 @@ service searching {
         part.isBoundaries as isBoundaries,
         inWorkBy: redirected to InWorkBy on inWorkBy.toParent = $self,
         toWorkedPartImage.imageUrl as workedPartImageUrl,
-        toWorkedPartImage.mediaType as workedPartImageMediaType
+        toWorkedPartImage.mediaType as workedPartImageMediaType,
+        part.count as prevCount @readonly,
     } actions {
         action assignPartToMe() returns Boolean;
         action assignPartToUser(userId: String) returns Boolean;

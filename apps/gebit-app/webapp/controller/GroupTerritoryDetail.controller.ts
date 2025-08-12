@@ -8,7 +8,6 @@ import Filter from "sap/ui/model/Filter";
 import FilterOperator from "sap/ui/model/FilterOperator";
 import MessageBox from "sap/m/MessageBox";
 import Context from "sap/ui/model/odata/v4/Context";
-import ActionSheet from "sap/m/ActionSheet";
 import Button from "sap/m/Button";
 import MessageToast from "sap/m/MessageToast";
 import Sorter from "sap/ui/model/Sorter";
@@ -20,16 +19,14 @@ import Carousel from "sap/m/Carousel";
 import Token from "sap/m/Token";
 import { Tokenizer$TokenDeleteEvent } from "sap/m/Tokenizer";
 import { Input$ChangeEvent, Input$SuggestionItemSelectEvent } from "sap/ui/webc/main/Input";
+import { Dialog$ClosedEvent } from "sap/ui/commons/Dialog";
 /**
  * @namespace ui5.gebit.app.controller
  */
 export default class GroupTerritoryDetail extends Controller {
 
-	usersDialog: Dialog;
 	currentPartsContextBinding: Context;
 	viewMapSnapshotDialog: Dialog;
-	addFreestyleName: Dialog;
-	editTerritoryPatchDialog: Dialog;
 	public onInit(): void {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);
@@ -47,26 +44,12 @@ export default class GroupTerritoryDetail extends Controller {
 
 	}
 
-	// public onActionButtonPress(oEvent: Event) {
-	// 	let oButton = oEvent.getSource() as Button;
-	// 	this.currentPartsContextBinding = oButton.getBindingContext() ? oButton.getBindingContext():null;
-	// 	let i18nModel = this.getView()?.getModel("i18n");
-	// 	let actionSheet = oButton.getDependents()[0] as ActionSheet;
-	// 	actionSheet?.setModel(i18nModel, "i18n");
-	// 	actionSheet.openBy(oButton);
-	// }
 
 	public async onActionButtonPress(oEvent: Event) {
 		let oButton = oEvent.getSource() as Button;
-		this.currentPartsContextBinding = oButton.getBindingContext() ? oButton.getBindingContext():null;
-		if (this.editTerritoryPatchDialog == null) {
-			await this.loadFragment({ name: "ui5.gebit.app.fragment.EditTerritoryPatchLoggedIn", addToDependents: true }).then(function (dialog: any) {
-				this.editTerritoryPatchDialog = dialog as Dialog;
-			}.bind(this));
-		} 
-
-		this.editTerritoryPatchDialog.setBindingContext(oButton.getBindingContext());
-		this.editTerritoryPatchDialog.open();
+		this.currentPartsContextBinding = oButton.getBindingContext() as Context;
+		console.log("currentPartsContextBinding", this.currentPartsContextBinding.getPath());
+		oEvent.getSource().getParent().getDependents()[0].open();
 	}
 
 	public async onPatchAssignmentTokenDelete(oEvent:Tokenizer$TokenDeleteEvent) {
@@ -122,8 +105,8 @@ export default class GroupTerritoryDetail extends Controller {
 
 	}
 
-	public onCloseEditTerritoryPatchDialog(oEvent: Event) {
-		this.editTerritoryPatchDialog.close();
+	public onCloseEditTerritoryPatchDialog(oEvent: Dialog$ClosedEvent) {
+		oEvent.getSource().getParent().close()
 	}
 
 	public async assignPartToMe(oEvent: Event) {
@@ -180,32 +163,6 @@ export default class GroupTerritoryDetail extends Controller {
 		
 	}
 
-	public assignPartToUser(oEvent: Event) {
-		let that = this;
-		if (this.usersDialog == null) {
-			this.loadFragment({ name: "ui5.gebit.app.fragment.AssignPartToUser", addToDependents: true }).then(function (dialog: any) {
-				that.usersDialog = dialog as Dialog;
-				that.usersDialog.open();
-			}.bind(this));
-		} else {
-			that.usersDialog.open();
-		}
-	}
-
-
-	
-	public assignUnregisteredUser(oEvent: Event) {
-		let that = this;
-		if (this.addFreestyleName == null) {
-			this.loadFragment({ name: "ui5.gebit.app.fragment.AssignPartToFreestyleUser", addToDependents: true }).then(function (dialog: any) {
-				that.addFreestyleName = dialog as Dialog;
-				that.addFreestyleName.open();
-			}.bind(this));
-		} else {
-			that.addFreestyleName.open();
-		}
-	}
-
 	public async cancelPartAssignment(oEvent: Event) {
 		let model = (this.getView()?.getModel() as ODataModel);
 		let context = await model.bindContext("srv.searching.cancelPartAssignment(...)", this.currentPartsContextBinding);
@@ -216,34 +173,6 @@ export default class GroupTerritoryDetail extends Controller {
 			MessageBox.error(oError.message);
 		}
 		);
-	}
-
-	public async onAddUnregisteredUser(oEvent: Event) {
-		let freestyleName = this.addFreestyleName.getContent()[0].getValue();
-		if (this.currentPartsContextBinding) {
-			let model = (this.getView()?.getModel() as ODataModel);
-			let context = await model.bindContext("srv.searching.assignToUnregistredUser(...)", this.currentPartsContextBinding);
-			context.setParameter("name", freestyleName);
-			context.execute().then(function () {
-				MessageToast.show("OK");
-				this.getView()?.getModel().refresh();
-				this.addFreestyleName.getContent()[0].setValue(""); // Clear the input field
-				this.addFreestyleName.close(); // Close the dialog
-			}.bind(this), function (oError) {
-				MessageBox.error(oError.message);
-				this.addFreestyleName.getContent()[0].setValue(""); // Clear the input field
-				this.addFreestyleName.close(); // Close the dialog
-
-			}.bind(this)
-			);
-		}
-	}
-
-	public closeAddUregisteredUserDialog(oEvent: Event) {
-		if (this.addFreestyleName) {
-			this.addFreestyleName.getContent()[0].setValue(""); // Clear the input field
-			this.addFreestyleName.close();	
-		}
 	}
 
 	public async onSelectUser(oEvent: Event) {
@@ -260,10 +189,6 @@ export default class GroupTerritoryDetail extends Controller {
 			}
 			);
 		}
-	}
-
-	public onValueHelpClose(oEvent: Event) {
-		this.usersDialog.clone();
 	}
 
 	public async onFilterSelect (oEvent:Event) {
@@ -389,18 +314,4 @@ export default class GroupTerritoryDetail extends Controller {
 	public formatLinkToEmbedHtml(link:string) {
 		return "<iframe src=\"" +link+ "\" width=\"100%\" height=\"480\"></iframe>"
 	}
-
-	public onValueHelpSearch(oEvent: Event) {
-		let filter = new sap.ui.model.Filter([new Filter("name", FilterOperator.Contains, oEvent.getParameter("value")),
-			new Filter("surname", FilterOperator.Contains, oEvent.getParameter("value"))], false);
-		this.usersDialog.getBinding("items").filter(filter);
-	}
-
-	// public onSubmitMultiInputToken(oEvent:Event) {
-	// 	debugger;
-	// }
-
-	// public onSubmitToken(oEvent: Event) {
-	// 	debugger;
-	// }
 }

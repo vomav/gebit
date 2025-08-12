@@ -39,6 +39,7 @@ CREATE TABLE db_Territories (
   lastTimeWorked DATE,
   createdAt TIMESTAMP,
   updatedAt TIMESTAMP,
+  totalCount INTEGER DEFAULT 0,
   PRIMARY KEY(ID)
 ); 
 
@@ -48,6 +49,7 @@ CREATE TABLE db_Parts (
   name VARCHAR(64),
   isBoundaries BOOLEAN DEFAULT FALSE,
   coordinates VARCHAR(1024),
+  count INTEGER DEFAULT 0,
   toParent_ID VARCHAR(36),
   PRIMARY KEY(ID)
 ); 
@@ -60,6 +62,7 @@ CREATE TABLE db_TerritoryAssignments (
   startedDate TIMESTAMP,
   finishedDate TIMESTAMP,
   type VARCHAR(32),
+  totalCount INTEGER,
   assignedTo_ID VARCHAR(36),
   assignedToUnregisteredUser VARCHAR(128),
   PRIMARY KEY(ID)
@@ -79,6 +82,7 @@ CREATE TABLE db_PartAssignments (
   part_ID VARCHAR(36),
   isDone BOOLEAN,
   imageUrl VARCHAR(512),
+  count INTEGER,
   toParent_ID VARCHAR(36),
   PRIMARY KEY(ID)
 ); 
@@ -144,6 +148,7 @@ CREATE VIEW srv_searching_Parts AS SELECT
   dbPart_0.name,
   dbPart_0.isBoundaries,
   dbPart_0.coordinates,
+  dbPart_0.count,
   dbPart_0.toParent_ID
 FROM db_Parts AS dbPart_0; 
 
@@ -155,13 +160,15 @@ CREATE VIEW srv_searching_TerritoryAssignments AS SELECT
   dbTerritoryAssignment_0.startedDate,
   dbTerritoryAssignment_0.finishedDate,
   dbTerritoryAssignment_0.type,
+  dbTerritoryAssignment_0.totalCount,
   dbTerritoryAssignment_0.assignedTo_ID,
   dbTerritoryAssignment_0.assignedToUnregisteredUser,
   toTerritory_1.name AS name,
   toTerritory_1.link AS link,
   toUnregisetredUserTerritoryAssignments_2.unregisteredUser AS unregisteredUser,
   toUnregisetredUserTerritoryAssignments_2.unregisteredUserEmail AS unregisteredUserEmail,
-  toUnregisetredUserTerritoryAssignments_2.ID AS unregisteredUserAssignmentId
+  toUnregisetredUserTerritoryAssignments_2.ID AS unregisteredUserAssignmentId,
+  toTerritory_1.totalCount AS prevTotalCount
 FROM ((db_TerritoryAssignments AS dbTerritoryAssignment_0 LEFT JOIN db_Territories AS toTerritory_1 ON dbTerritoryAssignment_0.toTerritory_ID = toTerritory_1.ID) LEFT JOIN db_UnregisteredUserTerritoryAssignment AS toUnregisetredUserTerritoryAssignments_2 ON (toUnregisetredUserTerritoryAssignments_2.toTerritoryAssignment_ID = dbTerritoryAssignment_0.ID)); 
 
 CREATE VIEW srv_searching_UnregisteredUserTerritoryAssugnment AS SELECT
@@ -186,10 +193,12 @@ CREATE VIEW srv_searching_PublicTerritoryAssignments AS SELECT
   dbTerritoryAssignment_0.startedDate,
   dbTerritoryAssignment_0.finishedDate,
   dbTerritoryAssignment_0.type,
+  dbTerritoryAssignment_0.totalCount,
   dbTerritoryAssignment_0.assignedTo_ID,
   dbTerritoryAssignment_0.assignedToUnregisteredUser,
   toTerritory_1.name AS name,
-  toTerritory_1.link AS link
+  toTerritory_1.link AS link,
+  toTerritory_1.totalCount AS prevTotalCount
 FROM (db_TerritoryAssignments AS dbTerritoryAssignment_0 LEFT JOIN db_Territories AS toTerritory_1 ON dbTerritoryAssignment_0.toTerritory_ID = toTerritory_1.ID)
 WHERE dbTerritoryAssignment_0.type = 'Public' AND toTerritory_1.isReady = TRUE; 
 
@@ -199,12 +208,14 @@ CREATE VIEW srv_searching_PartAssignments AS SELECT
   dbPartAssignmenst_0.part_ID,
   dbPartAssignmenst_0.isDone,
   dbPartAssignmenst_0.imageUrl,
+  dbPartAssignmenst_0.count,
   dbPartAssignmenst_0.toParent_ID,
   part_1.name AS name,
   part_1.coordinates AS coordinates,
   part_1.isBoundaries AS isBoundaries,
   toWorkedPartImage_2.imageUrl AS workedPartImageUrl,
-  toWorkedPartImage_2.mediaType AS workedPartImageMediaType
+  toWorkedPartImage_2.mediaType AS workedPartImageMediaType,
+  part_1.count AS prevCount
 FROM ((db_PartAssignments AS dbPartAssignmenst_0 LEFT JOIN db_Parts AS part_1 ON dbPartAssignmenst_0.part_ID = part_1.ID) LEFT JOIN db_Image AS toWorkedPartImage_2 ON (toWorkedPartImage_2.toParent_ID = dbPartAssignmenst_0.ID)); 
 
 CREATE VIEW srv_searching_TenantMappings AS SELECT
@@ -297,6 +308,7 @@ CREATE VIEW srv_publicSearching_PartAssignments AS SELECT
   dbPartAssignmenst_0.part_ID,
   dbPartAssignmenst_0.isDone,
   dbPartAssignmenst_0.imageUrl,
+  dbPartAssignmenst_0.count,
   dbPartAssignmenst_0.toParent_ID,
   part_1.name AS name,
   part_1.coordinates AS coordinates,
@@ -320,6 +332,7 @@ CREATE VIEW srv_publicSearching_Parts AS SELECT
   Parts_0.name,
   Parts_0.isBoundaries,
   Parts_0.coordinates,
+  Parts_0.count,
   Parts_0.toParent_ID
 FROM db_Parts AS Parts_0; 
 
@@ -342,6 +355,7 @@ CREATE VIEW srv_searching_Territories AS SELECT
   dbTerritory_0.lastTimeWorked,
   dbTerritory_0.createdAt,
   dbTerritory_0.updatedAt,
+  dbTerritory_0.totalCount,
   assignedTo_3.name AS assignedToName,
   assignedTo_3.surname AS assignedToSurname,
   toTenant_1.name AS siteName,

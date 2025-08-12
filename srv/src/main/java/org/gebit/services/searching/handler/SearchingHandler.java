@@ -9,12 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.apache.commons.codec.binary.Base64;
 
 import org.gebit.gen.db.Image;
 import org.gebit.gen.db.InWorkBy;
 import org.gebit.gen.db.PartAssignments;
+import org.gebit.gen.db.Parts;
 import org.gebit.gen.db.Territories;
 import org.gebit.gen.db.TerritoryAssignments;
 import org.gebit.gen.db.UnregisteredUserTerritoryAssignment;
@@ -34,9 +36,11 @@ import org.gebit.services.searching.repository.ImageRepository;
 import org.gebit.services.searching.repository.PartAssignmentsRepository;
 import org.gebit.services.searching.repository.TerritoryAssignmentRepository;
 import org.gebit.services.searching.repository.TerritoryRepository;
+import org.gebit.services.searching.repository.UpdatePartsCountRecord;
 import org.gebit.spaces.ObjectStorage;
 import org.springframework.stereotype.Component;
 
+import com.nimbusds.jose.util.IntegerUtils;
 import com.sap.cds.ql.CQL;
 import com.sap.cds.ql.Predicate;
 import com.sap.cds.ql.cqn.CqnPredicate;
@@ -151,14 +155,27 @@ public class SearchingHandler implements EventHandler {
 	
 	@On(event=TerritoriesWithdrawFromUserContext.CDS_NAME)
 	public void onWithdrawFromUser(TerritoriesWithdrawFromUserContext c) {
-		Territories assignment = territoryRepository.runCqn(c.getCqn());
-		TerritoryAssignments territoryAssignments = territoryAssignmentRepository.byTerritoryId(assignment.getId()).orElseThrow(()-> new ServiceException("Assignment is not found"));
-		territoryAssignmentRepository.deleteByTerritoryId(assignment.getId());
+		Territories territory = territoryRepository.runCqn(c.getCqn());
+		TerritoryAssignments territoryAssignment = territoryAssignmentRepository.byTerritoryId(territory.getId()).orElseThrow(()-> new ServiceException("Assignment is not found"));
+		List<Parts> parts = territory.getToParts();
+		List<PartAssignments> partAssignments = territoryAssignment.getToPartAssignments();
 		
-		assignment.setLastTimeWorked(LocalDate.now());
-		territoryRepository.save(assignment);
 		
-		this.storageService.deleteDirectory(territoryAssignments.getTenantDiscriminator() +  "/" + territoryAssignments.getId());
+		Integer totalCount = parts.stream().map(part -> {
+			String partId = part.getId();
+			Integer count = partAssignments.stream().filter( pa -> pa.getPartId().equals(partId)).findFirst().get().getCount();
+			part.setCount(count);
+			return part;
+		}).filter(p -> p.getCount() != null).map(i -> i.getCount()).mapToInt(Integer::intValue).sum();;
+
+		
+		territoryAssignmentRepository.deleteByTerritoryId(territory.getId());
+		
+		territory.setLastTimeWorked(LocalDate.now());
+		territory.setTotalCount(totalCount);
+		territoryRepository.save(territory);
+		
+		this.storageService.deleteDirectory(territoryAssignment.getTenantDiscriminator() +  "/" + territoryAssignment.getId());
 		
 		c.setResult(true);
 		c.setCompleted();

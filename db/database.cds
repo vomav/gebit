@@ -19,12 +19,14 @@ entity Territories  : cuid, tenant {
     lastTimeWorked: Date;
     createdAt: Timestamp;
     updatedAt: Timestamp;
+    totalCount: Integer default 0;
 }
 
 entity Parts : cuid, tenant {
     name: String(64);
     isBoundaries: Boolean default false;
     coordinates: String(1024);
+    count: Integer default 0;
     toParent: Association to one Territories;
 }
 
@@ -41,6 +43,7 @@ entity TerritoryAssignments : cuid, tenant {
         Personal;
         Public;
     };
+    totalCount: Integer;
     assignedTo: Association to one Users;
     assignedToUnregisteredUser: String(128);
     toUnregisetredUserTerritoryAssignments: Composition of one UnregisteredUserTerritoryAssignment on toUnregisetredUserTerritoryAssignments.toTerritoryAssignment = $self;
@@ -57,6 +60,7 @@ entity PartAssignments : cuid, tenant {
     inWorkBy: Composition of many InWorkBy on inWorkBy.toParent = $self;
     isDone: Boolean;
     imageUrl: String(512);
+    count: Integer;
     toParent: Association to TerritoryAssignments;
     toWorkedPartImage: Composition of one Image on toWorkedPartImage.toParent = $self;
 }

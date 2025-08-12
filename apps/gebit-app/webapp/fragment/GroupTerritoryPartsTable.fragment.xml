@@ -41,7 +41,9 @@
          <Column width="8rem">
 				<Text text="{i18n>name}"/>
 			</Column>
-
+         <Column width="8rem" minScreenWidth="600px" demandPopin="true">
+				<Text text="{i18n>count}"/>
+			</Column>
          <Column demandPopin="true" minScreenWidth="600px">
 				<Text text="{i18n>assignedTo}"/>
 			</Column>
@@ -61,6 +63,7 @@
 						press="onPressListItem" app:coord="{coordinates}">
 						<cells>
 							<Text text="{name}"/>
+                     <Text text="{count}"/>
                      	<!-- <MultiInput enabled="true"
                            tokens="{
                               path: 'inWorkBy',
@@ -78,7 +81,8 @@
 
                      <Tokenizer width="100%" editable="false" tokens="{
                               path: 'inWorkBy',
-                              sorter: { path: 'surname' }
+                              sorter: { path: 'surname' },
+                              templateShareable: true
                            }">
                         <Token key="{id}" text="{= !${freestyleName} ? ${surname} +', '+ ${username} : ${freestyleName} }" />
                      </Tokenizer>
@@ -86,14 +90,7 @@
                	   <Button
                         icon="sap-icon://edit"
                         press="onActionButtonPress"
-                        type="Transparent"
-                        ariaHasPopup="Menu" >
-                        <dependents>
-                           <core:Fragment
-                              id="nestedActions"
-                              fragmentName="ui5.gebit.app.fragment.MyPartsActionsheet"
-                              type="XML" />
-                        </dependents>
+                        type="Transparent">
                      </Button>
                      <HBox>
                      <u:FileUploader
@@ -121,7 +118,7 @@
                                  value="86400"/>
                            </u:parameters>
                         </u:FileUploader>
-                        <Button id="viewWorkedImageButton" icon="sap-icon://image-viewer" ariaDescribedBy="{i18n>viewWorkedImage}" press="onPressViewWorkedImage" visible="{= ${workedPartImageUrl} !== null}">
+                        <Button icon="sap-icon://image-viewer" ariaDescribedBy="{i18n>viewWorkedImage}" press="onPressViewWorkedImage" visible="{= ${workedPartImageUrl} !== null}">
                            <customData>
                               <core:CustomData key="imageUrl" value="{workedPartImageUrl}"></core:CustomData>
                            </customData>
@@ -129,6 +126,12 @@
                         </HBox>
                      <CheckBox selected="{isDone}"></CheckBox>
 						</cells>
+                        <dependents>
+                           <core:Fragment
+                              id="nestedActions"
+                              fragmentName="ui5.gebit.app.fragment.EditTerritoryPatchLoggedIn"
+                              type="XML" />
+                        </dependents>
 			</ColumnListItem>
       </items>
    </Table>

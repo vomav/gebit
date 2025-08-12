@@ -99,7 +99,7 @@ export default class TerritoryDetail extends Controller {
 
 		context.execute().then(function () {
 			MessageToast.show("{i18n>ok}");
-			this.getView()?.getModel().refresh();
+			detailPageContext.refresh();
 		}.bind(this), function (oError) {
 			MessageBox.error(oError.message);
 		}
@@ -114,7 +114,7 @@ export default class TerritoryDetail extends Controller {
 
 		context.execute().then(function () {
 			MessageToast.show("{i18n>ok}");
-			this.getView()?.getModel().refresh();
+			detailPageContext.refresh();
 		}.bind(this), function (oError) {
 			MessageBox.error(oError.message);
 		}
