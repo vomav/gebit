@@ -21,13 +21,14 @@
 	</l:HorizontalLayout>
 
 	<l:VerticalLayout class="sapUiContentPadding" width="100%">
-		<Tokenizer width="100%" editable="true" tokenDelete="onPatchAssignmentTokenDelete" tokens="{
-				path: 'inWorkBy',
-				sorter: { path: 'surname' }
-			}">
-		<Token key="{id}" text="{= !${freestyleName} ? ${surname} +', '+ ${username} : ${freestyleName} }" />
-		</Tokenizer>
-	
+	<Tokenizer width="100%" editable="true" tokenDelete="onPatchAssignmentTokenDelete" tokens="{
+			path: 'inWorkBy',
+			sorter: { path: 'surname' },
+			templateShareable: true
+		}">
+	<Token key="{id}" text="{= !${freestyleName} ? ${surname} +', '+ ${username} : ${freestyleName} }" />
+	</Tokenizer>
+	<StepInput description="{i18n>count}" value="{path: 'count', suspended: false}"></StepInput>
 	</l:VerticalLayout>
 		<beginButton>
 			<Button text="{i18n>done}" press="onCloseEditTerritoryPatchDialog"></Button>

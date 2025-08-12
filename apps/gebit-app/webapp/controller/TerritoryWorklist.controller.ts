@@ -21,6 +21,7 @@ import FilterOperator from "sap/ui/model/FilterOperator";
 import Sorter from "sap/ui/model/Sorter";
 import TerritoryFilterContainer from "./utils/FilterContainer";
 import ViewSettingsItem from "sap/m/ViewSettingsItem";
+import { ViewSettingsDialog$ConfirmEvent, ViewSettingsDialog$ResetFiltersEvent } from "sap/m/ViewSettingsDialog";
 /**
  * @namespace ui5.gebit.app.controller
  */           
@@ -214,7 +215,7 @@ export default class TerritoryWorklist extends Controller {
 		this.sortDialog.close();
 	}
 
-	public handleSortDialogConfirm(oEvent: Event) {
+	public handleSortDialogConfirm(oEvent: ViewSettingsDialog$ConfirmEvent) {
 		let viewSettingsItem = oEvent.getParameter("sortItem") as ViewSettingsItem;
 		let isDescending = oEvent.getParameter("sortDescending") as boolean;
 		let oBinding = this.getView()?.byId("territoriesTable")?.getBinding("items") as ODataListBinding;

@@ -103,6 +103,9 @@
 					<Column hAlign="End" demandPopin="true" minScreenWidth="600px" width="auto">
 						<Text text="{i18n>lastTimeWorked}"/>
 					</Column>
+					<Column hAlign="End" demandPopin="true" minScreenWidth="600px" width="auto">
+						<Text text="{i18n>totalCount}"/>
+					</Column>
 				</columns>
 
 				<items>
@@ -122,6 +125,7 @@
 							<Text text="{= !!${assignedUnregisteredUser} ? ${assignedUnregisteredUser} : ${assignedToName} + ' ' + ${assignedToSurname}}" />
 							<Text text="{siteName}" />
 							<Text text="{lastTimeWorked}" />
+							<Text text="{totalCount}" />
 						</cells>
 					</ColumnListItem>
 				</items>

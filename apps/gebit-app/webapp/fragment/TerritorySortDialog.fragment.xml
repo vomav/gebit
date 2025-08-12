@@ -6,6 +6,7 @@
 		<sortItems>
 			<ViewSettingsItem text="{i18n>name}" key="name" selected="true" />
 			<ViewSettingsItem text="{i18n>lastTimeWorked}" key="lastTimeWorked" />
+			<ViewSettingsItem text="{i18n>totalCount}" key="totalCount" />
 		</sortItems>
 	</ViewSettingsDialog>
 </core:FragmentDefinition>

@@ -53,7 +53,7 @@
                                  value="86400"/>
                            </u:parameters>
                         </u:FileUploader>
-                     <Button id="viewWorkedImageButton" icon="sap-icon://image-viewer" ariaDescribedBy="{i18n>viewWorkedImage}" press="onPressViewWorkedImage" visible="{= ${workedPartImageUrl} !== null}">
+                     <Button icon="sap-icon://image-viewer" ariaDescribedBy="{i18n>viewWorkedImage}" press="onPressViewWorkedImage" visible="{= ${workedPartImageUrl} !== null}">
                            <customData>
                               <core:CustomData key="imageUrl" value="{workedPartImageUrl}"></core:CustomData>
                            </customData>
