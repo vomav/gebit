@@ -13,8 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.sap.cds.services.ServiceException;
-
 import io.jsonwebtoken.Claims;
 import jakarta.security.auth.message.AuthException;
 

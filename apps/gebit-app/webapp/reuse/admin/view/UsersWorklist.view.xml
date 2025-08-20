@@ -1,0 +1,95 @@
+
+<mvc:View
+	controllerName="ui5.gebit.app.reuse.admin.controller.UsersWorklist"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+		xmlns:core="sap.ui.core"
+	xmlns:semantic="sap.f.semantic">
+
+	<semantic:SemanticPage
+		id="usersWorklistPage"
+		headerPinnable="false"
+		toggleHeaderOnTitleClick="false">
+
+		<semantic:titleHeading>
+			<Title text="{i18n>manageUsers}" />
+		</semantic:titleHeading>
+
+		<semantic:content>
+
+	
+			<Table
+				id="usersTable"
+				width="auto"
+				items="{
+					path: '/Users',
+					parameters: { $count: true }
+				}"
+				noDataText="{i18n>noUsers}"
+				growing="true"
+				growingScrollToLoad="true"
+				selectionChange="onSelectionChange"
+				mode="SingleSelectLeft"
+				>
+
+				<headerToolbar>
+					<Toolbar>
+						<Title id="userCountTitle"/>
+						<ToolbarSpacer />
+						<SearchField
+							id="userSearchField"
+							search="onSearch"
+							width="auto">
+						</SearchField>
+
+					
+						<Button
+							id="deleteUserButton"
+							icon="sap-icon://delete"
+							press="onDelete"
+							enabled="false">
+							<layoutData>
+								<OverflowToolbarLayoutData priority="NeverOverflow"/>
+							</layoutData>
+						</Button>
+					</Toolbar>
+				</headerToolbar>
+
+				<columns>
+					<Column width="16rem">
+						<Text text="{i18n>id}"/>
+					</Column>
+					<Column width="6rem">
+						<Text text="{i18n>isActivated}"/>
+					</Column>
+					<Column demandPopin="true" minScreenWidth="600px" width="auto">
+						<Text text="{i18n>name}" />
+					</Column>
+					<Column width="6rem">
+						<Text text="{i18n>email}"/>
+					</Column>
+				</columns>
+
+				<items>
+					<ColumnListItem
+						type="Navigation"
+						press="onPressListItem">
+						<cells>
+							<Text text="{ID}" />
+							<CheckBox editable="false" selected="{isActivated}"></CheckBox>
+							<Text text="{name} {surname}" />
+							<Text text="{email}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+
+		</semantic:content>
+
+		<semantic:sendEmailAction>
+			
+		</semantic:sendEmailAction>
+
+	</semantic:SemanticPage>
+
+</mvc:View>

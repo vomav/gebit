@@ -45,7 +45,8 @@
 				id="territoriesTable"
 				width="auto"
 				items="{
-					path: '/Territories'
+					path: '/Territories',
+					parameters: { $count: true }
 				}"
 				noDataText="{i18n>noData}"
 				growing="true"
@@ -56,6 +57,7 @@
 
 				<headerToolbar>
 					<Toolbar>
+						<Title id="territoriesCountTitle"/>
 						<ToolbarSpacer />
 						<Button
 							tooltip="{i18n>sort}"

@@ -1,6 +1,6 @@
 namespace srv;
 
-using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignments as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping, db.InWorkBy as dbInworkBy, db.Image as Image, db.UnregisteredUserTerritoryAssignment as dbUnregisteredUserTerritoryAssignment } from '../db/database';
+using { db.Territories as dbTerritory, db.Parts as dbPart, db.TerritoryAssignments as dbTerritoryAssignment, db.PartAssignments as dbPartAssignmenst, db.Users as dbUser, db.Tenants as dbTenant, db.UserTenantMappings as dbUserTenantMapping, db.InWorkBy as dbInworkBy, db.Image as Image, db.UnregisteredUserTerritoryAssignment as dbUnregisteredUserTerritoryAssignment, db.UserAccountActivations as dbUserAccountActivation } from '../db/database';
 
 service searching {
 
@@ -220,4 +220,52 @@ service publicSearching {
         toParent as toParent,
         freestyleName as freestyleName
     }
+}
+
+service globalAdmin {
+
+    @(restrict: [
+     { grant: '*',
+       to: 'global_admin' } ]) 
+    entity Users as projection on dbUser {
+        ID,
+        isActivated,
+        name,
+        surname,
+        email,
+        toUserActivations: Composition of many UserAccountActivations on toUserActivations.toUser = $self,
+        toTennantMappings: Composition of many UserTenantMappings on toTennantMappings.toUser = $self
+    } actions {
+        action delete() returns Boolean
+    };
+
+
+    @(restrict: [
+     { grant: '*',
+       to: 'global_admin' } ]) 
+    entity UserAccountActivations as projection on dbUserAccountActivation {
+        ID,
+        activationCode,
+        toUser.email as email,
+        toUser.ID as userId,
+        toUser as toUser
+    } actions {
+        action activateAccount() returns Boolean;
+    };
+
+
+
+    @(requires: 'global_admin')
+    entity UserTenantMappings as projection on dbUserTenantMapping {
+        user.ID,
+        user.name as username,
+        user.surname as surname,
+        user.email as email,
+        tenant.name as siteName,
+        tenant.ID as siteId,
+        tenant.description as siteDescription,
+        user as toUser,
+        tenant as toTenant,
+        mappingType
+    } 
 }

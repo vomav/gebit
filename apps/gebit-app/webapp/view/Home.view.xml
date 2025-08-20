@@ -69,7 +69,14 @@
 					<ImageContent src="sap-icon://attachment-video" />
 				</TileContent>
 			</GenericTile>
-			
+			<GenericTile header="{i18n>globalAdminConsole}" subheader=""  press="navigateToGlobalAdminConsole" visible="{userAdminModel>isGlobalAdmin}">
+				<layoutData>
+					<f:GridContainerItemLayoutData minRows="2" columns="2" />
+				</layoutData>
+				<TileContent>
+					<ImageContent src="sap-icon://manageAccount" />
+				</TileContent>
+			</GenericTile>
 		</f:GridContainer>
 	</Page>
 </mvc:View>
