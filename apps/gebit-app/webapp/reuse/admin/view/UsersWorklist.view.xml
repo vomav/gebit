@@ -59,7 +59,7 @@
 					<Column width="16rem">
 						<Text text="{i18n>id}"/>
 					</Column>
-					<Column width="6rem">
+					<Column width="3rem">
 						<Text text="{i18n>isActivated}"/>
 					</Column>
 					<Column demandPopin="true" minScreenWidth="600px" width="auto">
