@@ -22,6 +22,7 @@ import Sorter from "sap/ui/model/Sorter";
 import TerritoryFilterContainer from "./utils/FilterContainer";
 import ViewSettingsItem from "sap/m/ViewSettingsItem";
 import { ViewSettingsDialog$ConfirmEvent, ViewSettingsDialog$ResetFiltersEvent } from "sap/m/ViewSettingsDialog";
+import Title from "sap/m/Title";
 /**
  * @namespace ui5.gebit.app.controller
  */           
@@ -32,6 +33,7 @@ export default class TerritoryWorklist extends Controller {
 	selectedTerritoryBindingContext:any;
 	filterContainer: TerritoryFilterContainer = new TerritoryFilterContainer(this);
 	sortDialog: Dialog;
+	isInitialized: boolean = false;
 	public onInit() : void {
 		const view = this.getView() as View
 		if (view) {
@@ -41,8 +43,24 @@ export default class TerritoryWorklist extends Controller {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);
 		
+		
 	}
 
+	public onBeforeRendering(): void | undefined {
+		if (this.isInitialized) {
+			return;
+		}
+		let table = this.getView()?.byId("territoriesTable") as Table;
+		let oBinding = table.getBinding("items") as ODataListBinding;
+		oBinding.attachEvent("change",function() {
+			let count = oBinding.getLength();
+			let title = this.getView()?.byId("territoriesCountTitle") as Title;
+			if(title) {
+				title.setText(this.getView()?.getModel("i18n").getResourceBundle().getText("territoriesCount", [count]));
+			}
+		}.bind(this));
+		this.isInitialized = true;
+	}
 
 	public attachRouteMatched(oEvent:Router$RouteMatchedEvent) {
 		let routeName = oEvent.getParameter("name");

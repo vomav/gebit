@@ -2,6 +2,9 @@
 DROP VIEW IF EXISTS srv_searching_Territories;
 DROP VIEW IF EXISTS srv_publicSearching_Image;
 DROP VIEW IF EXISTS srv_publicSearching_Parts;
+DROP VIEW IF EXISTS srv_globalAdmin_UserTenantMappings;
+DROP VIEW IF EXISTS srv_globalAdmin_UserAccountActivations;
+DROP VIEW IF EXISTS srv_globalAdmin_Users;
 DROP VIEW IF EXISTS srv_publicSearching_InWorkBy;
 DROP VIEW IF EXISTS srv_publicSearching_PartAssignments;
 DROP VIEW IF EXISTS srv_publicSearching_PublicTerritoryAssignments;
@@ -325,6 +328,35 @@ CREATE VIEW srv_publicSearching_InWorkBy AS SELECT
   dbInworkBy_0.toParent_ID AS toParent_ID,
   dbInworkBy_0.freestyleName AS freestyleName
 FROM (db_InWorkBy AS dbInworkBy_0 LEFT JOIN db_Users AS user_1 ON dbInworkBy_0.user_ID = user_1.ID); 
+
+CREATE VIEW srv_globalAdmin_Users AS SELECT
+  dbUser_0.ID,
+  dbUser_0.isActivated,
+  dbUser_0.name,
+  dbUser_0.surname,
+  dbUser_0.email
+FROM db_Users AS dbUser_0; 
+
+CREATE VIEW srv_globalAdmin_UserAccountActivations AS SELECT
+  dbUserAccountActivation_0.ID,
+  dbUserAccountActivation_0.activationCode,
+  toUser_1.email AS email,
+  toUser_1.ID AS userId,
+  dbUserAccountActivation_0.toUser_ID AS toUser_ID
+FROM (db_UserAccountActivations AS dbUserAccountActivation_0 LEFT JOIN db_Users AS toUser_1 ON dbUserAccountActivation_0.toUser_ID = toUser_1.ID); 
+
+CREATE VIEW srv_globalAdmin_UserTenantMappings AS SELECT
+  user_1.ID,
+  user_1.name AS username,
+  user_1.surname AS surname,
+  user_1.email AS email,
+  tenant_2.name AS siteName,
+  tenant_2.ID AS siteId,
+  tenant_2.description AS siteDescription,
+  dbUserTenantMapping_0.user_ID AS toUser_ID,
+  dbUserTenantMapping_0.tenant_ID AS toTenant_ID,
+  dbUserTenantMapping_0.mappingType
+FROM ((db_UserTenantMappings AS dbUserTenantMapping_0 LEFT JOIN db_Users AS user_1 ON dbUserTenantMapping_0.user_ID = user_1.ID) LEFT JOIN db_Tenants AS tenant_2 ON dbUserTenantMapping_0.tenant_ID = tenant_2.ID); 
 
 CREATE VIEW srv_publicSearching_Parts AS SELECT
   Parts_0.ID,

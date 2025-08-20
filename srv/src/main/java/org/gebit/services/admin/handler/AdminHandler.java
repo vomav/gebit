@@ -30,6 +30,7 @@ import com.sap.cds.services.ServiceException;
 import com.sap.cds.services.cds.CdsReadEventContext;
 import com.sap.cds.services.cds.CqnService;
 import com.sap.cds.services.handler.EventHandler;
+import com.sap.cds.services.handler.annotations.After;
 import com.sap.cds.services.handler.annotations.Before;
 import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
@@ -53,12 +54,18 @@ public class AdminHandler implements EventHandler {
 		this.encoder = encoder;
 	}
 	
-	
+		
 	@Before(entity = LoggedInUser_.CDS_NAME, event = CqnService.EVENT_READ)
 	public void onBeforeLoggedInUserRead(CdsReadEventContext c) {
 		String userId = userInfo.getAdditionalAttribute(USER_ID).toString();
 		Modifier m = new SingletonUserByUserId(userId);
 		c.setCqn(CQL.copy(c.getCqn(), m));
+	}
+	
+	@After(entity = LoggedInUser_.CDS_NAME, event = CqnService.EVENT_READ)
+	public void onAfterLoggedInUserRead(LoggedInUser c) {
+		Boolean isGlobalAdmin = userInfo.getRoles().stream().filter(role -> role.equals("global_admin")).findAny().isPresent();
+		c.setIsGlobalAdmin(isGlobalAdmin);
 	}
 	
 	

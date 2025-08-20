@@ -76,6 +76,12 @@
 				"settings": {},
 				"componentData": {},
 				"lazy": true
+			},
+			"adminComponent": {
+				"name": "ui5.gebit.app.reuse.admin",
+				"settings": {},
+				"componentData": {},
+				"lazy": true
 			}
 		},
 		"dependencies": {
@@ -225,6 +231,11 @@
 					"name": "publicSearching",
 					"pattern": "publicSearching/{id}",
 					"target": "publicSearching"
+				},
+				{
+					"name": "admin",
+					"pattern": "admin",
+					"target": "admin"
 				}
 			],
 			"targets": {
@@ -287,6 +298,11 @@
 					"type": "View",
 					"id": "publicSearching",
 					"name": "PublicTerritory"
+				},
+				"admin": {
+					"type": "Component",
+					"usage": "adminComponent",
+					"id": "adminComponent"
 				}
 			}
 		}

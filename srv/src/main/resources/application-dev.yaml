@@ -54,3 +54,7 @@ management:
      defaults.enabled: false # turn off all indicators by default
      ping.enabled: true
      db.enabled: true
+
+org:
+  gebit:
+    admins: ${SUPPORT_ADMINS}

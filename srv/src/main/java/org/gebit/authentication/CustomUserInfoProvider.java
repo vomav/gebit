@@ -2,7 +2,9 @@ package org.gebit.authentication;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -13,13 +15,19 @@ import com.sap.cds.services.runtime.UserInfoProvider;
 @Component
 public class CustomUserInfoProvider implements UserInfoProvider {
 
+	private static final String GLOBAL_ADMIN = "global_admin";
 	public static final String USER_ID = "UserID";
 	public static final String LOGON_SURNAME = "LogonSurname";
 	public static final String LOGON_USERNAME = "LogonUsername";
 	public static final String PERM = "Permissions";
 	
 	private UserInfoProvider defaultProvider;
+	private List<String> userAdmins;
 	
+	public CustomUserInfoProvider(@Value("${org.gebit.admins}") List<String> userAdmins) {
+		this.userAdmins = userAdmins;
+		
+	}
 	@Override
 	public UserInfo get() {
 		JwtAuthentication jwtInfoToken;
@@ -38,14 +46,16 @@ public class CustomUserInfoProvider implements UserInfoProvider {
 			return defaultProvider.get();
 		}
 		
+		String tenantId = jwtInfoToken.getTenantId();
+		String userId = jwtInfoToken.getUserId();
 		
 		ModifiableUserInfo userInfo = UserInfo.create();
-		userInfo.setTenant(jwtInfoToken.getTenantId());
+		userInfo.setTenant(tenantId);
 		userInfo.setName(jwtInfoToken.getPrincipal().toString());
 		userInfo.setIsAuthenticated(true);
 		userInfo.setAdditionalAttribute(LOGON_USERNAME, jwtInfoToken.getUsername());
 		userInfo.setAdditionalAttribute(LOGON_SURNAME, jwtInfoToken.getSurname());
-		userInfo.setAdditionalAttribute(USER_ID, jwtInfoToken.getUserId());
+		userInfo.setAdditionalAttribute(USER_ID, userId);
 		
 		
 		
@@ -67,6 +77,9 @@ public class CustomUserInfoProvider implements UserInfoProvider {
 		
 		userInfo.setAdditionalAttribute(PERM, perms);
 		
+		Optional<String> maybeAdmin = this.userAdmins.stream().filter(admin -> admin.equals(userId)).findFirst();
+		if(maybeAdmin.isPresent())
+			userInfo.addRole(GLOBAL_ADMIN);
 		
 		
 		return userInfo;

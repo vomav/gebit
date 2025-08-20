@@ -69,7 +69,8 @@ public class SecurityConfig {
                                         "/favicon.ico",
                                         "/model/uiModel.json",
                                         "/actuator/**",
-                                        "/odata/v4/srv.publicSearching/**"
+                                        "/odata/v4/srv.publicSearching/**",
+                                        "/odata/v4/srv.globalAdmin/$metadata"
                                 ).permitAll()
                                 .requestMatchers(CorsUtils:: isPreFlightRequest).permitAll()
                                 .anyRequest().authenticated()	

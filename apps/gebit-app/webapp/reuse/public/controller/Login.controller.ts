@@ -70,4 +70,11 @@ export default class Login extends Controller {
     public toForgotPassword(oEvent:any) {
 		((this.getOwnerComponent() as UIComponent)).getRouter().navTo("forgotPassword");
     }
+    public getHelp(oEvent:any) {
+        let resourceBundle = this.getView().getModel("i18n").getResourceBundle();
+        let getHelpEmail = resourceBundle.getText("");
+        let getHelpSubject = resourceBundle.getText("getHelpSubject");
+        let getHelpText = resourceBundle.getText("getHelpText");
+        URLHelper.triggerEmail(getHelpEmail, getHelpSubject, getHelpText);
+    }
 }

@@ -1,0 +1,195 @@
+
+<mvc:View xmlns:form="sap.ui.layout.form"
+	controllerName="ui5.gebit.app.reuse.admin.controller.UserDetail"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+		xmlns:core="sap.ui.core"
+	xmlns:semantic="sap.f.semantic"
+	xmlns:uxap="sap.uxap">
+
+
+	<uxap:ObjectPageLayout enableLazyLoading="false" upperCaseAnchorBar="false">
+		<uxap:headerTitle>
+			<uxap:ObjectPageDynamicHeaderTitle>
+				<uxap:expandedHeading>
+					<Title text="{name}" wrapping="true"/>
+				</uxap:expandedHeading>
+
+				<uxap:actions>
+					<Button text="{i18n>edit}" type="Emphasized" press="onEditButton" visible="{= ${uiModel>/ui/editMode} === false}"/>
+					<Button text="{i18n>done}" type="Emphasized" press="onDisplayMode" visible="{= ${uiModel>/ui/editMode} === true}"/>
+				</uxap:actions>
+			</uxap:ObjectPageDynamicHeaderTitle>
+		</uxap:headerTitle>
+
+		<uxap:sections>
+			<uxap:ObjectPageSection titleUppercase="false" title="{i18n>generalInfo}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection titleUppercase="false" visible="{= ${uiModel>/ui/editMode} === true}" >
+							<form:Form 	editable="true">
+							
+								<form:layout>
+									<form:ResponsiveGridLayout
+										labelSpanXL="3"
+										labelSpanL="3"
+										labelSpanM="3"
+										labelSpanS="12"
+										adjustLabelSpan="false"
+										emptySpanXL="4"
+										emptySpanL="4"
+										emptySpanM="4"
+										emptySpanS="0"
+										columnsXL="1"
+										columnsL="1"
+										columnsM="1"
+										singleContainerFullSize="false" />
+								</form:layout>
+							<form:FormContainer>
+								<form:FormElement label="{i18n>userId}">
+									<form:fields>
+										<Text text="{ID}"></Text>
+									</form:fields>
+								</form:FormElement>
+								<form:FormElement label="{i18n>name}">
+									<form:fields>
+										<Input value="{name}"></Input>
+										<Input value="{surname}"></Input>
+									</form:fields>
+								</form:FormElement>
+								<form:FormElement label="{i18n>email}">
+									<form:fields>
+										<Input value="{email}"></Input>
+									</form:fields>
+								</form:FormElement>
+								<form:FormElement label="{i18n>isActivated}">
+									<form:fields>
+										<CheckBox selected="{isActivated}"></CheckBox>
+									</form:fields>
+								</form:FormElement>
+							</form:FormContainer>
+						</form:Form>
+					</uxap:ObjectPageSubSection>
+					<uxap:ObjectPageSubSection titleUppercase="false" visible="{= ${uiModel>/ui/editMode} === false}" >
+							<form:Form 	editable="false">
+							
+								<form:layout>
+									<form:ResponsiveGridLayout
+										labelSpanXL="3"
+										labelSpanL="3"
+										labelSpanM="3"
+										labelSpanS="12"
+										adjustLabelSpan="false"
+										emptySpanXL="4"
+										emptySpanL="4"
+										emptySpanM="4"
+										emptySpanS="0"
+										columnsXL="1"
+										columnsL="1"
+										columnsM="1"
+										singleContainerFullSize="false" />
+								</form:layout>
+							<form:FormContainer>
+								<form:FormElement label="{i18n>userId}">
+									<form:fields>
+										<Text text="{ID}"></Text>
+									</form:fields>
+								</form:FormElement>
+								<form:FormElement label="{i18n>name}">
+									<form:fields>
+										<Text text="{name}"></Text>
+										<Text text="{surname}"></Text>
+									</form:fields>
+								</form:FormElement>
+								<form:FormElement label="{i18n>email}">
+									<form:fields>
+										<Text text="{email}"></Text>
+									</form:fields>
+								</form:FormElement>
+								<form:FormElement label="{i18n>isActivated}">
+									<form:fields>
+										<CheckBox selected="{isActivated}" editable="false"></CheckBox>
+									</form:fields>
+								</form:FormElement>
+							</form:FormContainer>
+						</form:Form>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+
+			<uxap:ObjectPageSection titleUppercase="false" title="{i18n>activations}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection titleUppercase="false">
+						
+						<Table id="activationsTable" items="{
+						path: 'toUserActivations'}" noDataText="{i18n>noActivations}" mode="{= ${uiModel>/ui/editMode} ? 'SingleSelectLeft' : 'None'}">
+							<headerToolbar>
+								<Toolbar>
+									<ToolbarSpacer />
+									<Button icon="sap-icon://delete" press="onDeleteSelectedActivation" visible="{= ${uiModel>/ui/editMode} === true}"/>
+								</Toolbar>
+							</headerToolbar>
+							<columns>
+								<Column>
+									<Text text="{i18n>activationId}"/>
+								</Column>
+								<Column>
+									<Text text="{i18n>activationCode}"/>
+								</Column>
+								<Column>
+									<Text text="{i18n>email}"/>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<Text text="{ID}"/>
+									<Text text="{activationCode}"/>
+									<Text text="{email}"/>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+		<uxap:ObjectPageSection titleUppercase="false" title="{i18n>mappings}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection titleUppercase="false">
+						
+						
+				<Table id="mappingsTable" items="{
+				path: 'toTennantMappings'}" noDataText="{i18n>noMappings}" mode="{= ${uiModel>/ui/editMode} ? 'SingleSelectLeft' : 'None'}">
+					<headerToolbar>
+						<Toolbar>
+							<ToolbarSpacer />
+							<Button icon="sap-icon://delete" press="onDeleteSelectedMapping" visible="{= ${uiModel>/ui/editMode} === true}"/>
+						</Toolbar>
+					</headerToolbar>
+					<columns>
+						<Column>
+							<Text text="{i18n>siteName}"/>
+						</Column>
+						<Column>
+							<Text text="{i18n>mappingType}"/>
+						</Column>
+						<Column>
+							<Text text="{i18n>siteId}"/>
+						</Column>
+						<Column>
+							<Text text="{i18n>siteDescription}"/>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<Text text="{siteName}"/>
+							<Text text="{mappingType}"></Text>
+							<Text text="{siteId}"/>
+							<Text text="{siteDescription}"/>
+						</ColumnListItem>
+					</items>
+				</Table>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+		</uxap:sections>
+	</uxap:ObjectPageLayout>
+
+</mvc:View>

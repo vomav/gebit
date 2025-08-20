@@ -88,6 +88,7 @@ entity Users : cuid {
     toAllowedTenants: Association to many UserTenantMappings on toAllowedTenants.user=$self;
     refreshToken: String(2048);
     isActivated: Boolean;
+    virtual isGlobalAdmin: Boolean default false;
 }
 
 entity UserAccountActivations : cuid {
