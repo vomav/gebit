@@ -65,7 +65,7 @@
 					<Column demandPopin="true" minScreenWidth="600px" width="auto">
 						<Text text="{i18n>name}" />
 					</Column>
-					<Column width="6rem">
+					<Column demandPopin="true" minScreenWidth="600px" width="6rem">
 						<Text text="{i18n>email}"/>
 					</Column>
 				</columns>
