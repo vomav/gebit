@@ -29,7 +29,7 @@
 				growing="true"
 				growingScrollToLoad="true"
 				selectionChange="onSelectionChange"
-				mode="SingleSelectLeft"
+				mode="None"
 				>
 
 				<headerToolbar>
@@ -41,17 +41,6 @@
 							search="onSearch"
 							width="auto">
 						</SearchField>
-
-					
-						<Button
-							id="deleteUserButton"
-							icon="sap-icon://delete"
-							press="onDelete"
-							enabled="false">
-							<layoutData>
-								<OverflowToolbarLayoutData priority="NeverOverflow"/>
-							</layoutData>
-						</Button>
 					</Toolbar>
 				</headerToolbar>
 
