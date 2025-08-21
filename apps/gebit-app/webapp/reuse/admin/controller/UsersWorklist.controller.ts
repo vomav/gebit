@@ -1,5 +1,7 @@
 import { ListItemBase$PressEvent } from "sap/m/ListItemBase";
 import { SearchField$ChangeEvent, SearchField$SearchEvent } from "sap/m/SearchField";
+import Table from "sap/m/Table";
+import Title from "sap/m/Title";
 import Controller from "sap/ui/core/mvc/Controller";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 import UIComponent from "sap/ui/core/UIComponent";
@@ -7,11 +9,14 @@ import Binding from "sap/ui/model/Binding";
 import Filter from "sap/ui/model/Filter";
 import FilterOperator from "sap/ui/model/FilterOperator";
 import Context from "sap/ui/model/odata/v4/Context";
+import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
+import TableTitleSetter from "ui5/gebit/app/controller/utils/TableTitleSetter";
 
 /**
  * @namespace ui5.gebit.app.reuse.admin.controller
  */           
 export default class UsersWorklist extends Controller {
+	isInitialized: Boolean;
 
 	public onInit() : void {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
@@ -58,6 +63,16 @@ export default class UsersWorklist extends Controller {
 				oBinding.filter(sQuery ? searchFilter : []);
 			}
 		}	
+	}
+
+	public onBeforeRendering(): void | undefined {
+		if (this.isInitialized) {
+			return;
+		}
+		let table = this.getView()?.byId("usersTable") as Table;
+		let oBinding = table.getBinding("items") as ODataListBinding;
+		new TableTitleSetter(oBinding, this.getView()?.byId("adminUsersWorklistCountTilte") as Title, this.getView()?.getModel("i18n").getResourceBundle(), "usersCount");
+		this.isInitialized = true;
 	}
 	
 }

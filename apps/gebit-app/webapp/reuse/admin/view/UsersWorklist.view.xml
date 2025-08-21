@@ -34,7 +34,6 @@
 
 				<headerToolbar>
 					<Toolbar>
-						<Title id="userCountTitle"/>
 						<ToolbarSpacer />
 						<SearchField
 							id="userSearchField"
@@ -43,7 +42,12 @@
 						</SearchField>
 					</Toolbar>
 				</headerToolbar>
-
+				<infoToolbar>
+					<Toolbar>
+						<Title id="adminUsersWorklistCountTilte"/>
+						<ToolbarSpacer />
+					</Toolbar>
+				</infoToolbar>
 				<columns>
 					<Column width="16rem">
 						<Text text="{i18n>id}"/>
