@@ -34,6 +34,13 @@
 						</SearchField>
 					</Toolbar>
 				</headerToolbar>
+				
+				<infoToolbar>
+					<Toolbar>
+						<Title id="myTerritoryCountTitle"/>
+						<ToolbarSpacer />
+					</Toolbar>
+				</infoToolbar>
 
 				<columns>
 					<Column>

@@ -37,6 +37,7 @@
                descending: false
             }]
       }"> 
+
       <columns>
          <Column width="8rem">
 				<Text text="{i18n>name}"/>

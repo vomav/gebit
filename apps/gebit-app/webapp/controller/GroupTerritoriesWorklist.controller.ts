@@ -5,12 +5,14 @@ import ColumnListItem from "sap/m/ColumnListItem";
 import UIComponent from "sap/ui/core/UIComponent";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 import {Formatter} from "./FormatterUtils"
+import TableTitleSetter from "./utils/TableTitleSetter";
 /**
  * @namespace ui5.gebit.app.controller
  */           
 export default class GroupTerritoriesWorklist extends Controller {
 
 	isModelInitialized:Boolean;
+	isInitialized: Boolean;
 	public onInit() : void {
 		const view = this.getView() as View
 		if (view) {
@@ -19,6 +21,16 @@ export default class GroupTerritoriesWorklist extends Controller {
 
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);
+	}
+
+	public onBeforeRendering(): void | undefined {
+		if (this.isInitialized) {
+			return;
+		}
+		let table = this.getView()?.byId("groupTerritoriesWorklistTable") as Table;
+		let oBinding = table.getBinding("items") as ODataListBinding;
+		new TableTitleSetter(oBinding, this.getView()?.byId("groupTerritoryCountTitle") as Title, this.getView()?.getModel("i18n").getResourceBundle(), "territoriesCount");
+		this.isInitialized = true;
 	}
 
 

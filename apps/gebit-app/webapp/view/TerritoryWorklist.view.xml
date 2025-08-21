@@ -57,7 +57,6 @@
 
 				<headerToolbar>
 					<Toolbar>
-						<Title id="territoriesCountTitle"/>
 						<ToolbarSpacer />
 						<Button
 							tooltip="{i18n>sort}"
@@ -88,7 +87,12 @@
 						</Button>
 					</Toolbar>
 				</headerToolbar>
-
+				<infoToolbar>
+					<Toolbar>
+						<Title id="territoriesCountTitle"/>
+						<ToolbarSpacer />
+					</Toolbar>
+				</infoToolbar>
 				<columns>
 					<Column width="16rem">
 						<Text text="{i18n>title}"/>

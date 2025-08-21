@@ -17,6 +17,7 @@
 
 		<semantic:content>
 			<Table
+				id="groupTerritoriesWorklistTable"
 				width="auto"
 				items="{
 					path: '/PublicTerritoryAssignments'
@@ -35,7 +36,12 @@
 						</SearchField>
 					</Toolbar>
 				</headerToolbar>
-
+				<infoToolbar>
+					<Toolbar>
+						<Title id="groupTerritoryCountTitle"/>
+						<ToolbarSpacer />
+					</Toolbar>
+				</infoToolbar>
 				<columns>
 					<Column>
 						<Text text="{i18n>title}"/>

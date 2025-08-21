@@ -5,11 +5,16 @@ import ColumnListItem from "sap/m/ColumnListItem";
 import UIComponent from "sap/ui/core/UIComponent";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 import {Formatter} from "./FormatterUtils"
+import Table from "sap/m/Table";
+import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
+import TableTitleSetter from "./utils/TableTitleSetter";
+import Title from "sap/m/Title";
 /**
  * @namespace ui5.gebit.app.controller
  */           
 export default class MyTerritoryWorklist extends Controller {
 	isModelInitialized:Boolean;
+	isInitialized: Boolean;
 	public onInit() : void {
 		const view = this.getView() as View
 		if (view) {
@@ -27,6 +32,16 @@ export default class MyTerritoryWorklist extends Controller {
 			this.getView()?.getModel()?.refresh();
 		}
 		this.isModelInitialized = true;
+	}
+	
+	public onBeforeRendering(): void | undefined {
+		if (this.isInitialized) {
+			return;
+		}
+		let table = this.getView()?.byId("myTerritoriesTable") as Table;
+		let oBinding = table.getBinding("items") as ODataListBinding;
+		new TableTitleSetter(oBinding, this.getView()?.byId("myTerritoryCountTitle") as Title, this.getView()?.getModel("i18n").getResourceBundle(), "territoriesCount");
+		this.isInitialized = true;
 	}
 	
 	public onPressListItem(oEvent:Event) {

@@ -6,7 +6,7 @@ import View from "sap/ui/core/mvc/View";
 import Dialog from "sap/m/Dialog";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import Table from "sap/m/Table";
-import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
+import ODataListBinding, { ODataListBinding$ChangeEvent } from "sap/ui/model/odata/v4/ODataListBinding";
 import Event from "sap/ui/base/Event";
 import ColumnListItem from "sap/m/ColumnListItem";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
@@ -23,6 +23,8 @@ import TerritoryFilterContainer from "./utils/FilterContainer";
 import ViewSettingsItem from "sap/m/ViewSettingsItem";
 import { ViewSettingsDialog$ConfirmEvent, ViewSettingsDialog$ResetFiltersEvent } from "sap/m/ViewSettingsDialog";
 import Title from "sap/m/Title";
+import Tab from "sap/ui/commons/Tab";
+import TableTitleSetter from "./utils/TableTitleSetter";
 /**
  * @namespace ui5.gebit.app.controller
  */           
@@ -46,22 +48,6 @@ export default class TerritoryWorklist extends Controller {
 		
 	}
 
-	public onBeforeRendering(): void | undefined {
-		if (this.isInitialized) {
-			return;
-		}
-		let table = this.getView()?.byId("territoriesTable") as Table;
-		let oBinding = table.getBinding("items") as ODataListBinding;
-		oBinding.attachEvent("change",function() {
-			let count = oBinding.getLength();
-			let title = this.getView()?.byId("territoriesCountTitle") as Title;
-			if(title) {
-				title.setText(this.getView()?.getModel("i18n").getResourceBundle().getText("territoriesCount", [count]));
-			}
-		}.bind(this));
-		this.isInitialized = true;
-	}
-
 	public attachRouteMatched(oEvent:Router$RouteMatchedEvent) {
 		let routeName = oEvent.getParameter("name");
 		if(routeName == "territories" && this.isModelInitialized) {
@@ -70,6 +56,15 @@ export default class TerritoryWorklist extends Controller {
 		this.isModelInitialized = true;
 	}
 	
+	public onBeforeRendering(): void | undefined {
+		if (this.isInitialized) {
+			return;
+		}
+		let table = this.getView()?.byId("territoriesTable") as Table;
+		let oBinding = table.getBinding("items") as ODataListBinding;
+		new TableTitleSetter(oBinding, this.getView()?.byId("territoriesCountTitle") as Title, this.getView()?.getModel("i18n").getResourceBundle(), "territoriesCount");
+		this.isInitialized = true;
+	}
 
 	public openCreateDialog(oEvent:any) {
 		let that = this;
