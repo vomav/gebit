@@ -124,3 +124,18 @@ cds deploy --profile pg --dry --delta-from srv/src/main/resources/db/changelog/v
 cds deploy --model-only --dry --out srv/src/main/resources/db/changelog/v2/model.csn 
 
 ```
+
+
+### Linux commands
+Last 50 lines of log
+```
+journalctl -u gebit.app.service -n 50
+```
+
+restart service
+```
+systemctl restart gebit.app.service
+```
+
+location of service files
+```
