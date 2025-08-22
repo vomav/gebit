@@ -8,6 +8,12 @@ import ToolbarSpacer from "sap/m/ToolbarSpacer";
 import Button from "sap/m/Button";
 import Image from "sap/m/Image";
 import Carousel from "sap/m/Carousel";
+import Context from "sap/ui/model/odata/v4/Context";
+import { Dialog$ClosedEvent } from "sap/ui/commons/Dialog";
+import MessageToast from "sap/m/MessageToast";
+import ODataModel from "sap/ui/model/odata/v4/ODataModel";
+import MessageBox from "sap/m/MessageBox";
+import { Input$SuggestionItemSelectEvent } from "sap/ui/webc/main/Input";
 /**
  * @namespace ui5.gebit.app.controller
  */           
@@ -27,11 +33,6 @@ export default class MyTerritoryDetail extends Controller {
 
 	public matched(context:string) {
 		(this.getView() as any).bindElement("/TerritoryAssignments("+context+")");
-	}
-
-	public onActionButtonPress(oEvent:Event) {
-		var oButton = oEvent.getSource();
-		this.getView().byId("myPartsactionSheet").openBy(oButton);
 	}
 
 
@@ -106,4 +107,108 @@ export default class MyTerritoryDetail extends Controller {
 		public closeViewImageDialog(oEvent: Event) {
 			this.viewMapSnapshotDialog.close();
 		}
+
+
+	public async onActionButtonPress(oEvent: Event) {
+		let oButton = oEvent.getSource() as Button;
+		oEvent.getSource().getParent().getDependents()[0].open();
+	}
+
+	public onCloseEditTerritoryPatchDialog(oEvent: Dialog$ClosedEvent) {
+		oEvent.getSource().getParent().close()
+	}
+
+	public async assignPartToMe(oEvent: Event) {
+		let model = (this.getView()?.getModel() as ODataModel);
+		let seletctedContext = oEvent.getSource().getBindingContext() as Context;
+		let inWorkByCountBefore = seletctedContext.getObject().inWorkBy.length;
+		if(inWorkByCountBefore == 0) {
+			await seletctedContext.requestRefresh();
+		
+			if(seletctedContext.getObject().inWorkBy.length > 0) {
+				let assignedToUser = seletctedContext.getObject().inWorkBy[0];
+				let i18nText = this.getView()?.getModel("i18n")?.getProperty("partIsAlreadyTakenDialogText");
+				i18nText = i18nText.replace("{0}", assignedToUser.surname);
+				i18nText = i18nText.replace("{1}", assignedToUser.username);
+				MessageBox.confirm(i18nText, {
+					title: "Confirm",
+					onClose: async function (action) {
+						if (action === MessageBox.Action.OK) {
+							
+								let context = await model.bindContext("srv.searching.assignPartToMe(...)", seletctedContext);
+								context.execute().then(function () {
+									MessageToast.show("{i18n>ok}");
+									this.getView()?.getModel().refresh();
+								}.bind(this), function (oError) {
+									MessageBox.error(oError.message);
+								}
+								);
+							
+						} else {
+							this.getView()?.getModel().refresh();
+						}
+					}.bind(this), 
+					styleClass: "",
+					actions: [ MessageBox.Action.OK, MessageBox.Action.CANCEL ],
+					emphasizedAction: MessageBox.Action.OK,
+					initialFocus:  MessageBox.Action.CANCEL
+				});
+
+				return;
+			}
+
+		}
+
+		
+			let context = await model.bindContext("srv.searching.assignPartToMe(...)", seletctedContext);
+			context.execute().then(function () {
+				MessageToast.show("OK");
+				this.getView()?.getModel().refresh();
+			}.bind(this), function (oError) {
+				MessageBox.error(oError.message);
+			}
+			);
+		
+		
+	}
+
+
+	public async onAssignedUserChangeEvent(oEvent: Input$ChangeEvent) {
+		let input = oEvent.getSource();
+		let oBindingContext = input.getBindingContext() as Context;
+		if(input.getSelectedItem()) {
+			return;
+		}
+		
+		let freestyleName = oEvent.getParameter("newValue");
+		let model = (this.getView()?.getModel() as ODataModel);
+		let context = await model.bindContext("srv.searching.assignToUnregistredUser(...)", oBindingContext);
+		context.setParameter("name", freestyleName);
+		context.execute().then(function () {
+			MessageToast.show("OK");
+			this.getView()?.getModel().refresh();
+			input.setValue("");
+		}.bind(this), function (oError) {
+			MessageBox.error(oError.message);
+		}.bind(this)
+		);
+		
+
+	}
+
+	public async onSuggestedAssignedUserSelected(oEvent:Input$SuggestionItemSelectEvent) {
+		let oModel = this.getView()?.getModel();
+		let context = await oModel.bindContext("srv.searching.assignPartToUser(...)", oEvent.getSource().getBindingContext());
+		context.setParameter("userId", oEvent.getParameter("selectedItem").getKey());
+
+		context.execute().then(function () {
+			MessageToast.show("OK");
+			this.getView()?.getModel().refresh();
+			oEvent.getSource().setValue("");
+		}.bind(this), function (oError) {
+			MessageBox.error(oError.message);
+		});
+
+	}
+
 }

@@ -15,6 +15,15 @@
 				<Text text="{i18n>name}"/>
 			</Column>
          <Column demandPopin="true" minScreenWidth="600px">
+				<Text text="{i18n>count}"/>
+			</Column>
+         <Column demandPopin="true" minScreenWidth="600px">
+				<Text text="{i18n>assignedTo}"/>
+			</Column>
+         <Column demandPopin="true">
+				<Text text="{i18n>edit}"/>
+			</Column>
+         <Column demandPopin="true" minScreenWidth="600px">
 				<Text text="{i18n>mapSnapshot}"/>
 			</Column>
          <Column>
@@ -27,7 +36,21 @@
 						press="onPressListItem">
 						<cells>
 							<Text text="{name}"/>
+                     <Text text="{count}"/>
+                     <Tokenizer width="100%" editable="false" tokens="{
+                              path: 'inWorkBy',
+                              sorter: { path: 'surname' },
+                              templateShareable: true
+                           }">
+                        <Token key="{id}" text="{= !${freestyleName} ? ${surname} +', '+ ${username} : ${freestyleName} }" />
+                     </Tokenizer>
+               	   <Button
+                        icon="sap-icon://edit"
+                        press="onActionButtonPress"
+                        type="Transparent">
+                     </Button>
                      <HBox>
+
                      <u:FileUploader
                         name="coveredMapImageFileUploader"
                         uploadUrl="uploadImage"
@@ -61,6 +84,11 @@
                         </HBox>
                      <CheckBox selected="{isDone}"></CheckBox>
 						</cells>
+                        <dependents>
+                           <core:Fragment
+                              fragmentName="ui5.gebit.app.fragment.EditTerritoryPatchLoggedIn"
+                              type="XML" />
+                        </dependents>
 			</ColumnListItem>
       </items>
    </Table>
