@@ -3,10 +3,12 @@ package org.gebit.email;
 import org.gebit.email.brevo.EmailClient;
 import org.gebit.email.pojo.OTPEmailRequest;
 import org.gebit.email.pojo.TemporaryPasswordRequest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EmailService {
+@Profile("cloud")
+public class EmailService implements IEmailService {
 	
 	private static final String OTP_HTML_BODY_TEMPLATE = "<html><body><h1>Your OTP is %d</h1></body></html>";
 	
@@ -23,11 +25,13 @@ public class EmailService {
 		this.emailClient = emailClient;
 	}
 
+	@Override
 	public void sendOneTimePassword(OTPEmailRequest otp) {
 		String body = String.format(OTP_HTML_BODY_TEMPLATE, otp.passcode());
 		emailClient.sendEmail(otp.to(), OTP_SUBJECT, body);
 	}
 	
+	@Override
 	public void sendTemparyPassword(TemporaryPasswordRequest request) {
 		String body = String.format(TEMP_PASSWORD_HTML_BODY_TEMPLATE, request.password());
 		emailClient.sendEmail(request.to(), TEMP_PASSWORD_SUBJECT, body);

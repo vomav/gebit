@@ -3,7 +3,7 @@ package org.gebit.services.registration.handler;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.gebit.email.EmailService;
+import org.gebit.email.IEmailService;
 import org.gebit.email.pojo.OTPEmailRequest;
 import org.gebit.email.pojo.TemporaryPasswordRequest;
 import org.gebit.gen.db.Tenants;
@@ -36,13 +36,13 @@ public class RegisterationHandler implements EventHandler {
 	private RegistrationUserRepository userRepository;
 	private TenantRepository tenantRepository;
 	private final PasswordEncoder encoder;
-	private EmailService emailServce;
+	private IEmailService emailServce;
 	private OTPGenerator otpGenetator;
 	private UserAccountActivationRepository userAccountActivationRepository;
 	private PasswordGenerator passwordGenerator;
 
 	public RegisterationHandler(RegistrationUserRepository userRepository, TenantRepository tenantRepository,
-			PasswordEncoder encoder, EmailService emailService, OTPGenerator otpGenetator,
+			PasswordEncoder encoder, IEmailService emailService, OTPGenerator otpGenetator,
 			UserAccountActivationRepository userAccountActivationRepository,
 			PasswordGenerator passwordGenerator) {
 		super();

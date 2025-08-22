@@ -18,6 +18,7 @@
 				<uxap:actions>
 					<Button text="{i18n>edit}" type="Emphasized" press="onEditButton" visible="{= ${uiModel>/ui/editMode} === false}"/>
 					<Button text="{i18n>done}" type="Emphasized" press="onDisplayMode" visible="{= ${uiModel>/ui/editMode} === true}"/>
+					<Button text="{i18n>delete}" type="Emphasized" press="onDeleteUser" visible="{= ${uiModel>/ui/editMode} === true}"/>
 				</uxap:actions>
 			</uxap:ObjectPageDynamicHeaderTitle>
 		</uxap:headerTitle>
