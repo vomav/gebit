@@ -14,6 +14,7 @@ export default class Activate extends Controller {
 
     tenantId: string | undefined;
     userId: string | undefined;
+    code: string | undefined;
 
     public onInit() : void {
         let router = (this.getOwnerComponent() as UIComponent).getRouter();
@@ -29,10 +30,14 @@ export default class Activate extends Controller {
         }
     }
     public async activate(): Promise<void> {
+        await this.wait(500);
+        if(this.code === undefined ) {
+            this.code = this.getView()?.byId("activate_otp")?.getProperty("value");
+        }
         let model = (this.getOwnerComponent() as UIComponent).getModel() as ODataModel;
         let context = await model.bindContext("/activateAccount(...)");
         context.setParameter("userId", this.userId);
-        context.setParameter("activationCode", this.getView()?.byId("activate_otp")?.getProperty("value"));
+        context.setParameter("activationCode", this.code);
 
         context.execute().then(function () {
             MessageBox.success("Ok");
@@ -48,7 +53,12 @@ export default class Activate extends Controller {
         let activateButton = this.getView()?.byId("activateButton") as Button;
         if (activateButton && value !== undefined) {
             activateButton.setEnabled(value && value.length > 0);
+            this.code =value;
         }
+    }
+
+   public async wait(ms: number): Promise<void> {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
 }
