@@ -3,6 +3,9 @@ import Controller from "sap/ui/core/mvc/Controller";
 import UIComponent from "sap/ui/core/UIComponent";
 import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
+import { Input$InputEvent } from "sap/ui/webc/main/Input";
+import { Input$LiveChangeEvent } from "sap/m/Input";
+import Button from "sap/m/Button";
 
 /**
  * @namespace ui5.gebit.app.reuse.public.controller
@@ -38,6 +41,14 @@ export default class Activate extends Controller {
             MessageBox.error(oError.message);
         }
         );
+    }
+
+    public onTypeActivationCode(oEvent:Input$LiveChangeEvent): void {
+        let value = oEvent.getParameter("value");
+        let activateButton = this.getView()?.byId("activateButton") as Button;
+        if (activateButton && value !== undefined) {
+            activateButton.setEnabled(value && value.length > 0);
+        }
     }
 
 }

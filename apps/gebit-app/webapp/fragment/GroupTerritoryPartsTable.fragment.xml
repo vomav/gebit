@@ -63,23 +63,9 @@
 						type="Inactive"
 						press="onPressListItem" app:coord="{coordinates}">
 						<cells>
-							<Text text="{name}"/>
+					      <ObjectIdentifier
+						      title="{name}"/>
                      <Text text="{count}"/>
-                     	<!-- <MultiInput enabled="true"
-                           tokens="{
-                              path: 'inWorkBy',
-                              sorter: { path: 'surname' }
-                           }" 
-                           enableTableAutoPopinMode="true" 
-                           showValueHelp="false"
-                           tokenUpdate="onUpdateMultiValueUpdate"
-                           change="onSubmitToken"
-                           editable="false">
-                           <tokens>
-                              <Token key="{id}" text="{= !${freestyleName} ? ${surname} +', '+ ${username} : ${freestyleName} }" />
-                           </tokens>
-                        </MultiInput> -->
-
                      <Tokenizer width="100%" editable="false" tokens="{
                               path: 'inWorkBy',
                               sorter: { path: 'surname' },
@@ -127,12 +113,12 @@
                         </HBox>
                      <CheckBox selected="{isDone}"></CheckBox>
 						</cells>
-                        <dependents>
-                           <core:Fragment
-                              id="nestedActions"
-                              fragmentName="ui5.gebit.app.fragment.EditTerritoryPatchLoggedIn"
-                              type="XML" />
-                        </dependents>
+                  <dependents>
+                     <core:Fragment
+                        id="nestedActions"
+                        fragmentName="ui5.gebit.app.fragment.EditTerritoryPatchLoggedIn"
+                        type="XML" />
+                  </dependents>
 			</ColumnListItem>
       </items>
    </Table>

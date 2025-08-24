@@ -33,7 +33,7 @@
 					</form:toolbar>
 					<form:content>
 						<Label text="{i18n>otp}" />
-						<Input type="Text" id="activate_otp"/>
+						<Input type="Text" id="activate_otp" liveChange="onTypeActivationCode"/>
 					</form:content>
 				</form:SimpleForm>
 						<MessageStrip
@@ -42,7 +42,7 @@
 				showIcon="true"
 				>
 			</MessageStrip>
-				<Button type="Success" text="{i18n>activateLabel}" press="activate" width="100%"/>
+				<Button id="activateButton" enabled="false" type="Success" text="{i18n>activateLabel}" press="activate" width="100%"/>
 							
 			</VBox>
 		</f:content>

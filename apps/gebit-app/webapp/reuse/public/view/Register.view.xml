@@ -35,7 +35,7 @@
 				</Toolbar>
 			</form:toolbar>
 			<form:content>
-				<Toolbar ariaLabelledBy="Title2">
+				<Toolbar>
 					<Title text="{i18n>userInfo}"/>
 				</Toolbar>
 				<Label text="{i18n>name}" />
@@ -45,11 +45,11 @@
 			</form:content>
 
 			<form:content>
-				<Toolbar ariaLabelledBy="Title2">
+				<Toolbar>
 					<Title text="{i18n>loginInfo}"/>
 				</Toolbar>
-				<Label type="Email" text="{i18n>email}" />
-				<Input id="emailInput" value="{email}" />
+				<Label text="{i18n>email}" />
+				<Input type="Email" id="emailInput" value="{email}" />
 				<Label text="{i18n>password}" />
 				<Input id="passwordInput" type="Password" value="{password}"/>
 			</form:content>

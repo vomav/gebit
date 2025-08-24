@@ -22,7 +22,8 @@
 						type="Inactive"
 						press="onPressListItem">
 						<cells>
-							<Text text="{name}"/>
+					      <ObjectIdentifier
+						      title="{name}"/>
                      <Text text="{count}"/>
 						</cells>
 			</ColumnListItem>

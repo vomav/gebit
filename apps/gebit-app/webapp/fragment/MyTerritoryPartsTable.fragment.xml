@@ -35,7 +35,8 @@
 						type="Inactive"
 						press="onPressListItem">
 						<cells>
-							<Text text="{name}"/>
+					   <ObjectIdentifier
+						   title="{name}"/>
                      <Text text="{count}"/>
                      <Tokenizer width="100%" editable="false" tokens="{
                               path: 'inWorkBy',
