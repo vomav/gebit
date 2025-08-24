@@ -9,7 +9,6 @@ import org.gebit.email.pojo.TemporaryPasswordRequest;
 import org.gebit.gen.db.Tenants;
 import org.gebit.gen.db.UserAccountActivations;
 import org.gebit.gen.db.Users;
-import org.gebit.gen.srv.admin.LoggedInUserChangePasswordContext;
 import org.gebit.gen.srv.registration.ActivateAccountContext;
 import org.gebit.gen.srv.registration.RegisterContext;
 import org.gebit.gen.srv.registration.Registration_;

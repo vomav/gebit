@@ -1,10 +1,8 @@
 import MessageBox from "sap/m/MessageBox";
 import Controller from "sap/ui/core/mvc/Controller";
-import AppComponent from "../../../Component";
 import UIComponent from "sap/ui/core/UIComponent";
-import { URLHelper } from "sap/m/library";
-import Event from "sap/ui/base/Event";
-import Input from "sap/m/Input";
+import { Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
+import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 
 /**
  * @namespace ui5.gebit.app.reuse.public.controller
@@ -23,8 +21,8 @@ export default class Activate extends Controller {
     public attachRouteMatched(oEvent:Router$RouteMatchedEvent) {
         let routeName = oEvent.getParameter("name");
         if(routeName == "activate") {
-            this.tenantId = oEvent.getParameter("arguments").tenantId;
-            this.userId = oEvent.getParameter("arguments").userId;
+            this.tenantId = oEvent.getParameter("arguments")?.tenantId;
+            this.userId = oEvent.getParameter("arguments")?.userId;
         }
     }
     public async activate(): Promise<void> {

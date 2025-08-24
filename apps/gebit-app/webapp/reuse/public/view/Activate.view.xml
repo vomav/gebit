@@ -33,7 +33,7 @@
 					</form:toolbar>
 					<form:content>
 						<Label text="{i18n>otp}" />
-						<Input type="Text" id="activate_otp" value="{passcode}"/>
+						<Input type="Text" id="activate_otp"/>
 					</form:content>
 				</form:SimpleForm>
 						<MessageStrip
