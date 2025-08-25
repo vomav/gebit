@@ -85,7 +85,7 @@ export default class UserDetail extends Controller {
 		let i18nText = this.getView()?.getModel("i18n").getResourceBundle().getText("areYouSureToDeleteUser");
 
 		MessageBox.confirm(i18nText, {
-			title: "Confirm",
+			title: "{i18n>confirmUserDeletion}",
 			onClose: async function (action) {
 				if (action === MessageBox.Action.OK) {
 					let model = this.getView()?.getModel() as ODataModel;
