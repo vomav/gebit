@@ -6,9 +6,13 @@
 		"i18n": {
 			"bundleUrl": "i18n/i18n.properties",
 			"supportedLocales": [
-				""
+				"en",
+				"de",
+				"uk",
+				"ru",
+				"fr"
 			],
-			"fallbackLocale": ""
+			"fallbackLocale": "en"
 		},
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
