@@ -45,7 +45,7 @@
 					<ImageContent src="sap-icon://account" />
 				</TileContent>
 			</GenericTile>
-			<GenericTile header="{i18n>groupTerritories}" subheader="Work with group" press="navigateToGroupTerritoriesApp">
+			<GenericTile header="{i18n>groupTerritories}" press="navigateToGroupTerritoriesApp">
 				<layoutData>
 					<f:GridContainerItemLayoutData minRows="2" columns="2" />
 				</layoutData>
