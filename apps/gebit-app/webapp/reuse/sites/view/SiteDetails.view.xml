@@ -89,7 +89,7 @@
 									<m:content>
 										<m:ToolbarSpacer />
 										<m:Button press="onPressAddUserButton" text="{i18n>addUser}" />
-										<m:Button enabled="false" id="deleteSelectedUserButton" press="onPressRemodeSelectedUserButton" text="{i18n>removeUser}" visible="{= ${uiModel>/ui/editMode}}" />
+										<m:Button enabled="false" id="deleteSelectedUserButton" press="onPressRemoveSelectedUserButton" text="{i18n>removeUser}" visible="{= ${uiModel>/ui/editMode}}" />
 									</m:content>
 								</m:OverflowToolbar>
 							</m:headerToolbar>
@@ -99,9 +99,6 @@
 								</m:Column>
 								<m:Column>
 									<m:Text text="{i18n>role}" />
-								</m:Column>
-								<m:Column>
-									<m:Text text="{i18n>actions}" />
 								</m:Column>
 							</m:columns>
 							<m:items>
@@ -114,18 +111,6 @@
 										<m:Text text="{
 										path: 'mappingType',
 										formatter: '.formatMappingType'}" />
-										<m:Button
-											icon="sap-icon://action"
-											class="sapUiSmallMargin"
-											press="onActionButtonPress"
-											type="Transparent"
-											ariaHasPopup="Menu" >
-											<m:dependents>
-											<core:Fragment
-												fragmentName="ui5.gebit.app.reuse.sites.fragment.UserTenantMappingActions"
-												type="XML" />
-											</m:dependents>
-										</m:Button>
 									</m:cells>
 								</m:ColumnListItem>
 							</m:items>

@@ -156,7 +156,7 @@ export default class TerritoryWorklist extends Controller {
 		let oList = (this.byId("territoriesTable") as Table);
 		let oSelectedContext = oList.getSelectedContexts()[0];
 		let model = this.getView()?.getModel() as ODataModel;
-		let i18nText = this.getView()?.getModel("i18n")?.getProperty("confirmDeleteTerritoryText");
+		let i18nText = this.getView()?.getModel("i18n")?.getProperty("confirmDelete");
 		MessageBox.confirm(i18nText, {
 			title: "Confirm",
 			onClose: async function (action) {

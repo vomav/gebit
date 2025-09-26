@@ -13,6 +13,7 @@ import Context from "sap/ui/model/odata/v4/Context";
 import Button from "sap/m/Button";
 import ListItemBase from "sap/m/ListItemBase";
 import { ObjectBindingInfo } from "sap/ui/base/ManagedObject";
+import Table from "sap/m/Table";
 
 /**
  * @namespace ui5.gebit.app.reuse.sites.controller
@@ -20,7 +21,6 @@ import { ObjectBindingInfo } from "sap/ui/base/ManagedObject";
 export default class SiteDetails extends Controller {
 
 	addUserToSiteDialog:Dialog;
-	selectedItem : ListItemBase;
 	public onInit() : void {
 		let router = (this.getOwnerComponent() as UIComponent).getRouter();
 		router.attachRouteMatched(this.attachRouteMatched, this);
@@ -49,13 +49,33 @@ export default class SiteDetails extends Controller {
 	}
 
 	public onUserTableSelectionChange(oEvent: Event) {
-		this.selectedItem = oEvent.getParameter("listItem");
 		let isSelected = oEvent.getParameter("selected") as boolean;
 		(this.byId("deleteSelectedUserButton") as Button).setEnabled(isSelected);
 	}
 
-	public onPressRemodeSelectedUserButton (oEvent: Event) {
+	public async onPressRemoveSelectedUserButton (oEvent: Event) {
+		let table = this.byId("assignedUsers") as Table;
+		let selectedItem = table.getSelectedItem() as ListItemBase;
+		
+	let confirmDeleteText = this.getView()?.getModel("i18n")?.getProperty("confirmDelete");
 
+		MessageBox.confirm(confirmDeleteText, {
+			onClose: async function (action) {
+				debugger;
+				if (action === MessageBox.Action.OK) {
+					let model = (this.getView()?.getModel() as ODataModel);
+					let oListContext = table.getBindingContext() as Context;
+					await model.delete(selectedItem.getBindingContext().getPath());
+					oListContext.refresh();
+				} else {
+					return;
+				}
+			}.bind(this), 
+			styleClass: "",
+			actions: [ MessageBox.Action.OK, MessageBox.Action.CANCEL ],
+			emphasizedAction: MessageBox.Action.OK,
+			initialFocus:  MessageBox.Action.CANCEL
+		});
 	}
 
 	public onPressAddUserButton (oEvent: Event) {
