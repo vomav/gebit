@@ -40,8 +40,10 @@
 			<form:content>
 				<Label text="{i18n>name}" />
 				<Input value="{uiModel>name}"></Input>
+				<Label text="{i18n>embeddingHtml}" />
+				<TextArea liveChange="parseEmbeddingHtml" />
 				<Label text="{i18n>link}" />
-				<Input value="{uiModel>link}" />
+				<Input id="link" value="{uiModel>link}" />
 			</form:content>
 		</form:SimpleForm>
 	<Table id="importFromKmlTable" items="{uiModel>toParts}" visible="{uiModel>/create/kml/isXmlParsed}" > 

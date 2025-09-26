@@ -25,6 +25,8 @@ import { ViewSettingsDialog$ConfirmEvent, ViewSettingsDialog$ResetFiltersEvent }
 import Title from "sap/m/Title";
 import Tab from "sap/ui/commons/Tab";
 import TableTitleSetter from "./utils/TableTitleSetter";
+import { TextArea$LiveChangeEvent } from "sap/m/TextArea";
+import Input from "sap/m/Input";
 /**
  * @namespace ui5.gebit.app.controller
  */           
@@ -95,20 +97,26 @@ export default class TerritoryWorklist extends Controller {
 		var oList = (this.byId("territoriesTable") as Table)
 		let oBinding = oList.getBinding("items") as ODataListBinding;
 		let oContext = oBinding.create(this.getView()?.getModel("uiModel")?.getProperty("/create/kml/territory"));
-		
-			
-			if(oContext != undefined) {
-				oContext.created().then(function (obj:any) {
-					this.closeCreateDialog();
-				}.bind(this), function (oError:any) {
-					// handle rejection of entity creation; if oError.canceled === true then the transient entity has been deleted
-						if (!oError.canceled) {
-							throw oError; // unexpected error
-						}
-				});
+		if(oContext != undefined) {
+			oContext.created().then(function (obj:any) {
+				this.closeCreateDialog();
+			}.bind(this), function (oError:any) {
+				// handle rejection of entity creation; if oError.canceled === true then the transient entity has been deleted
+					if (!oError.canceled) {
+						throw oError; // unexpected error
+					}
+			});
 		}
 	}
 
+	public parseEmbeddingHtml(oEvent: TextArea$LiveChangeEvent) {
+		debugger;
+		const regex = /<iframe[^>]*\s+src="([^"]+)"/i;
+		let match = oEvent.getParameter("value")?.match(regex);
+		let linkControl = this.getView()?.byId("link") as Input;
+		linkControl?.setValue(match ? match[1] : "");
+		
+	}
 	private closeCreateDialog() {
 		(this.getView()?.getModel("uiModel") as JSONModel).setProperty("/create/kml/isXmlParsed", false);
 		(this.getView()?.getModel("uiModel") as JSONModel).setProperty("/create/kml/territory", {});
@@ -152,7 +160,6 @@ export default class TerritoryWorklist extends Controller {
 	}
 
 	public async onDelete(oEvent:Event) {
-		debugger;
 		let oList = (this.byId("territoriesTable") as Table);
 		let oSelectedContext = oList.getSelectedContexts()[0];
 		let model = this.getView()?.getModel() as ODataModel;

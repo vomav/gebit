@@ -33,7 +33,8 @@
       <items>
          <ColumnListItem
 						type="Inactive"
-						press="onPressListItem">
+						press="onPressListItem"
+                  visible="{= !${isBoundaries}}">
 						<cells>
 					   <ObjectIdentifier
 						   title="{name}"/>
