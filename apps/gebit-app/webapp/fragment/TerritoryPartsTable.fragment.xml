@@ -16,6 +16,9 @@
          <Column>
 				<Text text="{i18n>count}"/>
 			</Column>
+         <Column  visible="{uiModel>/ui/editMode}">
+            <Text text="{i18n>isBoundaries}"/>
+         </Column>
       </columns>
       <items>
          <ColumnListItem
@@ -25,6 +28,7 @@
 					      <ObjectIdentifier
 						      title="{name}"/>
                      <Text text="{count}"/>
+                     <CheckBox visible="{uiModel>/ui/editMode}" selected="{isBoundaries}"/>
 						</cells>
 			</ColumnListItem>
       </items>
