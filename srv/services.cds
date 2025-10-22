@@ -46,6 +46,7 @@ service searching {
       toTerritory.name as name,
       toTerritory.link as link,
       toPartAssignments: redirected to PartAssignments,
+      toTerritory.toBoundaryPart as toBoundaryPart,
       toUnregisetredUserTerritoryAssignments: redirected to UnregisteredUserTerritoryAssugnment on toUnregisetredUserTerritoryAssignments.toTerritoryAssignment = $self,
       toUnregisetredUserTerritoryAssignments.unregisteredUser as unregisteredUser,
       toUnregisetredUserTerritoryAssignments.unregisteredUserEmail as unregisteredUserEmail,

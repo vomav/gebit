@@ -310,8 +310,4 @@ export default class GroupTerritoryDetail extends Controller {
 	public closeViewImageDialog(oEvent: Event) {
 		this.viewMapSnapshotDialog.close();
 	}
-
-	public formatLinkToEmbedHtml(link:string) {
-		return "<iframe src=\"" +link+ "\" width=\"100%\" height=\"480\"></iframe>"
-	}
 }

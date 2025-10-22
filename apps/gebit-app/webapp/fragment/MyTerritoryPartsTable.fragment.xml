@@ -91,6 +91,9 @@
                               fragmentName="ui5.gebit.app.fragment.EditTerritoryPatchLoggedIn"
                               type="XML" />
                         </dependents>
+                  <customData>
+                     <core:CustomData key="coords" value="{}"></core:CustomData>
+                  </customData>
 			</ColumnListItem>
       </items>
    </Table>

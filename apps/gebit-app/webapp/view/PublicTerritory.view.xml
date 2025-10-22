@@ -3,6 +3,7 @@
 	xmlns:layout="sap.ui.layout"
 	xmlns:m="sap.m"
 	xmlns:form="sap.ui.layout.form"
+	xmlns:gebit="ui5.gebit.app.control"
 	controllerName="ui5.gebit.app.controller.PublicTerritory"
 	height="100%">
 	<ObjectPageLayout enableLazyLoading="false" useIconTabBar="true" upperCaseAnchorBar="false" showHeaderContent="true" alwaysShowContentHeader="false" >
@@ -39,7 +40,11 @@
 			 <ObjectPageSection titleUppercase="false" title="{i18n>map}">
 				<subSections>
 					<ObjectPageSubSection titleUppercase="false">
-						<core:HTML content="{path:'publicService>link', formatter:'.formatLinkToEmbedHtml'}" />
+						<gebit:MapContainer
+							coordinatesArray="[]"
+							linkForIFrame="{path:'publicService>link'}"
+							part = "{toBorderPart}"
+							visible="{= ${/selectedPart} !== null }"/>
 					</ObjectPageSubSection>
 				</subSections>
 			</ObjectPageSection>

@@ -1,7 +1,8 @@
 <core:FragmentDefinition
    xmlns="sap.m"
    xmlns:core="sap.ui.core"
-   xmlns:form="sap.ui.layout.form">
+   xmlns:form="sap.ui.layout.form"
+   xmlns:gebit="ui5.gebit.app.control">
    
    <Table id="territoryPartTable" items="{
          path:'toParts',
@@ -19,6 +20,9 @@
          <Column  visible="{uiModel>/ui/editMode}">
             <Text text="{i18n>isBoundaries}"/>
          </Column>
+         <Column demandPopin="true" minScreenWidth="10000px" >
+            <Text text=" "/>
+         </Column>
       </columns>
       <items>
          <ColumnListItem
@@ -29,8 +33,21 @@
 						      title="{name}"/>
                      <Text text="{count}"/>
                      <CheckBox visible="{uiModel>/ui/editMode}" selected="{isBoundaries}"/>
+                     <Panel expanded="false" expandable="false"  >
+                        <gebit:MapContainer
+                           id="territoryMapPart"
+                           polygons="{coordinates}"
+                           boundaryPolygon="{toParent/toBoundaryPart/coordinates}"
+                           name="{name}"
+                           compact="true"/>
+                     </Panel>
 						</cells>
+                  <customData>
+                     <core:CustomData key="coords" value="{coordinates}"></core:CustomData>
+                  </customData>
 			</ColumnListItem>
       </items>
    </Table>
 </core:FragmentDefinition>
+
+<!-- -->

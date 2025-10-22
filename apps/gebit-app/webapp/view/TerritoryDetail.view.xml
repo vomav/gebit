@@ -3,6 +3,7 @@
 	xmlns:layout="sap.ui.layout"
 	xmlns:m="sap.m"
 	xmlns:form="sap.ui.layout.form"
+	xmlns:gebit="ui5.gebit.app.control"
 	controllerName="ui5.gebit.app.controller.TerritoryDetail"
 	height="100%">
 	<ObjectPageLayout enableLazyLoading="false" upperCaseAnchorBar="false">
@@ -107,7 +108,11 @@
 			 <ObjectPageSection titleUppercase="false" title="{i18n>map}">
 				<subSections>
 					<ObjectPageSubSection titleUppercase="false">
-						<core:HTML content="{path:'link', formatter:'.formatLinkToEmbedHtml'}" />
+						<gebit:MapContainer
+							id="mainMapContainer"
+							boundaryPolygon="{toBoundaryPart/coordinates}"
+							linkForIFrame="{link}"
+							name="{name}"/>
 					</ObjectPageSubSection>
 				</subSections>
 			</ObjectPageSection>

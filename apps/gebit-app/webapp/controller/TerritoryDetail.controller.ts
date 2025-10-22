@@ -9,6 +9,9 @@ import MessageBox from "sap/m/MessageBox";
 import MessageToast from "sap/m/MessageToast";
 import Context from "sap/ui/model/odata/v4/Context";
 import Input from "sap/m/Input";
+import View from "sap/ui/core/mvc/View";
+import {ObjectBindingInfo} from "sap/ui/base/ManagedObject";
+import MapContainer from "../control/MapContainer";
 /**
  * @namespace ui5.gebit.app.controller
  */           
@@ -30,8 +33,25 @@ export default class TerritoryDetail extends Controller {
 	}
 
 	public matched(context:string) {
-		(this.getView() as any).bindElement("/Territories("+context+")");
-		
+		let bindingPath = "/Territories(" + context + ")";
+		let oView = this.getView() as View;
+		let oBindingInfo = {} as ObjectBindingInfo;
+		oBindingInfo.path = bindingPath;
+
+		this.getView()?.getModel()?.attachEventOnce("dataReceived", function() {
+			console.log("Data received event once");
+			let oMapContainer = this.getView()?.byId("mainMapContainer") as MapContainer;
+			let rootBindingObject = this.getView()?.getBindingContext()?.getObject();
+			rootBindingObject.toParts.forEach(function(part:any) {
+				console.log("Adding polygon", part);
+				oMapContainer.addPolygon(part.name, part.coordinates);
+			}.bind(this));
+			// if(this.getView()?.byId("mainMapContainer"))
+			// this.getView().byId("mainMapContainer").addPolygon();
+			oView.setBusy(false);
+		}.bind(this));
+		oView.setBusy(true);
+		oView.bindElement(oBindingInfo);
 	}
 
 	public onEditButton(oEvent:Event) {
@@ -40,12 +60,6 @@ export default class TerritoryDetail extends Controller {
 
 	public onDisplayMode(oEvent:Event) {
 		(this.getView()?.getModel("uiModel") as JSONModel).setProperty("/ui/editMode", false);
-	}
-
-	public formatLinkToEmbedHtml(link:string) {
-		let escapedLink = link.replace("&", "&amp;")
-		// return "&lt;iframe src=&quot;" + escapedLink + "&quot width=&quot;100%&quot; height=&quot;480&quot;&gt;&lt;/iframe&gt;"
-		return "<iframe src=\"" +link+ "\" width=\"100%\" height=\"480\"></iframe>"
 	}
 
 	public onDeleteTerritory(oEvent:Event) {
@@ -196,5 +210,9 @@ export default class TerritoryDetail extends Controller {
 
 	public formatPublicTerritoryLink(value:string) {
 		return `${window.location.origin}/#/publicSearching/${value}`;
+	}
+
+	public onAfterRendering(): void | undefined {
+		 
 	}
 }
