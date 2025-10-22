@@ -20,6 +20,7 @@ entity Territories  : cuid, tenant {
     createdAt: Timestamp;
     updatedAt: Timestamp;
     totalCount: Integer default 0;
+    toBoundaryPart: Association to one Parts on toBoundaryPart.toParent = $self and toBoundaryPart.isBoundaries = true;
 }
 
 entity Parts : cuid, tenant {
@@ -46,7 +47,7 @@ entity TerritoryAssignments : cuid, tenant {
     totalCount: Integer;
     assignedTo: Association to one Users;
     assignedToUnregisteredUser: String(128);
-    toUnregisetredUserTerritoryAssignments: Composition of one UnregisteredUserTerritoryAssignment on toUnregisetredUserTerritoryAssignments.toTerritoryAssignment = $self;
+    toUnregisetredUserTerritoryAssignments: Composition of one UnregisteredUserTerritoryAssignment on toUnregisetredUserTerritoryAssignments.toTerritoryAssignment = $self
 }
 
 entity UnregisteredUserTerritoryAssignment : cuid {

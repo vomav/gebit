@@ -184,7 +184,7 @@ export default class TerritoryWorklist extends Controller {
 	}
 
 	public onSearch(oEvent: Event) {
-		let table = this.getView().byId("territoriesTable") as Table;
+		let table = this.getView()?.byId("territoriesTable") as Table;
 		let oBinding = table.getBinding("items") as ODataListBinding;
 		var sQuery = oEvent.getParameter("query");
 		this.filterContainer.addSearchFilter(sQuery);
@@ -276,9 +276,9 @@ class KmlParser {
 			for (let point of coordinatesArray) {
 				let pointParts = point.split(",");
 				if(pointParts.length == 3 ) {
-					point = pointParts[0] + "," + pointParts[1];
+					point = `${pointParts[1]},${pointParts[0]}`;
 				}
-				groupedCoordinates.push(`[${point.split(',')}]`);
+				groupedCoordinates.push(`[${point}]`);
 			}
 
 			// let poligon = {

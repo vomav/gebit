@@ -35,14 +35,7 @@ export default class MyTerritoryDetail extends Controller {
 		(this.getView() as any).bindElement("/TerritoryAssignments("+context+")");
 	}
 
-
-	public formatLinkToEmbedHtml(link:string) {
-		let escapedLink = link.replace("&", "&amp;")
-		// return "&lt;iframe src=&quot;" + escapedLink + "&quot width=&quot;100%&quot; height=&quot;480&quot;&gt;&lt;/iframe&gt;"
-		return "<iframe src=\"" +link+ "\" width=\"100%\" height=\"480\"></iframe>"
-	}
-
-		public onFileChange(oEvent: Event) {
+	public onFileChange(oEvent: Event) {
 		var file = oEvent.getParameters().files[0];
 		//Upload image
 		var reader = new FileReader();

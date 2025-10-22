@@ -34,10 +34,6 @@ export default class PublicTerritory extends Controller {
 		
 	}
 
-	public formatLinkToEmbedHtml(link:string) {
-		return "<iframe src=\"" +link+ "\" width=\"100%\" height=\"500\"></iframe>"
-	}
-
 	public async onUpdateMultiValueUpdate(oEvent: MultiInput$TokenUpdateEvent) {
 		if(oEvent.getParameter("type") == "removed") {
 			let removedObject = oEvent.getParameter("removedTokens")[0].getBindingContext("publicService").getObject();
